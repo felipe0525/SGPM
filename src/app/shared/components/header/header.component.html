@@ -1,0 +1,33 @@
+<nav class="navbar navbar-expand-lg mb-5">
+  <div class="container-fluid">
+    <a class="navbar-logo" >
+      <img src="assets/images/logo.svg" alt="SGPM">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class=" container collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
+        <li class="nav-item mx-3">
+          <a class="nav-link active" aria-current="page" href="/home">Inicio</a>
+        </li>
+        <li class="nav-item mx-3">
+          <a class="nav-link" href="/home/bridge-management">Gestion Puentes</a>
+        </li>
+        <li class="nav-item dropdown mx-3">
+          <a class="nav-link dropdown-toggle"  role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Gestion Cuentas
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="home/account-management/student-users">Usuario Estudiantil</a></li>
+            <li><a class="dropdown-item" href="home/account-management/municipal-users">Usuario Municipal</a></li>
+          </ul>
+        </li>
+      </ul>
+      <form class="d-flex" role="search">
+        <button class="btn btn-warning" type="button" (click)="logout()">Cerrar Sesión</button>
+      </form>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="card">
+    <div class="text-center mt-5">
+      <img src="assets/images/logo.svg" alt="Logo" width="100">
+    </div>
+    <div class="card-body">
+      <form>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Correo Electrónico</label>
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                 placeholder="correo electrónico">
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Contraseña</label>
+          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Contraseña">
+        </div>
+        <div class="text-center mt-5 mb-5">
+          <button class="btn btn-warning" (click)="onSubmit()" type="submit">Iniciar Sesión</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
