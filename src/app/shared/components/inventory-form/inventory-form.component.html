@@ -1,1 +1,841 @@
-<p>inventory-form works!</p>
+<div class="center">
+  <h1>Formato de inventario de Puentes</h1>
+</div>
+
+<div class="big_container">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="identificacion1">Nombre</label>
+          <input type="text" class="form-control" formControlName="identificacion1" placeholder="Nombre" />
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <label for="identificacion1">Imagen</label>
+        <input type="text" class="form-control" id="imagen" placeholder="Imagen" />
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label for="identificacion1">Identificación</label>
+          <input type="text" class="form-control" id="identificacion1" formControlName="identificacion1" placeholder="Regional" />
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label for="identificacion2"></label>
+          <input type="text" class="form-control" formControlName="identificacion2" placeholder="Carretera" />
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label for="identificacion3"></label>
+          <input type="text" class="form-control" id="identificacion3" formControlName="identificacion3" placeholder="Puente" />
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-5">
+        <div class="form-group">
+          <label for="carretera">Carretera</label>
+          <input type="text" class="form-control" id="carretera" formControlName="carretera" placeholder="Carretera" />
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="identificacion1">PR</label>
+          <input type="text" class="form-control" id="PR" formControlName="PR" placeholder="PR" />
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="identificacion2">Regional</label>
+          <input type="text" class="form-control" id="identificacion2" formControlName="identificacion2" placeholder="Regional" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="contenedor">
+    <div class="div1">
+      <div class="container">
+        <label>PASOS</label>
+
+        <div class="row">
+          <div class="form-group col-md-1">
+            <label for="identificacion1">No.</label>
+            <input type="number" class="form-control" formControlName="no" />
+          </div>
+
+          <div class="form-group col-md-3">
+            <label for="tipo_paso">Tipo Paso</label>
+            <select class="form-control" formControlName="tipo_paso">
+              <option value="10">Carretera nacional (del INV)</option>
+              <option value="11">Carretera concesionada</option>
+              <option value="12">Otra carretera (no del INV)</option>
+              <option value="13">Paso peatonal</option>
+              <option value="20">Ferrocarril</option>
+              <option value="30">Río o Arroyo</option>
+              <option value="31">Canal</option>
+              <option value="40">Valle</option>
+              <option value="90">Otro</option>
+              <option value="91">No aplicable</option>
+              <option value="92">Desconocido</option>
+              <option value="93">No registrado</option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-3">
+            <label for="identificacion1">Primero (S/N)</label>
+            <input type="text" class="form-control" formControlName="tipo_paso" placeholder="(S/N)" />
+          </div>
+          <div class="form-group col-md-1">
+            <label for="identificacion1">I</label>
+            <input type="text" class="form-control" formControlName="i" placeholder="I" />
+          </div>
+          <div class="form-group col-md-1">
+            <label for="identificacion1">IM</label>
+            <input type="text" class="form-control" formControlName="IM" placeholder="IM" />
+          </div>
+          <div class="form-group col-md-1">
+            <label for="identificacion1">DM</label>
+            <input type="text" class="form-control" formControlName="tipo_paso" placeholder="DM" />
+          </div>
+          <div class="form-group col-md-1">
+            <label for="identificacion1">D</label>
+            <input type="text" class="form-control" formControlName="tipo_paso" placeholder="D" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-1">
+            <input type="number" class="form-control" id="no" formControlName="no" />
+          </div>
+
+          <div class="form-group col-md-3">
+            <select class="form-control" formControlName="tipo_paso">
+              <option value="10">Carretera nacional (del INV)</option>
+              <option value="11">Carretera concesionada</option>
+              <option value="12">Otra carretera (no del INV)</option>
+              <option value="13">Paso peatonal</option>
+              <option value="20">Ferrocarril</option>
+              <option value="30">Río o Arroyo</option>
+              <option value="31">Canal</option>
+              <option value="40">Valle</option>
+              <option value="90">Otro</option>
+              <option value="91">No aplicable</option>
+              <option value="92">Desconocido</option>
+              <option value="93">No registrado</option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-3">
+            <input type="text" class="form-control" formControlName="tipo_paso" placeholder="(S/N)" />
+          </div>
+          <div class="form-group col-md-1">
+            <input type="text" class="form-control" id="i" formControlName="i" placeholder="I" />
+          </div>
+          <div class="form-group col-md-1">
+            <input type="text" class="form-control" id="IM" formControlName="IM" placeholder="IM" />
+          </div>
+          <div class="form-group col-md-1">
+            <input type="text" class="form-control" formControlName="tipo_paso" placeholder="DM" />
+          </div>
+          <div class="form-group col-md-1">
+            <input type="text" class="form-control" id="tipo_paso" formControlName="tipo_paso" placeholder="D" />
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <label>DATOS ADMINISTRATIVOS</label>
+        <div class="row">
+          <div class="form-group">
+            <label>Año de construcción</label>
+            <input type="date" class="form-control" formControlName="Año de construcción" />
+
+            <label>Año de reconstrucción</label>
+            <input type="date" class="form-control" formControlName="Año de reconstrucción" />
+
+            <label>Dirección de absc. de la carret. (N/S/E/O)</label>
+            <input type="text" class="form-control" id="estribos_tipo_cimentacion" formControlName="estribos_tipo_cimentacion" placeholder="Dirección de absc." />
+
+            <label for="requisito_inspeccion">Requisito de inspección</label>
+            <select class="form-control" id="requisito_inspeccion" formControlName="requisito_inspeccion">
+              <option value="0">Nada</option>
+              <option value="1">Grúa con canastilla ("Snooper")</option>
+              <option value="2">Grúa con canastilla ("Lift")</option>
+              <option value="3">Bote</option>
+              <option value="9">Otro</option>
+              <option value="90">Otro</option>
+              <option value="91">No aplicable</option>
+              <option value="92">Desconocido</option>
+              <option value="93">No registrado</option>
+            </select>
+
+            <label>Número de secciones de inspección</label>
+            <input type="text" class="form-control" id="pilas_material" formControlName="pilas_material" placeholder="Número de secciones de inspección" min="1" max="4" />
+
+            <label>Estación de conteo</label>
+            <input type="text" class="form-control" id="pilas_tipo_cimentacion" formControlName="pilas_tipo_cimentacion" placeholder="Estación de conteo" />
+
+            <label>Fecha de recolección de datos</label>
+            <input type="date" class="form-control" id="tipo_baranda" formControlName="tipo_baranda" placeholder="Fecha de recolección de datos" />
+
+            <label>Iniciales del inspector</label>
+            <input type="text" class="form-control" id="superficie_rodadura" formControlName="superficie_rodadura" placeholder="Iniciales del inspector" />
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <label>DATOS TÉCNICOS, GEOMETRIA</label>
+        <div class="row">
+          <div class="form-group">
+            <label>Número de luces</label>
+            <input type="text" class="form-control" />
+
+            <label>Longitud Luz menor (m)</label>
+            <input type="text" class="form-control" />
+
+            <label>Longitud Luz mayor (m)</label>
+            <input type="text" class="form-control" />
+
+            <label>Longitud total (m)</label>
+            <input type="text" class="form-control" />
+
+            <label>Ancho del tablero (m)</label>
+            <input type="text" class="form-control" />
+
+            <label>Ancho del separador (m)</label>
+            <input type="text" class="form-control" />
+
+            <label>Ancho del anden izquierdo (m)</label>
+            <input type="text" class="form-control" />
+
+            <label>Ancho del anden derecho (m)</label>
+            <input type="text" class="form-control" />
+
+            <label>Ancho de calzada (m)</label>
+            <input type="text" class="form-control" />
+
+            <label>Ancho entre bordillos (m)</label>
+            <input type="text" class="form-control" />
+
+            <label>Ancho del acceso (m)</label>
+            <input type="text" class="form-control" />
+
+            <label>Altura de pilas (m)</label>
+            <input type="text" class="form-control" />
+
+            <label>Altura de estribos (m)</label>
+            <input type="text" class="form-control" />
+
+            <label>Longitud de apoyo en pilas (m)</label>
+            <input type="text" class="form-control" />
+
+            <label>Longitud de apoyo en estribos (m)</label>
+            <input type="text" class="form-control" />
+
+            <label>Puente en terraplén (S/N)</label>
+            <input type="text" class="form-control" />
+
+            <label>Puente en curva / Tangente (C/T)</label>
+            <input type="text" class="form-control" />
+
+            <label>Esviajamiento (gra)</label>
+            <input type="text" class="form-control" />
+
+            <label>Imagen</label>
+            <input type="text" class="form-control" />
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <label>SUPERESTRUCTURA, TIPO PRINCIPAL</label>
+        <div class="row">
+          <div class="form-group">
+            <label>Diseño tipo (S/N)</label>
+            <input type="text" class="form-control" />
+
+            <label>Tipo de estructuración transversal</label>
+            <select class="form-control"  formControlName="estructura">
+              <option value="10">Losa</option>
+              <option value="11">Losa/viga, 1 viga</option>
+              <option value="12">Losa/viga, 2 vigas</option>
+              <option value="13">Losa/viga, 3 vigas</option>
+              <option value="14">Losa/viga, 4 o más vigas</option>
+              <option value="30">Trabe cajón, 1 cajón</option>
+              <option value="31">Trabe cajón, 2 o más cajones</option>
+              <option value="40">Armadura de paso inferior</option>
+              <option value="41">Armadura de paso superior</option>
+              <option value="42">Armadura de paso a través</option>
+              <option value="50">Arco superior</option>
+              <option value="51">Arco inferior, tipo abierto</option>
+              <option value="52">Arco inferior, tipo cerrado</option>
+              <option value="80">Provisional, tipo Bailey</option>
+              <option value="81">Provisional, tipo Callender Hamilton</option>
+              <option value="90">Otro</option>
+              <option value="91">No aplicable</option>
+              <option value="92">Desconocido</option>
+              <option value="93">No registrado</option>
+            </select>
+
+
+            <label>Tipo de estructuración longitudinal</label>
+            <select class="form-control"  formControlName="tipoEstructura">
+              <option value="10">Simplemente apoyado, sección transversal constante</option>
+              <option value="11">Simplemente apoyado, sección transversal variable</option>
+              <option value="20">Viga continua, sección transversal constante</option>
+              <option value="21">Viga continua, sección transversal variable</option>
+              <option value="30">Viga Gerber, sección transversal constante</option>
+              <option value="31">Viga Gerber, sección transversal variable</option>
+              <option value="40">Pórtico, sección transversal constante</option>
+              <option value="41">Pórtico, sección transversal variable</option>
+              <option value="42">Cajones (box culvert)</option>
+              <option value="50">Puente colgante</option>
+              <option value="60">Puente atirantado</option>
+              <option value="90">Otro</option>
+              <option value="91">No aplicable</option>
+              <option value="92">Desconocido</option>
+              <option value="93">No registrado</option>
+            </select>
+
+
+            <label>Material</label>
+            <select class="form-control"  formControlName="materialConstruccion">
+              <option value="10">Concreto ciclópeo</option>
+              <option value="11">Concreto sin refuerzo</option>
+              <option value="20">Concreto reforzado, in situ</option>
+              <option value="21">Concreto reforzado, prefabricado & in situ</option>
+              <option value="30">Concreto pretensado, in situ</option>
+              <option value="31">Concreto pretensado, prefabricado</option>
+              <option value="32">Concreto pretensado, prefabricado & in situ</option>
+              <option value="50">Acero</option>
+              <option value="51">Acero y concreto</option>
+              <option value="60">Piedra o roca</option>
+              <option value="70">Ladrillo</option>
+              <option value="90">Otro</option>
+              <option value="91">No aplicable</option>
+              <option value="92">Desconocido</option>
+              <option value="93">No registrado</option>
+            </select>
+
+
+            <label>Imagen</label>
+            <input type="text" class="form-control" />
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <label>SUPERESTRUCTURA, TIPO SECUNDARIO</label> div class="row">
+        <div class="form-group">
+          <label>Diseño tipo (S/N)</label>
+          <input type="text" class="form-control" />
+
+          <label>Tipo de estructuración transversal</label>
+          <select class="form-control" formControlName="estructura">
+            <option value="10">Losa</option>
+            <option value="11">Losa/viga, 1 viga</option>
+            <option value="12">Losa/viga, 2 vigas</option>
+            <option value="13">Losa/viga, 3 vigas</option>
+            <option value="14">Losa/viga, 4 o más vigas</option>
+            <option value="30">Trabe cajón, 1 cajón</option>
+            <option value="31">Trabe cajón, 2 o más cajones</option>
+            <option value="40">Armadura de paso inferior</option>
+            <option value="41">Armadura de paso superior</option>
+            <option value="42">Armadura de paso a través</option>
+            <option value="50">Arco superior</option>
+            <option value="51">Arco inferior, tipo abierto</option>
+            <option value="52">Arco inferior, tipo cerrado</option>
+            <option value="80">Provisional, tipo Bailey</option>
+            <option value="81">Provisional, tipo Callender Hamilton</option>
+            <option value="90">Otro</option>
+            <option value="91">No aplicable</option>
+            <option value="92">Desconocido</option>
+            <option value="93">No registrado</option>
+          </select>
+
+          <label>Tipo de estructuración longitudinal</label>
+          <select class="form-control" id="tipoEstructura" formControlName="tipoEstructura">
+            <option value="10">Simplemente apoyado, sección transversal constante</option>
+            <option value="11">Simplemente apoyado, sección transversal variable</option>
+            <option value="20">Viga continua, sección transversal constante</option>
+            <option value="21">Viga continua, sección transversal variable</option>
+            <option value="30">Viga Gerber, sección transversal constante</option>
+            <option value="31">Viga Gerber, sección transversal variable</option>
+            <option value="40">Pórtico, sección transversal constante</option>
+            <option value="41">Pórtico, sección transversal variable</option>
+            <option value="42">Cajones (box culvert)</option>
+            <option value="50">Puente colgante</option>
+            <option value="60">Puente atirantado</option>
+            <option value="90">Otro</option>
+            <option value="91">No aplicable</option>
+            <option value="92">Desconocido</option>
+            <option value="93">No registrado</option>
+          </select>
+
+          <label>Material</label>
+          <select class="form-control"  formControlName="materialConstruccion">
+            <option value="10">Concreto ciclópeo</option>
+            <option value="11">Concreto sin refuerzo</option>
+            <option value="20">Concreto reforzado, in situ</option>
+            <option value="21">Concreto reforzado, prefabricado & in situ</option>
+            <option value="30">Concreto pretensado, in situ</option>
+            <option value="31">Concreto pretensado, prefabricado</option>
+            <option value="32">Concreto pretensado, prefabricado & in situ</option>
+            <option value="50">Acero</option>
+            <option value="51">Acero y concreto</option>
+            <option value="60">Piedra o roca</option>
+            <option value="70">Ladrillo</option>
+            <option value="90">Otro</option>
+            <option value="91">No aplicable</option>
+            <option value="92">Desconocido</option>
+            <option value="93">No registrado</option>
+          </select>
+
+          <label>Imagen</label>
+          <input type="text" class="form-control" />
+        </div>
+      </div>
+    </div>
+
+    <div class="div2">
+      <div class="container">
+        <label>SUBESTRUCTURA, ESTRIBOS</label>
+        <div class="row">
+          <div class="form-group">
+            <label for="tipo">Tipo</label>
+            <select class="form-control" id="tipo" formControlName="tipo">
+              <option value="10">Con aletas integradas</option>
+              <option value="11">Con aletas separadas</option>
+              <option value="20">Enterrado; sólido</option>
+              <option value="21">
+                Enterrado; columnas/pilotes con viga cabezal
+              </option>
+              <option value="90">Otro</option>
+              <option value="91">No aplicable</option>
+              <option value="92">Desconocido</option>
+              <option value="93">No registrado</option>
+            </select>
+
+            <label for="material">Material</label>
+            <select class="form-control" id="material" formControlName="material">
+              <option value="10">Mampostería</option>
+              <option value="20">Concreto ciclópeo</option>
+              <option value="21">Concreto reforzado</option>
+              <option value="30">Acero</option>
+              <option value="40">Acero y concreto</option>
+              <option value="50">Tierra armada</option>
+              <option value="60">Ladrillo</option>
+              <option value="90">Otro</option>
+              <option value="91">No aplicable</option>
+              <option value="92">Desconocido</option>
+              <option value="93">No registrado</option>
+            </select>
+
+            <label>Tipo de Cimentación</label>
+            <select class="form-control"  formControlName="cimentacion">
+              <option value="10">Cimentación superficial</option>
+              <option value="20">Pilotes de concreto</option>
+              <option value="21">Pilotes de acero</option>
+              <option value="22">Pilotes de madera</option>
+              <option value="30">Caisson de concreto</option>
+              <option value="40">Cajón autofundante</option>
+              <option value="90">Otro</option>
+              <option value="91">No aplicable</option>
+              <option value="92">Desconocido</option>
+              <option value="93">No registrado</option>
+            </select>
+
+            <label>Inspección</label>
+          </div>
+
+          <div class="row align-items-center">
+            <div class="container2">
+              <img id="imagePreview" src="https://cdn-icons-png.flaticon.com/128/69/69816.png" class="img-thumbnail" alt="Imagen de vista previa" />
+            </div>
+            <div class="col-md-5">
+              <label for="imageInput" class="d-flex justify-content-center align-items-center h-100" id="fileNameLabel">
+                NombreDelArchivo.jpg
+              </label>
+              <input type="file" class="form-control" id="imageInput" accept="image/*" style="display: none;" />
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <label>SUBESTRUCTURA, DETALLES</label>
+        <div class="row">
+          <div class="form-group">
+            <label>Tipo de baranda</label>
+            <select class="form-control" id="opciones" formControlName="opciones">
+              <option value="10">Mampostería</option>
+              <option value="20">Concreto sólido</option>
+              <option value="21">Concreto sólido con pasamanos metálicas</option>
+              <option value="30">Pasamanos de concreto sobre pilastras de concreto</option>
+              <option value="40">Pasamanos metálicas sobre pilastras de concreto</option>
+              <option value="41">Pasamanos metálicas sobre pilastras metálicas</option>
+              <option value="50">Construcción metálica ligera</option>
+              <option value="60">Parte integral de la superestructura</option>
+              <option value="90">Otro</option>
+              <option value="91">No aplicable</option>
+              <option value="92">Desconocido</option>
+              <option value="93">No registrado</option>
+            </select>
+
+            <label>Superficie de rodadura</label>
+            <select class="form-control"  formControlName="materialConstruccion">
+              <option value="10">Asfalto</option>
+              <option value="20">Concreto</option>
+              <option value="30">Acero (con dispositivos de fricción)</option>
+              <option value="40">Afirmado</option>
+              <option value="90">Otro</option>
+              <option value="91">No aplicable</option>
+              <option value="92">Desconocido</option>
+              <option value="93">No registrado</option>
+            </select>
+
+            <label>Junta de expansión</label>
+            <select class="form-control" id="dispositivoJunta" formControlName="dispositivoJunta">
+              <option value="10">Placa de acero</option>
+              <option value="11">Placa de acero cubierto de asfalto</option>
+              <option value="12">Placas verticales angulos de acero</option>
+              <option value="13">Junta dentada</option>
+              <option value="20">Acero con sello fijo de neopreno</option>
+              <option value="21">Acero con neopreno comprimido</option>
+              <option value="30">Bloque de neopreno</option>
+              <option value="40">Junta de goma asfáltica</option>
+              <option value="50">No dispositivo de junta</option>
+              <option value="51">Junta de cartón asfaltado</option>
+              <option value="52">Junta de cartón asfaltado con sello</option>
+              <option value="90">Otro</option>
+              <option value="91">No aplicable</option>
+              <option value="92">Desconocido</option>
+              <option value="93">No registrado</option>
+            </select>
+
+            <label>Imagen</label>
+            <input type="text" class="form-control" />
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <label>SUBESTRUCTURA, PILAS</label>
+        <div class="row">
+          <div class="form-group">
+            <label>Tipo</label>
+            <select class="form-control" id="estructura" formControlName="estructura">
+              <option value="10">Pila sólida</option>
+              <option value="20">Columna sola</option>
+              <option value="21">2 o más columnas sin viga cabezal</option>
+              <option value="30">Columna sola con viga cabezal</option>
+              <option value="31">2 o más columnas con vigas cabezales separadas</option>
+              <option value="32">2 o más columnas con viga cabezal común</option>
+              <option value="33">Columnas con viga cabezal y diafragma</option>
+              <option value="40">Pilotes con viga cabezal</option>
+              <option value="41">Pilotes con viga cabezal y diafragma</option>
+              <option value="50">Mástil (pilón)</option>
+              <option value="60">Torre metálica</option>
+              <option value="90">Otro</option>
+              <option value="91">No aplicable</option>
+              <option value="92">Desconocido</option>
+              <option value="93">No registrado</option>
+            </select>
+
+            <label>Material</label>
+            <select class="form-control" formControlName="materialConstruccion">
+              <option value="10">Mampostería</option>
+              <option value="20">Concreto ciclópeo</option>
+              <option value="21">Concreto reforzado</option>
+              <option value="30">Acero</option>
+              <option value="40">Acero y concreto</option>
+              <option value="50">Tierra armada</option>
+              <option value="60">Ladrillo</option>
+              <option value="90">Otro</option>
+              <option value="91">No aplicable</option>
+              <option value="92">Desconocido</option>
+              <option value="93">No registrado</option>
+            </select>
+
+            <label>Tipo de cimentación</label>
+            <select class="form-control" id="cimentacion" formControlName="cimentacion">
+              <option value="10">Cimentación superficial</option>
+              <option value="20">Pilotes de concreto</option>
+              <option value="21">Pilotes de acero</option>
+              <option value="22">Pilotes de madera</option>
+              <option value="30">Caisson de concreto</option>
+              <option value="40">Cajón autofundante</option>
+              <option value="90">Otro</option>
+              <option value="91">No aplicable</option>
+              <option value="92">Desconocido</option>
+              <option value="93">No registrado</option>
+            </select>
+
+            <label>Imagen</label>
+            <input type="text" class="form-control" />
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <label>SUBESTRUCTURA, SEÑALES</label>
+        <div class="row">
+          <div class="form-group">
+            <label>Carga máxima</label>
+            <input type="text" class="form-control" />
+
+            <label>Velocidad máxima</label>
+            <input type="text" class="form-control" />
+
+            <label>Otra</label>
+            <input type="text" class="form-control" />
+
+            <label>Imagen</label>
+            <input type="text" class="form-control" />
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <label>APOYOS</label>
+        <div class="row">
+          <div class="form-group">
+            <label>Tipo de apoyos fijos sobre estribos</label>
+            <select class="form-control" formControlName="tipoApoyo">
+              <option value="10">Junta de construcción (acaso con una capa de cartón asfaltado o de plomo)</option>
+              <option value="20">Balancín de concreto</option>
+              <option value="30">Placas de neopreno</option>
+              <option value="40">Apoyo fijo de acero</option>
+              <option value="41">Apoyo de deslizamiento (acero)</option>
+              <option value="42">Balancín de acero</option>
+              <option value="43">Apoyos de rodillos (acero)</option>
+              <option value="50">Basculante</option>
+              <option value="90">Otro</option>
+              <option value="91">No aplicable</option>
+              <option value="92">Desconocido</option>
+              <option value="93">No registrado</option>
+            </select>
+
+            <label>Tipo de apoyos móviles sobre estribos</label>
+            <select class="form-control"  formControlName="tipoApoyo">
+              <option value="10">Junta de construcción (acaso con una capa de cartón asfaltado o de plomo)</option>
+              <option value="20">Balancín de concreto</option>
+              <option value="30">Placas de neopreno</option>
+              <option value="40">Apoyo fijo de acero</option>
+              <option value="41">Apoyo de deslizamiento (acero)</option>
+              <option value="42">Balancín de acero</option>
+              <option value="43">Apoyos de rodillos (acero)</option>
+              <option value="50">Basculante</option>
+              <option value="90">Otro</option>
+              <option value="91">No aplicable</option>
+              <option value="92">Desconocido</option>
+              <option value="93">No registrado</option>
+            </select>
+
+
+            <label>Tipo de apoyos fijos en pilas</label>
+            <select class="form-control" formControlName="tipoApoyo">
+              <option value="10">Junta de construcción (acaso con una capa de cartón asfaltado o de plomo)</option>
+              <option value="20">Balancín de concreto</option>
+              <option value="30">Placas de neopreno</option>
+              <option value="40">Apoyo fijo de acero</option>
+              <option value="41">Apoyo de deslizamiento (acero)</option>
+              <option value="42">Balancín de acero</option>
+              <option value="43">Apoyos de rodillos (acero)</option>
+              <option value="50">Basculante</option>
+              <option value="90">Otro</option>
+              <option value="91">No aplicable</option>
+              <option value="92">Desconocido</option>
+              <option value="93">No registrado</option>
+            </select>
+
+
+            <label>Tipo de apoyos móviles en pilas</label>
+            <select class="form-control"  formControlName="tipoApoyo">
+              <option value="10">Junta de construcción (acaso con una capa de cartón asfaltado o de plomo)</option>
+              <option value="20">Balancín de concreto</option>
+              <option value="30">Placas de neopreno</option>
+              <option value="40">Apoyo fijo de acero</option>
+              <option value="41">Apoyo de deslizamiento (acero)</option>
+              <option value="42">Balancín de acero</option>
+              <option value="43">Apoyos de rodillos (acero)</option>
+              <option value="50">Basculante</option>
+              <option value="90">Otro</option>
+              <option value="91">No aplicable</option>
+              <option value="92">Desconocido</option>
+              <option value="93">No registrado</option>
+            </select>
+
+            <label>Tipo de apoyos fijos en vigas</label>
+            <select class="form-control"  formControlName="tipoApoyo">
+              <option value="10">Junta de construcción (acaso con una capa de cartón asfaltado o de plomo)</option>
+              <option value="20">Balancín de concreto</option>
+              <option value="30">Placas de neopreno</option>
+              <option value="40">Apoyo fijo de acero</option>
+              <option value="41">Apoyo de deslizamiento (acero)</option>
+              <option value="42">Balancín de acero</option>
+              <option value="43">Apoyos de rodillos (acero)</option>
+              <option value="50">Basculante</option>
+              <option value="90">Otro</option>
+              <option value="91">No aplicable</option>
+              <option value="92">Desconocido</option>
+              <option value="93">No registrado</option>
+            </select>
+
+
+            <label>Tipo de apoyos móviles en vigas</label>
+            <select class="form-control"  formControlName="tipoApoyo">
+              <option value="10">Junta de construcción (acaso con una capa de cartón asfaltado o de plomo)</option>
+              <option value="20">Balancín de concreto</option>
+              <option value="30">Placas de neopreno</option>
+              <option value="40">Apoyo fijo de acero</option>
+              <option value="41">Apoyo de deslizamiento (acero)</option>
+              <option value="42">Balancín de acero</option>
+              <option value="43">Apoyos de rodillos (acero)</option>
+              <option value="50">Basculante</option>
+              <option value="90">Otro</option>
+              <option value="91">No aplicable</option>
+              <option value="92">Desconocido</option>
+              <option value="93">No registrado</option>
+            </select>
+
+
+            <label>Vehiculo de diseño</label>
+            <input type="text" class="form-control" />
+
+            <label>Clase de distribución de carga</label>
+            <select class="form-control"  formControlName="distribucion">
+              <option value="1">Distribución en 2 direcciones</option>
+              <option value="2">Distribución en 1 dirección</option>
+              <option value="3">No hay distribución</option>
+              <option value="90">Otro</option>
+              <option value="91">No aplicable</option>
+              <option value="92">Desconocido</option>
+              <option value="93">No registrado</option>
+            </select>
+
+            <label>Imagen</label>
+            <input type="text" class="form-control" />
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <label>MIEMBROS INTERESADOS</label>
+
+        <div class="row">
+          <div class="form-group">
+            <label>Propietario</label>
+            <input type="text" class="form-control" />
+
+            <label>Departamento</label>
+            <input type="text" class="form-control" />
+
+            <label>Administrador Vial</label>
+            <input type="text" class="form-control" />
+
+            <label>Proyectista</label>
+            <input type="text" class="form-control" />
+
+            <label>Municipio</label>
+            <input type="text" class="form-control" />
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <label>POSICIÓN GEOGRÁFICA</label>
+        <div class="row">
+          <label>Latitud(N)</label>
+          <div class="form-group col-md-4">
+            <input type="text" class="form-control" />
+          </div>
+          <div class="form-group col-md-4">
+            <input type="text" class="form-control" />
+          </div>
+          <div class="form-group col-md-4">
+            <input type="text" class="form-control" />
+          </div>
+        </div>
+
+        <div class="row">
+          <label>Longitud(O)</label>
+          <div class="form-group col-md-4">
+            <input type="text" class="form-control" />
+          </div>
+          <div class="form-group col-md-4">
+            <input type="text" class="form-control" />
+          </div>
+          <div class="form-group col-md-4">
+            <input type="text" class="form-control" />
+          </div>
+
+          <div class="form-group">
+            <label>Coeficiente de aceleración sísmica(Aa)</label>
+            <input type="text" class="form-control" />
+
+            <label>Paso por el cauce (S/N)</label>
+            <input type="text" class="form-control" />
+
+            <label>Existe variante(S/N)</label>
+            <input type="text" class="form-control" />
+
+            <label>Longitud variante</label>
+            <input type="text" class="form-control" />
+
+            <label>Estado(B/R/M) </label>
+            <input type="text" class="form-control" />
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <label>CARGA</label>
+
+        <div class="form-group">
+          <div>
+            <label>Opacidad de carga para transito legal</label>
+          </div>
+
+          <label>Long. Luz crítica (m)</label>
+          <input type="text" class="form-control" />
+
+          <label>Factor de clasificación</label>
+          <input type="text" class="form-control" />
+
+          <div>
+            <label>Opacidad de carga para transportes especiales</label>
+          </div>
+
+          <label>Fuerza cortante (t)</label>
+          <input type="text" class="form-control" />
+
+          <label>Momento (t.m)</label>
+          <input type="text" class="form-control" />
+
+          <label>Linea de carga por rueda (t) </label>
+          <input type="text" class="form-control" />
+
+          <label>Observaciones</label>
+          <input type="text" class="form-control" />
+
+          <label>Imagen</label>
+          <input type="text" class="form-control" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="center">
+    <button type="submit" class="btn btn-warning rounded-4">
+      GUARDAR FORMULARIO
+    </button>
+  </div>
+</div>
