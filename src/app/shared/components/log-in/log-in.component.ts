@@ -27,7 +27,6 @@ export class LogInComponent {
     });
   }
 
-
   async onSubmit() {
     if (this.loginForm.invalid) {
       console.log('Invalid form');
