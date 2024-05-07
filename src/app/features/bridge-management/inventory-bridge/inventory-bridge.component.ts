@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {HeaderComponent} from "../../../shared/components/header/header.component";
-import {InventoryFormComponent} from "../../../shared/components/inventory-form/inventory-form.component";
+import {HeaderComponent} from "../../../shared/components/layouts/header/header.component";
+import {InventoryFormComponent} from "../../../shared/components/forms/inventory-form/inventory-form.component";
 
 @Component({
   selector: 'app-inventory-bridge',

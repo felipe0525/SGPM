@@ -1,9 +1,13 @@
-export interface User {
+export interface User extends UserForm {
+  id: string;
+}
+
+export interface UserForm {
   name: string;
-  lastName: string;
+  surname: string;
   identification: number;
-  userType: string;
   email: string;
+  type: number;
   municipality: string;
   password: string;
 }

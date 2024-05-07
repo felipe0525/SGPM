@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {HeaderComponent} from "../../../shared/components/header/header.component";
-import {TableInspectionsComponent} from "../../../shared/components/table-inspections/table-inspections.component";
+import {HeaderComponent} from "../../../shared/components/layouts/header/header.component";
+import {TableInspectionsComponent} from "../../../shared/components/tables/table-inspections/table-inspections.component";
 
 @Component({
   selector: 'app-inspections',
