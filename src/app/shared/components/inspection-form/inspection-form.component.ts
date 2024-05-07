@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {bridge} from "../../../models/bridge/bridge";
-import {Inspection, inspectionComponent} from "../../../models/bridge/inspection";
+import {Inspection, inspectionComponent, repair} from "../../../models/bridge/inspection";
 import {BridgeServiceService} from "../../services/bridge-services/bridge-service.service";
 import {Router} from "@angular/router";
 import {inspectionLists} from "../../../models/lists/inspectionLists";
-import {NgForOf, NgIf} from "@angular/common";
+import {NgClass, NgForOf, NgIf} from "@angular/common";
+import swal from "sweetalert";
+
 
 
 @Component({
@@ -14,7 +16,8 @@ import {NgForOf, NgIf} from "@angular/common";
   imports: [
     FormsModule,
     NgForOf,
-    NgIf
+    NgIf,
+    NgClass
   ],
   templateUrl: './inspection-form.component.html',
   styleUrl: './inspection-form.component.css'
@@ -40,7 +43,7 @@ export class InspectionFormComponent {
       material: '',
       condition: '',
       damage: '',
-      photo: ''
+      photos: ''
     },
     municipality: ''
   };
@@ -61,6 +64,7 @@ export class InspectionFormComponent {
   currentMonthEnd: string = ''; // Última fecha del mes actual
   damageRatingList:any;
   damageTypeList:any;
+  repairOptionsByComponent:any;
 
   constructor(
     private bridgeService: BridgeServiceService,
@@ -75,6 +79,7 @@ export class InspectionFormComponent {
     this.yearList = inspectionLists.yearList;
     this.damageRatingList = inspectionLists.ratingComponentOptions;
     this.damageTypeList = inspectionLists.damageTypeComponentOptions;
+    this.repairOptionsByComponent = inspectionLists.repairTypeComponentOptions;
 
     const now = new Date();
     const currentYear = now.getFullYear();
@@ -92,21 +97,50 @@ export class InspectionFormComponent {
   onSubmit() {
     const today = new Date();
     const inputDate = new Date(this.formInspection.date);
-
+console.log("año",this.formInspection.nextInspectionYear);
     if (!this.validateBasicInfo()) {
-      alert('Por favor, llene todos los campos');
+      swal(
+        '¡Error!',
+        'Por favor, llene todos los campos',
+        'error'
+      )
     }else if(this.formInspection.temperature <0 || this.formInspection.temperature > 50){
-      alert('La temperatura debe estar entre 0 y 50');
+      swal(
+        '¡Error!',
+        'La temperatura debe estar entre 0 y 50',
+        'error'
+      )
     } else if (inputDate > today) {
-      alert('La fecha no puede ser mayor que el día de hoy');
+      swal(
+        '¡Error!',
+        'La fecha no puede ser mayor que el día de hoy',
+        'error'
+      )
     } else if (this.formInspection.nextInspectionYear < 2024 || this.formInspection.nextInspectionYear > 2040) {
-      alert('El año de la próxima inspección debe estar entre 2024 y 2040');
+      swal(
+        '¡Error!',
+        'Seleccione un año para la próxima inspección',
+        'error'
+      )
     } else if (!this.validateRatings()) {
-      alert('Las calificaciones deben estar entre 1 y 5');
+      swal(
+        '¡Error!',
+        'Por favor, selecciona la calificación de cada componente',
+        'error'
+      )
     } else if (!this.validateMaintainance()) {
       alert('El campo de mantenimiento debe ser + o -');
+      swal(
+        '¡Error!',
+        'Por favor, selecciona una opción para el campo de mantenimiento',
+        'error'
+      )
     } else if (!this.validateSpecializedInspection()) {
-      alert('La inspección especial debe ser + o dejarse vacío');
+      swal(
+        '¡Error!',
+        'Por favor, selecciona una opción para el campo de inspección especial',
+        'error'
+      )
     } else if (!this.validateRepairFields()) {
       alert('Por favor, verifica los campos de reparación');
     } else {
@@ -139,7 +173,7 @@ export class InspectionFormComponent {
       temperature: 0,
       inspector: '',
       administrator: '',
-      nextInspectionYear: 0,
+      nextInspectionYear: -1,
       bridgeSurfaceName: '',
       inspectionComponents: inspectionComponents,
       generalComments: ''
@@ -242,10 +276,11 @@ export class InspectionFormComponent {
       const newRepair = {
         type: '',
         quantity: 0,
-        year: 0,
+        unit: '',
+        year: -1,
         cost: 0,
         damage: '',
-        photo: [],
+        photos: [],
       };
       this.formInspection.inspectionComponents[componentIndex].repairs.push(newRepair);
     }
@@ -260,6 +295,78 @@ export class InspectionFormComponent {
   }
 
 
+  updateRepairOptions(componentName: string): any[] {
+    console.log('Nombre del componente:', componentName);
 
+    // Comprueba si el componente existe en el objeto
+    const repairOptions = this.repairOptionsByComponent[componentName];
+
+    console.log('Opciones de reparación:', this.repairOptionsByComponent);
+    if (repairOptions) {
+      console.log('Opciones de reparación:', repairOptions);
+      return repairOptions;
+    } else {
+      console.log('No se encontraron opciones para el componente:', componentName);
+      return []; // Retorna una lista vacía si el componente no existe
+    }
+  }
+
+  updateUnit(componentIndex: number, repairIndex: number, repairType: string, componentName: string): void {
+    console.log('componentIndex', componentIndex);
+    const repairOptions = this.repairOptionsByComponent[componentName] || [];
+    const selectedRepair = repairOptions.find((option: { type: string; }) => option.type === repairType);
+
+    if (selectedRepair) {
+      this.formInspection.inspectionComponents[componentIndex].repairs[repairIndex].unit = selectedRepair.unit;
+    }
+  }
+
+
+  uploadPhotos(event: Event, repair: any): void {
+    const fileList = (event.target as HTMLInputElement).files;
+
+    if (!fileList || fileList.length === 0) {
+      console.error('No se han seleccionado archivos.');
+      swal(
+        '¡Error!',
+        'No se han seleccionado archivos.',
+        'error'
+      )
+      return;
+    }
+
+    if (repair.photos.length + fileList.length > 5) {
+      console.error('Solo se permiten un máximo de 5 fotos por componente');
+      swal(
+        '¡Error!',
+        'Solo se permiten un máximo de 5 fotos por componente',
+        'error'
+      )
+      return;
+    }
+
+    for (let i = 0; i < fileList.length; i++) {
+      repair.photos.push(fileList[i]);
+    }
+  }
+
+  createPhotoUrl(photo: File): string {
+    return URL.createObjectURL(photo);
+  }
+
+  deletePhoto(repair: any, index: number): void {
+    if (index >= 0 && index < repair.photos.length) {
+      repair.photos.splice(index, 1); // Eliminar la foto en el índice especificado
+    }
+  }
+
+  clickFileInput(i: number, j: number): void {
+    const fileInput = document.getElementById(`repairPhoto${i}${j}`);
+    if (fileInput) {
+      (fileInput as HTMLInputElement).click(); // Comprobación de null antes de llamar a click()
+    } else {
+      console.error('Elemento no encontrado:', `repairPhoto${i}${j}`);
+    }
+  }
 
 }

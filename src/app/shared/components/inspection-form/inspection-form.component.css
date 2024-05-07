@@ -191,3 +191,10 @@ input[type="file"] {
   border: 1px solid #d9d9d9; /* Puedes personalizar el borde */
   border-radius: 5px; /* Puedes personalizar el radio del borde */
 }
+
+.textAlert{
+  font-family: Poppins, sans-serif;
+  font-size: 0.8rem;
+  text-align: end;
+  color: red;
+}

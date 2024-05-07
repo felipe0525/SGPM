@@ -38,29 +38,59 @@
         <label for="inputDate">Fecha</label>
         <input type="Date" class="form-control" id="inputDate" placeholder="Fecha" [(ngModel)]="formInspection.date"
                name="inspectionDate" required [min]="currentMonthStart"
-               [max]="currentMonthEnd">
+               [max]="currentMonthEnd"
+               #dateField="ngModel"
+                [ngClass]="{'is-invalid': dateField.invalid && dateField.touched}"
+        >
+
+          <div *ngIf="dateField.invalid && dateField.touched" class="invalid-feedback">
+            Este campo es obligatorio.
+          </div>
+
       </div>
     </div>
     <div class="form-row">
       <div class="form-group col-md-3">
         <label for="inputTemperat">Temperatura</label>
-        <input type="text" class="form-control" id="inputTemperat" placeholder="Temperat"
-               [(ngModel)]="formInspection.temperature" name="inspectionTemperature" required
-                #temperatureField="ngModel"
+        <input
+          type="number"
+          class="form-control"
+          id="inputTemperat"
+          placeholder="Temperatura"
+          [(ngModel)]="formInspection.temperature"
+          name="inspectionTemperature"
+          required
+          [ngClass]="{'is-invalid': (temperatureField.invalid && temperatureField.touched) || temperatureField.value < 0 || temperatureField.value > 50}"
+          #temperatureField="ngModel"
         >
-        <span *ngIf="temperatureField.value<0 || temperatureField.value>50">
-          La temperatura debe estar entre 0 y 50
-        </span>
+
+        <div *ngIf="(temperatureField.touched && temperatureField.invalid) || temperatureField.value < 0 || temperatureField.value > 50" class="invalid-feedback">
+          Debe estar entre 0 y 50
+        </div>
+
       </div>
       <div class="form-group col-md-3">
         <label for="inputInspector">Inspector</label>
         <input type="text" class="form-control" id="inputInspector" placeholder="Inspector"
-               [(ngModel)]="formInspection.inspector" name="inspectionInspector" required>
+               [(ngModel)]="formInspection.inspector" name="inspectionInspector" required
+               [ngClass]="{'is-invalid': inspectorField.invalid && inspectorField.touched}"
+               #inspectorField="ngModel"
+
+        >
+        <div *ngIf="inspectorField.invalid && inspectorField.touched" class="invalid-feedback">
+          Este campo es obligatorio.
+        </div>
       </div>
       <div class="form-group col-md-3">
         <label for="inputAdministrador">Adminsitrador</label>
         <input type="text" class="form-control" id="inputAdministrador" placeholder="Administrador"
-               [(ngModel)]="formInspection.administrator" name="inspectionAdministrator" required>
+               [(ngModel)]="formInspection.administrator" name="inspectionAdministrator" required
+               #administratorField="ngModel"
+                [ngClass]="{'is-invalid': administratorField.invalid && administratorField.touched}"
+        >
+        <div *ngIf="administratorField.invalid && administratorField.touched" class="invalid-feedback">
+          Este campo es obligatorio.
+        </div>
       </div>
       <div class="form-group col-md-3">
         <label for="inputNextYearInspection">Año prox. insp.</label>
@@ -71,7 +101,7 @@
           name="inspectionYear"
           required
         >
-          <option value="" disabled selected>Seleccionar Año</option>
+          <option value="-1" disabled selected>Seleccionar Año</option>
           <option *ngFor="let year of yearList" [value]="year">{{ year }}</option>
         </select>
       </div>
@@ -160,13 +190,36 @@
 
             <div class="form-group">
               <label for="repairType{{i}}{{j}}">Tipo de reparación</label>
-              <input type="text" class="form-control" id="repairType{{i}}{{j}}" [(ngModel)]="repair.type"
-                     name="repairType{{i}}{{j}}" required>
+              <select
+                class="form-control"
+                id="repairType{{i}}{{j}}"
+                [(ngModel)]="repair.type"
+                (change)="updateUnit(i, j, repair.type, componentNames[i])"
+                name="repairType{{i}}{{j}}"
+                required
+              >
+                <option value="" disabled selected>Seleccione un tipo de reparación</option>
+                <option *ngFor="let option of updateRepairOptions(componentNames[i])" [value]="option.type">
+                  {{ option.description }}
+                </option>
+              </select>
             </div>
             <div class="form-group">
               <label for="repairQuantity{{i}}{{j}}">Cantidad</label>
-              <input type="text" class="form-control" id="repairQuantity{{i}}{{j}}" [(ngModel)]="repair.quantity"
-                     name="repairQuantity{{i}}{{j}}" required>
+              <input
+                type="number"
+                class="form-control"
+                id="repairQuantity{{i}}{{j}}"
+                [(ngModel)]="repair.quantity"
+                required
+                #repairQuantity="ngModel"
+                [ngClass]="{'is-invalid': (repairQuantity.touched && repairQuantity.invalid) || repairQuantity.value <= 0 && repairQuantity.touched}"
+              >
+              <div *ngIf="(repairQuantity.touched && repairQuantity.invalid) || repairQuantity.value <= 0 && repairQuantity.touched" class="invalid-feedback">
+                Debe ser mayor a 0.
+              </div>
+
+              <span>{{ repair.unit }}</span>
             </div>
             <div class="form-group">
               <label for="repairYear{{i}}{{j}}">Año</label>
@@ -174,13 +227,13 @@
                 class="form-control" id="repairYear{{i}}{{j}}" [(ngModel)]="repair.year"
                 name="repairYear{{i}}{{j}}" required
               >
-                <option value="" disabled selected>Seleccionar Año</option>
+                <option value="-1" disabled selected>Seleccionar Año</option>
                 <option *ngFor="let year of yearList" [value]="year">{{ year }}</option>
               </select>
             </div>
             <div class="form-group">
               <label for="repairCost{{i}}{{j}}">Costo</label>
-              <input type="text" class="form-control" id="repairCost{{i}}{{j}}" [(ngModel)]="repair.cost"
+              <input type="number" class="form-control" id="repairCost{{i}}{{j}}" [(ngModel)]="repair.cost"
                      name="repairCost{{i}}{{j}}" required>
             </div>
             <div class="form-group">
@@ -189,9 +242,41 @@
                      name="repairDamage{{i}}{{j}}" required>
             </div>
             <div class="form-group">
-              <label for="repairPhoto{{i}}{{j}}">Foto</label>
-              <input type="file" class="form-control-file" id="repairPhoto{{i}}{{j}}" [(ngModel)]="repair.photo"
-                     name="repairPhoto{{i}}{{j}}">
+              <!-- Campo de entrada de archivos oculto -->
+              <input
+                type="file"
+                multiple
+                (change)="uploadPhotos($event, repair)"
+                id="repairPhoto{{i}}{{j}}"
+                style="display: none;"
+              >
+
+              <!-- Botón o icono para cargar archivos -->
+              <button
+                class="btn btn-primary"
+                (click)="clickFileInput(i, j)"
+              >
+                <i class="fa fa-upload" aria-hidden="true"></i>
+                Subir Fotos
+              </button>
+
+            </div>
+
+
+            <div class="form-group " *ngIf="repair.photos.length>0">
+              <label>Fotos Cargadas:</label>
+              <ul>
+                <li *ngFor="let photo of repair.photos; let k = index" class="mt-1">
+
+                  <a [href]="createPhotoUrl(photo)" target="_blank">{{ photo.name }}</a>
+
+                  <button
+                    class="btn btn-danger btn-sm ml-2"
+                    (click)="deletePhoto(repair, k)">
+                    Eliminar
+                  </button>
+                </li>
+              </ul>
             </div>
           </div>
 

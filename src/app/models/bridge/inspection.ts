@@ -25,8 +25,9 @@ export interface inspectionComponent {
 export interface repair {
   type: string;
   quantity: number;
+  unit: string;
   year: number;
   cost: number;
   damage: string;
-  photo: string[];
+  photos: File[];
 }
