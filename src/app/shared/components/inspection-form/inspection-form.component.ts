@@ -93,11 +93,38 @@ export class InspectionFormComponent {
 
   }
 
+  private initializeFormInspection(): Inspection {
+    const inspectionComponents: inspectionComponent[] = [];
+    if (this.componentNames !== undefined) {
+      this.componentNames.forEach(componentName => {
+        const newComponent:inspectionComponent = {
+          name: componentName,
+          rating: -1,
+          maintenance: '',
+          specializedInspection: '',
+          damageType: '',
+          repairs: []
+        }
+        inspectionComponents.push(newComponent);
+      });
+    }
+    //new inspection(0, new Date(), 0, '', '', 0, inspectionComponents, '');
+    return {
+      inspectionId: 0,
+      date: new Date(),
+      temperature: 0,
+      inspector: '',
+      administrator: '',
+      nextInspectionYear: -1,
+      bridgeSurfaceName: '',
+      inspectionComponents: inspectionComponents,
+      generalComments: ''
+    }
+  }
 
   onSubmit() {
     const today = new Date();
     const inputDate = new Date(this.formInspection.date);
-console.log("año",this.formInspection.nextInspectionYear);
     if (!this.validateBasicInfo()) {
       swal(
         '¡Error!',
@@ -129,7 +156,6 @@ console.log("año",this.formInspection.nextInspectionYear);
         'error'
       )
     } else if (!this.validateMaintainance()) {
-      alert('El campo de mantenimiento debe ser + o -');
       swal(
         '¡Error!',
         'Por favor, selecciona una opción para el campo de mantenimiento',
@@ -142,48 +168,34 @@ console.log("año",this.formInspection.nextInspectionYear);
         'error'
       )
     } else if (!this.validateRepairFields()) {
-      alert('Por favor, verifica los campos de reparación');
+      swal(
+        '¡Error!',
+        'Por favor, verifica los campos de reparación',
+        'error'
+      )
     } else {
-      alert('Inspección enviada con éxito');
-      // Redirigir a la tabla de puentes
-      this.router.navigate(['/gestion-puentes']);
+      swal(
+        '¡Éxito!',
+        'Inspección enviada con éxito',
+        'success'
+      )
+      this.router.navigate(['/inspections']);
     }
   }
 
 
-  private initializeFormInspection(): Inspection {
-    const inspectionComponents: inspectionComponent[] = [];
-    if (this.componentNames !== undefined) {
-      this.componentNames.forEach(componentName => {
-        const newComponent:inspectionComponent = {
-          name: componentName,
-          rating: -1,
-          maintenance: '',
-          specializedInspection: '',
-          damageType: '',
-          repairs: []
-        }
-        inspectionComponents.push(newComponent);
-      });
-    }
-    //new inspection(0, new Date(), 0, '', '', 0, inspectionComponents, '');
-    return {
-      inspectionId: 0,
-      date: new Date(),
-      temperature: 0,
-      inspector: '',
-      administrator: '',
-      nextInspectionYear: -1,
-      bridgeSurfaceName: '',
-      inspectionComponents: inspectionComponents,
-      generalComments: ''
-    }
-  }
+
 
   validateRatings(): boolean {
     if (this.formInspection && this.formInspection.inspectionComponents) {
       for (const component of this.formInspection.inspectionComponents) {
-        if (component.rating < 1 || component.rating > 5) {
+
+        if (component.rating < 0 || component.rating > 5) {
+          swal(
+            '¡Error!',
+            'Por favor, seleccione una calificación para el componente ' + component.name,
+            'error'
+          )
           return false;
         }
       }
@@ -199,9 +211,14 @@ console.log("año",this.formInspection.nextInspectionYear);
   validateMaintainance(): boolean {
     // @ts-ignore
     for (const component of this.formInspection.inspectionComponents) {
-      console.log(component.maintenance);
+
       if (component.maintenance !== '+') {
         if (component.maintenance !== '-') {
+          swal(
+            '¡Error!',
+            'Por favor, seleccione una opción para el campo de mantenimiento del componente ' + component.name,
+            'error'
+          )
           return false;
         }
       }
@@ -213,6 +230,11 @@ console.log("año",this.formInspection.nextInspectionYear);
     // @ts-ignore
     for (const component of this.formInspection.inspectionComponents) {
       if (component.specializedInspection !== '' && component.specializedInspection !== '+') {
+        swal(
+          '¡Error!',
+          'Por favor, seleccione una opción para la inspección especial del componente ' + component.name,
+          'error'
+        )
         return false;
       }
     }
@@ -238,27 +260,47 @@ console.log("año",this.formInspection.nextInspectionYear);
     if (this.formInspection && this.formInspection.inspectionComponents) {
       for (const component of this.formInspection.inspectionComponents) {
         for (const repair of component.repairs) {
-          // Validar tipo de reparación
           if (!repair.type || repair.type.trim() === '') {
+            swal(
+              '¡Error!',
+              'Por favor, seleccione un tipo de reparación para el componente ' + component.name,
+              'error'
+            )
             return false;
           }
 
-          // Validar cantidad de reparación
           if (repair.quantity <= 0) {
+            swal(
+              '¡Error!',
+              'Por favor, ingrese una cantidad válida para el componente ' + component.name,
+              'error'
+            )
             return false;
           }
 
-          // Validar año de reparación
           if (repair.year < 2024 || repair.year > 2040) {
+            swal(
+              '¡Error!',
+              'Por favor, seleccione un año para el componente ' + component.name,
+              'error'
+            )
             return false;
           }
 
-          // Validar costo de reparación
           if (repair.cost <= 0) {
+            swal(
+              '¡Error!',
+              'Por favor, ingrese un costo válido para el componente ' + component.name,
+              'error'
+            )
             return false;
           }
-          // Validar daño de reparación
           if (!repair.damage || repair.damage.trim() === '') {
+            swal(
+              '¡Error!',
+              'Por favor, ingrese una observación para el componente ' + component.name,
+              'error'
+            )
             return false;
           }
         }
@@ -296,23 +338,15 @@ console.log("año",this.formInspection.nextInspectionYear);
 
 
   updateRepairOptions(componentName: string): any[] {
-    console.log('Nombre del componente:', componentName);
-
-    // Comprueba si el componente existe en el objeto
     const repairOptions = this.repairOptionsByComponent[componentName];
-
-    console.log('Opciones de reparación:', this.repairOptionsByComponent);
     if (repairOptions) {
-      console.log('Opciones de reparación:', repairOptions);
       return repairOptions;
     } else {
-      console.log('No se encontraron opciones para el componente:', componentName);
-      return []; // Retorna una lista vacía si el componente no existe
+      return [];
     }
   }
 
   updateUnit(componentIndex: number, repairIndex: number, repairType: string, componentName: string): void {
-    console.log('componentIndex', componentIndex);
     const repairOptions = this.repairOptionsByComponent[componentName] || [];
     const selectedRepair = repairOptions.find((option: { type: string; }) => option.type === repairType);
 
@@ -326,7 +360,6 @@ console.log("año",this.formInspection.nextInspectionYear);
     const fileList = (event.target as HTMLInputElement).files;
 
     if (!fileList || fileList.length === 0) {
-      console.error('No se han seleccionado archivos.');
       swal(
         '¡Error!',
         'No se han seleccionado archivos.',
@@ -336,7 +369,6 @@ console.log("año",this.formInspection.nextInspectionYear);
     }
 
     if (repair.photos.length + fileList.length > 5) {
-      console.error('Solo se permiten un máximo de 5 fotos por componente');
       swal(
         '¡Error!',
         'Solo se permiten un máximo de 5 fotos por componente',
@@ -356,16 +388,20 @@ console.log("año",this.formInspection.nextInspectionYear);
 
   deletePhoto(repair: any, index: number): void {
     if (index >= 0 && index < repair.photos.length) {
-      repair.photos.splice(index, 1); // Eliminar la foto en el índice especificado
+      repair.photos.splice(index, 1);
     }
   }
 
   clickFileInput(i: number, j: number): void {
     const fileInput = document.getElementById(`repairPhoto${i}${j}`);
     if (fileInput) {
-      (fileInput as HTMLInputElement).click(); // Comprobación de null antes de llamar a click()
+      (fileInput as HTMLInputElement).click();
     } else {
-      console.error('Elemento no encontrado:', `repairPhoto${i}${j}`);
+      swal(
+        '¡Error!',
+        'Elemento no encontrado:', `repairPhoto${i}${j}`,
+        'error'
+      )
     }
   }
 

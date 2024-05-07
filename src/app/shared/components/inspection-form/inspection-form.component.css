@@ -147,9 +147,9 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .table td input {
-  width: 100%; /* Ancho del 100% del contenedor */
-  width: -webkit-fill-available; /* Para navegadores webkit (Chrome, Safari) */
-  width: -moz-available; /* Para navegadores Firefox */
+  width: 100%;
+  width: -webkit-fill-available;
+  width: -moz-available;
   border: #D9D9D9 1px solid;
   border-radius: 5px;
   min-height: 40px;
@@ -179,17 +179,17 @@ input[type="file"] {
 
 .custom-file-upload {
   cursor: pointer;
-  background-image: url('/assets/Attach.png'); /* Ruta a tu icono de adjunto */
+  background-image: url('/assets/Attach.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
   width: webkit-fill-available;
   width: moz-available;
   width: 45px;
-  height: 45px; /* Tamaño del icono */
-  display: inline-block; /* Para que tenga dimensiones y se pueda clicar */
-  border: 1px solid #d9d9d9; /* Puedes personalizar el borde */
-  border-radius: 5px; /* Puedes personalizar el radio del borde */
+  height: 45px;
+  display: inline-block;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
 }
 
 .textAlert{

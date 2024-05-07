@@ -211,13 +211,17 @@
                 class="form-control"
                 id="repairQuantity{{i}}{{j}}"
                 [(ngModel)]="repair.quantity"
+                name="repairQuantity{{i}}{{j}}"
                 required
+                min="1"
                 #repairQuantity="ngModel"
-                [ngClass]="{'is-invalid': (repairQuantity.touched && repairQuantity.invalid) || repairQuantity.value <= 0 && repairQuantity.touched}"
+                [ngClass]="{'is-invalid': repairQuantity.invalid && repairQuantity.touched}"
               >
-              <div *ngIf="(repairQuantity.touched && repairQuantity.invalid) || repairQuantity.value <= 0 && repairQuantity.touched" class="invalid-feedback">
-                Debe ser mayor a 0.
+
+              <div *ngIf="repairQuantity.invalid && repairQuantity.touched" class="invalid-feedback">
+                Debe ser mayor que cero.
               </div>
+
 
               <span>{{ repair.unit }}</span>
             </div>
@@ -233,8 +237,21 @@
             </div>
             <div class="form-group">
               <label for="repairCost{{i}}{{j}}">Costo</label>
-              <input type="number" class="form-control" id="repairCost{{i}}{{j}}" [(ngModel)]="repair.cost"
-                     name="repairCost{{i}}{{j}}" required>
+              <input
+                type="number"
+                class="form-control"
+                id="repairCost{{i}}{{j}}"
+                [(ngModel)]="repair.cost"
+                name="repairCost{{i}}{{j}}"
+                required
+                min="0"
+                #repairCost="ngModel"
+                [ngClass]="{'is-invalid': repairCost.invalid && repairCost.touched}"
+              >
+              <div *ngIf="repairCost.invalid && repairCost.touched" class="invalid-feedback">
+                El costo debe ser un número positivo.
+              </div>
+
             </div>
             <div class="form-group">
               <label for="repairDamage{{i}}{{j}}">Observaciones</label>
@@ -242,7 +259,6 @@
                      name="repairDamage{{i}}{{j}}" required>
             </div>
             <div class="form-group">
-              <!-- Campo de entrada de archivos oculto -->
               <input
                 type="file"
                 multiple
@@ -251,7 +267,6 @@
                 style="display: none;"
               >
 
-              <!-- Botón o icono para cargar archivos -->
               <button
                 class="btn btn-primary"
                 (click)="clickFileInput(i, j)"
