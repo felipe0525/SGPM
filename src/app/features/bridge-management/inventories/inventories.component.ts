@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {HeaderComponent} from "../../../shared/components/header/header.component";
-import {TableInventoriesComponent} from "../../../shared/components/table-inventories/table-inventories.component";
+import {HeaderComponent} from "../../../shared/components/layouts/header/header.component";
+import {TableInventoriesComponent} from "../../../shared/components/tables/table-inventories/table-inventories.component";
 
 @Component({
   selector: 'app-inventories',
