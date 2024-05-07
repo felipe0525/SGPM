@@ -37,4 +37,7 @@ export class TableUsersComponent {
   private _router = inject(Router)
 
   users$ = this._usersService.getUsers();
+
+  onSubmit() {
+  }
 }
