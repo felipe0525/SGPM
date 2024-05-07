@@ -39,7 +39,6 @@ export class LogInComponent {
     try {
       const user = await this._usersService.searchUserByEmailAndPassword(email, password);
       if (user) {
-        console.log('Login successful');
         this._router.navigate(['/home']);
       } else {
         console.log('Invalid email or password');
