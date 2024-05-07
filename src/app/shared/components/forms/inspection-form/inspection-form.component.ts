@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import {FormsModule} from "@angular/forms";
-import {bridge} from "../../../models/bridge/bridge";
-import {Inspection, inspectionComponent, repair} from "../../../models/bridge/inspection";
-import {BridgeServiceService} from "../../services/bridge-services/bridge-service.service";
+import {bridge} from "../../../../models/bridge/bridge";
+import {Inspection, inspectionComponent, repair} from "../../../../models/bridge/inspection";
+import {BridgeServiceService} from "../../../services/bridge-services/bridge-service.service";
 import {Router} from "@angular/router";
-import {inspectionLists} from "../../../models/lists/inspectionLists";
+import {inspectionLists} from "../../../../models/lists/inspectionLists";
 import {NgClass, NgForOf, NgIf} from "@angular/common";
 import swal from "sweetalert";
 
@@ -57,7 +57,7 @@ export class InspectionFormComponent {
     bridgeSurfaceName: '',
     inspectionComponents: [],
     generalComments: ''
-}
+  }
   componentNames: string[] = [];
   yearList : number[]=[];
   currentMonthStart: string = ''; // Primera fecha del mes actual
