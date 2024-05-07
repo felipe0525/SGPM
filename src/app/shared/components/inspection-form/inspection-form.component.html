@@ -1,0 +1,217 @@
+<h1 class="inspection-title">Formato de inspección de puentes</h1>
+<form (ngSubmit)="onSubmit()" class="mx-auto">
+  <div class="container">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="inputName">Nombre</label>
+        <input type="text" class="form-control" id="inputName" placeholder="Nombre" [(ngModel)]="bridgeInfo.name"
+               name="bridgrName" readonly>
+      </div>
+      <div class="form-group col-md-2">
+        <label for="inputRegional">Identificación</label>
+        <input type="number" class="form-control" id="inputRegional" placeholder="Regional"
+               [(ngModel)]="bridgeInfo.regionalId" name="bridgeRegionalId" readonly>
+      </div>
+      <div class="form-group col-md-2">
+        <label for="inputRoadID" class="color">h</label>
+        <input type="number" class="form-control" id="inputRoadID" placeholder="Carretera"
+               [(ngModel)]="bridgeInfo.roadId" name="bridgeRoadId" readonly>
+      </div>
+      <div class="form-group col-md-2">
+        <label for="inputBridge" class="color">h </label>
+        <input type="number" class="form-control" id="inputBridge" placeholder="Puente"
+               [(ngModel)]="bridgeInfo.bridgeId" name="bridgeBridgeDd" readonly>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="inputRoad">Carretera</label>
+        <input type="text" class="form-control" id="inputRoad" placeholder="Carretera" [(ngModel)]="bridgeInfo.road"
+               name="bridgeRoad" readonly>
+      </div>
+      <div class="form-group col-md-3">
+        <label for="inputPR">PR</label>
+        <input type="text" class="form-control" id="inputPR" placeholder="PR" [(ngModel)]="bridgeInfo.pr"
+               name="bridgePR" readonly>
+      </div>
+      <div class="form-group col-md-3">
+        <label for="inputDate">Fecha</label>
+        <input type="Date" class="form-control" id="inputDate" placeholder="Fecha" [(ngModel)]="formInspection.date"
+               name="inspectionDate" required [min]="currentMonthStart"
+               [max]="currentMonthEnd">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-3">
+        <label for="inputTemperat">Temperatura</label>
+        <input type="text" class="form-control" id="inputTemperat" placeholder="Temperat"
+               [(ngModel)]="formInspection.temperature" name="inspectionTemperature" required
+                #temperatureField="ngModel"
+        >
+        <span *ngIf="temperatureField.value<0 || temperatureField.value>50">
+          La temperatura debe estar entre 0 y 50
+        </span>
+      </div>
+      <div class="form-group col-md-3">
+        <label for="inputInspector">Inspector</label>
+        <input type="text" class="form-control" id="inputInspector" placeholder="Inspector"
+               [(ngModel)]="formInspection.inspector" name="inspectionInspector" required>
+      </div>
+      <div class="form-group col-md-3">
+        <label for="inputAdministrador">Adminsitrador</label>
+        <input type="text" class="form-control" id="inputAdministrador" placeholder="Administrador"
+               [(ngModel)]="formInspection.administrator" name="inspectionAdministrator" required>
+      </div>
+      <div class="form-group col-md-3">
+        <label for="inputNextYearInspection">Año prox. insp.</label>
+        <select
+          class="form-control"
+          id="inputNextYearInspection"
+          [(ngModel)]="formInspection.nextInspectionYear"
+          name="inspectionYear"
+          required
+        >
+          <option value="" disabled selected>Seleccionar Año</option>
+          <option *ngFor="let year of yearList" [value]="year">{{ year }}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <h2 class="inspection-subtitle">PASOS</h2>
+
+
+    <div *ngFor="let component of formInspection.inspectionComponents; let i = index" class="card mb-4">
+      <div class="card-header">
+        <h2>{{ componentNames[i] }}</h2>
+      </div>
+      <div class="card-body">
+        <form>
+          <div class="form-row">
+            <div class="form-group col-md-5">
+              <label for="rating{{i}}">Calificación</label>
+              <select
+                class="form-control"
+                id="damageRating{{i}}"
+                [(ngModel)]="component.rating"
+                name="damageRating{{i}}"
+                required
+              >
+                <option value="-1" disabled selected>Seleccione una calificación</option>
+                  <option *ngFor="let option of damageRatingList" [value]="option.value">
+                  {{ option.label }}
+                </option>
+
+              </select>
+            </div>
+            <div class="form-group col-md-5">
+              <label for="maintenance{{i}}">Mantenimiento</label>
+              <select
+                class="form-control"
+                id="maintenance{{i}}"
+                [(ngModel)]="component.maintenance"
+                name="maintenance{{i}}"
+                required
+              >
+                <option value="" disabled selected>Seleccione una opción</option>
+                <option value="1">+</option>
+                <option value="2">-</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-5">
+              <label for="specializedInspection{{i}}">Insp. Esp.</label>
+              <select
+                class="form-control"
+                id="specializedInspection{{i}}"
+                [(ngModel)]="component.specializedInspection"
+                name="specializedInspection{{i}}"
+                required
+              >
+                <option value="" disabled selected>Seleccione una opción</option>
+                <option value="1">+</option>
+                <option value="2"></option>
+              </select>
+            </div>
+            <div class="form-group col-md-5">
+              <label for="damageType{{i}}">Tipo de daño</label>
+
+              <select
+                class="form-control"
+                id="damageType{{i}}"
+                [(ngModel)]="component.damageType"
+                name="damageType{{i}}"
+                required
+              >
+                <option value="" disabled selected>Seleccione un tipo de daño</option>
+                <option *ngFor="let option of damageTypeList" [value]="option.value">
+                  {{ option.label }}
+                </option>
+
+              </select>
+            </div>
+          </div>
+
+
+          <div *ngFor="let repair of component.repairs; let j = index">
+            <h2>Reparación {{ j + 1 }}</h2>
+
+            <div class="form-group">
+              <label for="repairType{{i}}{{j}}">Tipo de reparación</label>
+              <input type="text" class="form-control" id="repairType{{i}}{{j}}" [(ngModel)]="repair.type"
+                     name="repairType{{i}}{{j}}" required>
+            </div>
+            <div class="form-group">
+              <label for="repairQuantity{{i}}{{j}}">Cantidad</label>
+              <input type="text" class="form-control" id="repairQuantity{{i}}{{j}}" [(ngModel)]="repair.quantity"
+                     name="repairQuantity{{i}}{{j}}" required>
+            </div>
+            <div class="form-group">
+              <label for="repairYear{{i}}{{j}}">Año</label>
+              <select
+                class="form-control" id="repairYear{{i}}{{j}}" [(ngModel)]="repair.year"
+                name="repairYear{{i}}{{j}}" required
+              >
+                <option value="" disabled selected>Seleccionar Año</option>
+                <option *ngFor="let year of yearList" [value]="year">{{ year }}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="repairCost{{i}}{{j}}">Costo</label>
+              <input type="text" class="form-control" id="repairCost{{i}}{{j}}" [(ngModel)]="repair.cost"
+                     name="repairCost{{i}}{{j}}" required>
+            </div>
+            <div class="form-group">
+              <label for="repairDamage{{i}}{{j}}">Observaciones</label>
+              <input type="text" class="form-control" id="repairDamage{{i}}{{j}}" [(ngModel)]="repair.damage"
+                     name="repairDamage{{i}}{{j}}" required>
+            </div>
+            <div class="form-group">
+              <label for="repairPhoto{{i}}{{j}}">Foto</label>
+              <input type="file" class="form-control-file" id="repairPhoto{{i}}{{j}}" [(ngModel)]="repair.photo"
+                     name="repairPhoto{{i}}{{j}}">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <button type="button" class="btn btn-primary" (click)="addRepair(i)">Adicionar reparación</button>
+            <button type="button" class="btn btn-danger mx-5" (click)="removeRepair(i)">Eliminar reparación</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="form-group">
+      <label for="inputGeneralObservations">OBSERVACIONES GENERALES</label>
+      <textarea class="form-control" id="inputGeneralObservations"></textarea>
+    </div>
+  </div>
+  <div class="text-center mb-5">
+    <button type="submit" class="btn btn-warning rounded-4">GUARDAR FORMULARIO</button>
+  </div>
+</form>
