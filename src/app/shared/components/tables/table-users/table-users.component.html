@@ -16,30 +16,22 @@
   <div class="table-responsive">
     <table class="table table-borderless">
       <thead>
-      <tr>
-        <th scope="col" class="text-center"><strong>No.</strong></th>
-        <th scope="col" class="text-center"><strong>No. Identificacion</strong></th>
-        <th scope="col" class="text-center"><strong>Correo Electronico</strong></th>
-        <th scope="col" class="text-center"><strong>Nombre</strong></th>
-        <th scope="col" class="text-center"><strong>Municipio</strong></th>
-
-      </tr>
+        <tr>
+          <th scope="col" class="text-center"><strong>No.</strong></th>
+          <th scope="col" class="text-center"><strong>No. Identificacion</strong></th>
+          <th scope="col" class="text-center"><strong>Correo Electronico</strong></th>
+          <th scope="col" class="text-center"><strong>Nombre</strong></th>
+          <th scope="col" class="text-center"><strong>Municipio</strong></th>
+        </tr>
       </thead>
       <tbody>
-      <tr>
-        <th scope="row" class="text-center">2</th>
-        <td class="text-center">123456789</td>
-        <td class="text-center">usuario&#64;gmail.com</td>
-        <td class="text-center">Felipe Garcia Castiblanco</td>
-        <td class="text-center">Facattiva</td>
-      </tr>
-      <tr>
-        <th scope="row" class="text-center">1</th>
-        <td class="text-center">3333333</td>
-        <td class="text-center">usuario&#64;gmail.com</td>
-        <td class="text-center">Felipe Garcia Castiblanco</td>
-        <td class="text-center">-</td>
-      </tr>
+        <tr *ngFor="let user of users$ | async; index as i">
+          <th scope="row" class="text-center">{{ i + 1 }}</th>
+          <td class="text-center">{{ user.identification }}</td>
+          <td class="text-center">{{ user.email }}</td>
+          <td class="text-center">{{ user.name }} {{ user.surname }}</td>
+          <td class="text-center">{{ user.municipality || '-' }}</td>
+        </tr>
       </tbody>
     </table>
   </div>

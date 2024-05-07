@@ -44,8 +44,8 @@ export class UsersService {
   async searchUserByQuery(name: string) {
     const q = query(
       this._collection,
-      where('fullName', '>=', name),
-      where('fullName', '<=', name + '\uf8ff'),
+      where('name', '>=', name),
+      where('name', '<=', name + '\uf8ff'),
     );
     const querySnapshot = await getDocs(q);
     let users: User[] = [];
@@ -53,6 +53,20 @@ export class UsersService {
       users = [...users, { id: doc.id, ...doc.data() } as User];
     });
     return users;
+  }
+
+  async searchUserByEmailAndPassword(email: string, password: string): Promise<User | null> {
+    const q = query(
+      this._collection,
+      where('email', '==', email),
+      where('password', '==', password)
+    );
+    const querySnapshot = await getDocs(q);
+    if (!querySnapshot.empty) {
+      const userDoc = querySnapshot.docs[0];
+      return { id: userDoc.id, ...userDoc.data() } as User;
+    }
+    return null;
   }
 
   createUser(user: UserForm) {

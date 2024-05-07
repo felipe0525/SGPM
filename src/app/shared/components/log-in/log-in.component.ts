@@ -1,23 +1,51 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UsersService } from '../../services/account-services/user.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-log-in',
   standalone: true,
-  imports: [],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule
+  ],
   templateUrl: './log-in.component.html',
   styleUrl: './log-in.component.css'
 })
 export class LogInComponent {
+  private _usersService = inject(UsersService);
+  private _router = inject(Router);
 
-  constructor(private router: Router) {}
-
-
-  onSubmit() {
-    this.redirect();
+  loginForm: FormGroup;
+  
+  constructor(private router: Router, private fb: FormBuilder) {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
+    });
   }
-  redirect() {
-    this.router.navigate(['/home']);
-  }
 
+
+  async onSubmit() {
+    if (this.loginForm.invalid) {
+      console.log('Invalid form');
+      return;
+    }
+
+    const { email, password } = this.loginForm.value;
+
+    try {
+      const user = await this._usersService.searchUserByEmailAndPassword(email, password);
+      if (user) {
+        console.log('Login successful');
+        this._router.navigate(['/home']);
+      } else {
+        console.log('Invalid email or password');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+    }
+  }
 }
