@@ -1,28 +1,23 @@
 # SGPM
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.6.
+El Sistema de Gestión de Puentes es una herramienta para realizar mantenimiento y supervisión de la infraestructura vial de los municipios en Colombia.
 
-## Development server
+Este proyecto utiliza [Node.js](https://nodejs.org/en/download) y [Angular](https://angular.io/guide/setup-local).
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Clonación y compilación
 
-## Code scaffolding
+Para clonar este repositorio, ejecute:
+```console
+git clone https://github.com/parraluisa/SGPM.git
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Si aún no tiene el [CLI de Angular](https://github.com/angular/angular-cli), instálelo globalmente:
+```console
+npm install -g @angular/cli
+```
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
->>>>>>> master
+Instale las dependencias del proyecto con el administrador de paquetes de Node (npm):
+```console
+cd SGPM
+npm install
+```
