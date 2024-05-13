@@ -41,26 +41,19 @@ export class UsersService {
     }
   }
 
-  async searchUserByQuery(searchTerm: string): Promise<User[]> {
-    const searchLower = searchTerm.toLowerCase();
-    const nameQuery = query(this._collection, where('name', '>=', searchLower), where('name', '<=', searchLower + '\uf8ff'));
-    const surnameQuery = query(this._collection, where('surname', '>=', searchLower), where('surname', '<=', searchLower + '\uf8ff'));
-    const emailQuery = query(this._collection, where('email', '>=', searchLower), where('email', '<=', searchLower + '\uf8ff'));
-    const identificationQuery = query(this._collection, where('identification', '>=', searchLower), where('identification', '<=', searchLower + '\uf8ff'));
-  
-    let queries = [nameQuery, surnameQuery, emailQuery, identificationQuery];
-    const querySnapshots = await Promise.all(queries.map(q => getDocs(q)));
-  
-    const users = new Map();
-    querySnapshots.forEach(snapshot => {
-      snapshot.forEach(doc => {
-        users.set(doc.id, { id: doc.id, ...doc.data() } as User);
-      });
+  async searchUserByQuery(name: string) {
+    const q = query(
+      this._collection,
+      where('name', '>=', name),
+      where('name', '<=', name + '\uf8ff'),
+    );
+    const querySnapshot = await getDocs(q);
+    let users: User[] = [];
+    querySnapshot.forEach((doc) => {
+      users = [...users, { id: doc.id, ...doc.data() } as User];
     });
-  
-    return Array.from(users.values());
+    return users;
   }
-  
 
   async searchUserByEmailAndPassword(email: string, password: string): Promise<User | null> {
     const q = query(

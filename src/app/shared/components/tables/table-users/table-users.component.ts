@@ -3,11 +3,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 import { AccountFormComponent } from '../../forms/account-form/account-form.component';
 import { UsersService } from '../../../services/account-services/user.service';
 import { Router } from '@angular/router';
-import { AsyncPipe, CommonModule } from '@angular/common';
-import { SearchBarComponent } from '../../forms/account-form/search-bar/search-bar/search-bar.component';
-import { of } from 'rxjs';
-
-declare var bootstrap: any;
+import { CommonModule } from '@angular/common';
 
 @Component({
   animations: [
@@ -29,25 +25,12 @@ declare var bootstrap: any;
   standalone: true,
   imports: [
     AccountFormComponent,
-    CommonModule,
-    SearchBarComponent,
-    AsyncPipe
+    CommonModule
   ],
   templateUrl: './table-users.component.html',
   styleUrl: './table-users.component.css'
 })
 export class TableUsersComponent {
-  private toast: any;
-
-  ngAfterViewInit(): void {
-    const toastElement = document.getElementById('liveToast');
-    this.toast = new bootstrap.Toast(toastElement);
-  }
-
-  showToast(): void {
-    this.toast.show();
-  }
-
   isOpen = false;
 
   private _usersService = inject(UsersService)
@@ -55,18 +38,6 @@ export class TableUsersComponent {
 
   users$ = this._usersService.getUsers();
 
-  async changeQuery(query: string) {
-    try {
-      const users = await this._usersService.searchUserByQuery(query);
-      this.users$ = of(users);
-    } catch (error) {}
-  }
-
-  handleUserRegistered(): void {
-    this.isOpen = false;
-    this.showToast();
-  }
-  
   onSubmit() {
   }
 }
