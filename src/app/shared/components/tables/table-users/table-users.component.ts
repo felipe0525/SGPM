@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { AccountFormComponent } from '../../forms/account-form/account-form.component';
 import { UsersService } from '../../../services/account-services/user.service';
@@ -6,6 +6,9 @@ import { Router } from '@angular/router';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { SearchBarComponent } from '../../forms/account-form/search-bar/search-bar/search-bar.component';
 import { of } from 'rxjs';
+import { IconEdit } from '../../../../../assets/icons/edit';
+import { IconDelete } from '../../../../../assets/icons/delete';
+import { IconSettings } from '../../../../../assets/icons/settings';
 
 declare var bootstrap: any;
 
@@ -31,7 +34,10 @@ declare var bootstrap: any;
     AccountFormComponent,
     CommonModule,
     SearchBarComponent,
-    AsyncPipe
+    AsyncPipe,
+    IconDelete,
+    IconEdit,
+    IconSettings
   ],
   templateUrl: './table-users.component.html',
   styleUrl: './table-users.component.css'
@@ -68,5 +74,29 @@ export class TableUsersComponent {
   }
   
   onSubmit() {
+  }
+
+  @Output() onEditUser = new EventEmitter<void>();
+
+  @Output() onDeleteUser = new EventEmitter<void>();
+
+  isMenuOpen = false;
+
+  openMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  openDialogEdit(): void {
+    const myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
+      keyboard: false
+    });
+    myModal.show();
+  }
+
+  openDialogDelete(): void {
+    const myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
+      keyboard: false
+    });
+    myModal.show();
   }
 }
