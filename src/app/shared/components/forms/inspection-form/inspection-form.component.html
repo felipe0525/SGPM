@@ -225,17 +225,10 @@
             <div class="form-group " *ngIf="component.photos.length>0">
               <label>Fotos Cargadas:</label>
               <ul>
-                <li *ngFor="let photo of component.photos; let k = index" class="mt-1">
+                <li *ngFor="let photoUrl of component.photos; let k = index" class="mt-1">
+                  <a [href]="photoUrl" target="_blank">Foto {{k+1}} {{component.name}}</a>
 
-                  <a [href]="createPhotoUrl(photo)" target="_blank">{{ photo.name }}</a>
-
-                  <div *ngIf="viewMode !== 'view'">
-                    <button
-                      class="btn btn-danger btn-sm ml-2"
-                      (click)="deletePhoto(component, k)">
-                      Eliminar
-                    </button>
-                  </div>
+                    <button class="btn btn-danger btn-sm ml-5" [hidden]="viewMode ==='view'" (click)="deletePhoto(component, k)">Eliminar</button>
 
                 </li>
               </ul>
@@ -274,7 +267,7 @@
                 name="repairQuantity{{i}}{{j}}"
                 [readOnly]="viewMode === 'view'"
                 [required]="viewMode !== 'view'"
-                min="1"
+                min="0.00001"
                 #repairQuantity="ngModel"
                 [ngClass]="{'is-invalid': repairQuantity.invalid && repairQuantity.touched}"
               >

@@ -9,6 +9,8 @@ import {NgClass, NgForOf, NgIf} from "@angular/common";
 import swal from "sweetalert";
 import {InspectionServiceService} from "../../../services/bridge-services/inspection-service.service";
 import {UsersService} from "../../../services/account-services/user.service";
+import {InventoryServiceService} from "../../../services/bridge-services/inventory-service.service";
+import {Inventory} from "../../../../models/bridge/inventory";
 
 
 @Component({
@@ -27,8 +29,7 @@ export class InspectionFormComponent implements OnInit{
 
   viewMode: 'view' | 'edit' | 'new' | undefined = undefined;
   inspectionId: number | null = null;
-  bridgeId: number | null = null;
-  username: string = '';
+  bridgeId: any;
 
   inspections: Inspection[] = [];
   bridgeBasicInfo ={
@@ -46,7 +47,6 @@ export class InspectionFormComponent implements OnInit{
     inspector: '',
     administrator: '',
     nextInspectionYear: 0,
-    bridgeSurfaceName: '',
     inspectionComponents: [],
     generalComments: ''
   }
@@ -59,9 +59,8 @@ export class InspectionFormComponent implements OnInit{
   repairOptionsByComponent: any;
 
   constructor(
-    private bridgeService: BridgeServiceService,
+    private inventoryService: InventoryServiceService,
     private inspectionService: InspectionServiceService,
-    private userService: UsersService,
     private router: Router,
     private route: ActivatedRoute
   ) {
@@ -77,47 +76,43 @@ export class InspectionFormComponent implements OnInit{
         this.viewMode = 'view';
       }
     });
-
+    this.route.params.subscribe(params => {
+      const id = params['id'];
+      if (id) {
+        this.bridgeId = id;
+      } else {
+        this.bridgeId = null;
+      }
+    });
     if (this.viewMode === 'new'){
-      this.inspectionService.generateInspectionId().subscribe((data: number) => {
-        this.inspectionId = data;
-        this.formInspection.inspectionId = this.inspectionId;
-      });
-      /*this.userService.getCurrentUser().subscribe((data: any) => {
-        this.username = data.name;
-        this.formInspection.inspector = this.username;
-      });*/
-      this.username = 'Roberto';
-      this.formInspection.administrator = this.username;
-      this.route.params.subscribe(params => {
-        const id = params['id'];
-        if (id) {
-          this.bridgeId = +id;
-        } else {
-          this.bridgeId = null;
+      this.inspectionService.generateInspectionId().then((inspectionId) => {
+        if (inspectionId != null) {
+          this.inspectionId = inspectionId;
+          this.formInspection.inspectionId = inspectionId;
         }
       });
     }else if(this.viewMode === 'edit' || this.viewMode === 'view'){
       this.route.queryParams.subscribe(params => {
-        const id = params['id'];
-        if (id) {
-          this.inspectionId = +id;
-
+        const inspectionId = params['inspid'];
+        console.log('inspid', inspectionId)
+        if (inspectionId) {
+          this.inspectionId = inspectionId;
+          console.log('inspid asign', this.inspectionId);
         } else {
           this.inspectionId = null;
-        }
-        const bridgeId = params['bridgeId'];
-        if (bridgeId) {
-          this.bridgeId = +bridgeId;
-        } else {
-          this.bridgeId = null;
         }
       });
     }
     //Get the bridge basic info with the bridgeId
-    this.bridgeService.getBridgeBasicInfo(this.bridgeId).subscribe((data: bridge) => {
-      this.bridgeBasicInfo = data;
-      console.log(this.bridgeBasicInfo);
+    this.inventoryService.getBridgeBasicInfo(this.bridgeId).then((bridgeName) => {
+      if (bridgeName != null) {
+        this.bridgeBasicInfo.bridgeId = bridgeName.bridgeIdentification;
+        this.bridgeBasicInfo.name = bridgeName.name;
+        this.bridgeBasicInfo.regionalId = bridgeName.regionalIdentification;
+        this.bridgeBasicInfo.road = bridgeName.road;
+        this.bridgeBasicInfo.roadId = bridgeName.roadIdentification;
+        this.bridgeBasicInfo.pr = bridgeName.pr;
+      }
     });
 
     this.componentNames = inspectionLists.componentNames;
@@ -163,14 +158,14 @@ export class InspectionFormComponent implements OnInit{
         inspector: '',
         administrator: '',
         nextInspectionYear: -1,
-        bridgeSurfaceName: '',
         inspectionComponents: inspectionComponents,
         generalComments: ''
       }
     }else {
-      this.inspectionService.getInspectionByInspectionId(this.inspectionId).subscribe((data: Inspection) => {
-        this.formInspection = data;
-        console.log(this.formInspection);
+      this.inspectionService.getInspection(this.bridgeId, this.inspectionId).then((inspection) => {
+        if (inspection != null) {
+          this.formInspection = inspection
+        }
       });
     }
 
@@ -214,9 +209,9 @@ export class InspectionFormComponent implements OnInit{
         'Inspección enviada con éxito',
         'success'
       )
-      this.inspectionService.setInspection(this.formInspection);
-      //go to the mode view
-      this.router.navigate(['home/bridge-management/inspections/inspection-bridge', this.inspectionId], { queryParams: { mode: 'view', bridgeId: this.bridgeId } });
+      this.inspectionService.setInspection(this.bridgeId,this.formInspection);
+
+      this.router.navigate([`home/bridge-management/inventories/${this.bridgeId}/inspections`]);
 
     }
   }
@@ -410,9 +405,10 @@ export class InspectionFormComponent implements OnInit{
     }
 
     for (let i = 0; i < fileList.length; i++) {
-      component.photos.push(fileList[i]);
+      component.photos.push(URL.createObjectURL(fileList[i]));
     }
   }
+
 
   createPhotoUrl(photo: File): string {
     return URL.createObjectURL(photo);
@@ -439,6 +435,6 @@ export class InspectionFormComponent implements OnInit{
 
 
   cancel() {
-    this.router.navigate(['home/bridge-management/inspections']);
+    this.router.navigate([ `home/bridge-management/inventories/${this.bridgeId}/inspections`]);
   }
 }
