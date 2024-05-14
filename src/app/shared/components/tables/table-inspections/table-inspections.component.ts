@@ -103,9 +103,15 @@ export class TableInspectionsComponent implements OnInit{
       this.filteredInspections = this.inspections.filter(inspection =>
         inspection.administrator.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
         inspection.inspector.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        inspection.inspectionId.toString().includes(this.searchTerm.toLowerCase()) || // Convert inspectionId to string for comparison
-        inspection.date.toLowerCase().includes(this.searchTerm.toLowerCase()) // Ensure date is in string format
+        inspection.id.toString().includes(this.searchTerm.toLowerCase()) || // Filter by ID
+        inspection.date.toString().toLowerCase().includes(this.searchTerm.toLowerCase()) // Ensure date is in string format
       );
     }
+  }
+
+  deleteInspection(id:any) {
+    this.inspectionService.deleteInspection(this.bridgeId, id).then(() => {
+      this.ngOnInit();
+    });
   }
 }
