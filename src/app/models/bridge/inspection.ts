@@ -18,6 +18,7 @@ export interface inspectionComponent {
   specializedInspection: string;
   damageType: string;
   repairs: repair[];
+  photos: File[];
 }
 
 
@@ -29,5 +30,4 @@ export interface repair {
   year: number;
   cost: number;
   damage: string;
-  photos: File[];
 }
