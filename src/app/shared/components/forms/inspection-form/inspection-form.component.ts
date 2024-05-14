@@ -8,6 +8,7 @@ import {inspectionLists} from "../../../../models/lists/inspectionLists";
 import {NgClass, NgForOf, NgIf} from "@angular/common";
 import swal from "sweetalert";
 import {InspectionServiceService} from "../../../services/bridge-services/inspection-service.service";
+import {UsersService} from "../../../services/account-services/user.service";
 
 
 @Component({
@@ -27,6 +28,7 @@ export class InspectionFormComponent implements OnInit{
   viewMode: 'view' | 'edit' | 'new' | undefined = undefined;
   inspectionId: number | null = null;
   bridgeId: number | null = null;
+  username: string = '';
 
   inspections: Inspection[] = [];
   bridgeBasicInfo ={
@@ -37,15 +39,6 @@ export class InspectionFormComponent implements OnInit{
     road: '',
     pr: '',
   }
-  bridgeInfo: any = {
-    idBridge: 0,
-    name: '',
-    regionalId: 0,
-    roadId: 0,
-    bridgeId: 0,
-    road: '',
-    pr: '',
-  };
   formInspection: Inspection = {
     inspectionId: 0,
     date: new Date(),
@@ -68,6 +61,7 @@ export class InspectionFormComponent implements OnInit{
   constructor(
     private bridgeService: BridgeServiceService,
     private inspectionService: InspectionServiceService,
+    private userService: UsersService,
     private router: Router,
     private route: ActivatedRoute
   ) {
@@ -75,7 +69,6 @@ export class InspectionFormComponent implements OnInit{
 
   ngOnInit() {
     //Obtain the mode, bridgeId and/or inspectionId from the query params
-    //Obtain the mode, bridgeId y/o inspectionId from the query params
     this.route.queryParams.subscribe(params => {
       const mode = params['mode'];
       if (mode) {
@@ -90,6 +83,12 @@ export class InspectionFormComponent implements OnInit{
         this.inspectionId = data;
         this.formInspection.inspectionId = this.inspectionId;
       });
+      /*this.userService.getCurrentUser().subscribe((data: any) => {
+        this.username = data.name;
+        this.formInspection.inspector = this.username;
+      });*/
+      this.username = 'Roberto';
+      this.formInspection.administrator = this.username;
       this.route.params.subscribe(params => {
         const id = params['id'];
         if (id) {
@@ -180,6 +179,7 @@ export class InspectionFormComponent implements OnInit{
   onSubmit() {
     const today = new Date();
     const inputDate = new Date(this.formInspection.date);
+    console.log(this.formInspection)
     if (!this.validateBasicInfo()) {
       swal(
         '¡Error!',
@@ -215,7 +215,7 @@ export class InspectionFormComponent implements OnInit{
         'success'
       )
       this.inspectionService.setInspection(this.formInspection);
-      //go to tthe mode view
+      //go to the mode view
       this.router.navigate(['home/bridge-management/inspections/inspection-bridge', this.inspectionId], { queryParams: { mode: 'view', bridgeId: this.bridgeId } });
 
     }
@@ -241,11 +241,10 @@ export class InspectionFormComponent implements OnInit{
 
 
   validateBasicInfo(): boolean {
-    return !(this.formInspection.date == null || this.formInspection.temperature == null || this.formInspection.inspector == '' || this.formInspection.administrator == '' || this.formInspection.nextInspectionYear == null);
+    return !(this.formInspection.date == null || this.formInspection.temperature == null || this.formInspection.inspector == '' || this.formInspection.nextInspectionYear == null || this.formInspection.administrator == '')
   }
 
   validateMaintainance(): boolean {
-    // @ts-ignore
     for (const component of this.formInspection.inspectionComponents) {
         if (component.maintenance.valueOf() === '') {
           swal(
@@ -440,6 +439,6 @@ export class InspectionFormComponent implements OnInit{
 
 
   cancel() {
-    this.router.navigate(['home/bridge-management/inspections ']);
+    this.router.navigate(['home/bridge-management/inspections']);
   }
 }

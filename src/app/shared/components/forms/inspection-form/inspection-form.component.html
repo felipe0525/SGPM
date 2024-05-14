@@ -92,7 +92,7 @@
                [(ngModel)]="formInspection.administrator" name="inspectionAdministrator"
                #administratorField="ngModel"
                [ngClass]="{'is-invalid': administratorField.invalid && administratorField.touched}"
-               [readonly]="viewMode === 'view'"
+               [readOnly]="viewMode === 'view'"
                [required]="viewMode !== 'view'"
         >
         <div *ngIf="administratorField.invalid && administratorField.touched" class="invalid-feedback">
@@ -201,6 +201,7 @@
               <div *ngIf="viewMode !== 'view'">
                 <input
                   type="file"
+                  accept="image/*"
                   multiple
                   (change)="uploadPhotos($event, component)"
                   id="componentPhoto{{i}}"
@@ -346,9 +347,11 @@
       ></textarea>
     </div>
   </div>
-  <div class="text-center mb-5" *ngIf="viewMode !== 'view'">
-
+  <div class="text-center mb-1" *ngIf="viewMode !== 'view'">
     <button type="submit" class="btn btn-warning rounded-4">GUARDAR FORMULARIO</button>
-    <button type="button" class="btn btn-danger-border rounded-4" (click)="cancel()">CANCELAR</button>
   </div>
+  <div class="text-center mb-5" *ngIf="viewMode !== 'view'">
+    <button type="button" class="btn btn-outline-danger rounded-4" (click)="cancel()">CANCELAR</button>
+  </div>
+
 </form>
