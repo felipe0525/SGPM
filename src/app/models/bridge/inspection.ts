@@ -5,7 +5,6 @@ export interface Inspection {
   inspector: string;
   administrator: string;
   nextInspectionYear: number;
-  bridgeSurfaceName: string;
   inspectionComponents: inspectionComponent[];
   generalComments: string;
 
@@ -18,7 +17,7 @@ export interface inspectionComponent {
   specializedInspection: string;
   damageType: string;
   repairs: repair[];
-  photos: File[];
+  photos: String[];
 }
 
 
@@ -30,4 +29,12 @@ export interface repair {
   year: number;
   cost: number;
   damage: string;
+}
+
+
+export interface basicInspection {
+  id: number;
+  administrator: string;
+  inspector: string;
+  date: Date;
 }
