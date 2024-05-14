@@ -4,7 +4,7 @@ import { FormsModule, FormBuilder, FormControl, ReactiveFormsModule, Validators,
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { UserForm } from '../../../../models/account/user';
 import { UsersService } from '../../../services/account-services/user.service';
-// import { hashPw } from '../../../util/bcrypt';
+import { CryptoService } from '../../../services/auth/crypto.service';
 
 export const StrongPasswordRegx: RegExp = /^(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=\D*\d).{8,}$/;
 
@@ -25,7 +25,7 @@ export class AccountFormComponent implements OnInit {
   submitting = false;
   @Output() userRegistered = new EventEmitter<void>();
 
-  constructor(private route: ActivatedRoute, private router: Router, private fb: FormBuilder) {
+  constructor(private route: ActivatedRoute, private router: Router, private fb: FormBuilder, private cryptoService: CryptoService) {
     this.accountForm = this.fb.group({
       type: ['']
     });
@@ -74,6 +74,8 @@ export class AccountFormComponent implements OnInit {
 
     try {
       const user = this.accountForm.value as UserForm;
+      user.password = await this.cryptoService.hashPassword(user.password)
+      
       !this.userId
         ? await this._usersService.createUser(user)
         : await this._usersService.updateUser(this.userId, user);
@@ -97,8 +99,7 @@ export class AccountFormComponent implements OnInit {
         email: user.email,
         type: user.type,
         municipality: user.municipality,
-        //password: hashPw(user.password),
-        password: user.password,
+        password: user.password
       });
     } catch (error) {}
   }
@@ -115,10 +116,10 @@ export class AccountFormComponent implements OnInit {
 
   watchTypeChanges(): void {
     this.accountForm.get('type')!.valueChanges.subscribe(value => {
-      if (value === '1') {
-        this.accountForm.get('municipality')!.disable();
-      } else {
+      if (value === '2') {
         this.accountForm.get('municipality')!.enable();
+      } else {
+        this.accountForm.get('municipality')!.disable();
       }
     });
   }

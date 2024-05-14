@@ -11,6 +11,7 @@ import { IconEdit } from '../../../../../assets/icons/edit';
 import { IconDelete } from '../../../../../assets/icons/delete';
 import { IconSettings } from '../../../../../assets/icons/settings';
 import { User } from '../../../../models/account/user';
+import { CryptoService } from '../../../services/auth/crypto.service';
 
 declare var bootstrap: any;
 
@@ -50,7 +51,7 @@ export class TableUsersComponent {
   private toast: any;
   editUserForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private userService: UsersService) {
+  constructor(private fb: FormBuilder, private userService: UsersService, private cryptoService: CryptoService) {
     this.editUserForm = this.fb.group({
       new_identification: [''],
       new_email: [''],
@@ -115,36 +116,41 @@ export class TableUsersComponent {
     myModal.show();
   }
 
-  updateCurrentUser(): void {
+  async updateCurrentUser() {
     const ni = this.editUserForm.get('new_identification')?.value;
     const ne = this.editUserForm.get('new_email')?.value;
     const nn = this.editUserForm.get('new_name')?.value;
     const ns = this.editUserForm.get('new_surname')?.value;
     const nm = this.editUserForm.get('new_municipality')?.value;
     const np = this.editUserForm.get('new_password')?.value;
-
+  
     if (this.currentUser) {
       if (ni !== null) {
         this.currentUser.identification = ni;
-      } else if (ne !== null) {
+      }
+      if (ne !== null) {
         this.currentUser.email = ne;
-      } else if (nn !== null) {
+      }
+      if (nn !== null) {
         this.currentUser.name = nn;
-      } else if (ns !== null) {
+      }
+      if (ns !== null) {
         this.currentUser.surname = ns;
-      } else if (nm !== null) {
+      }
+      if (nm !== null) {
         this.currentUser.municipality = nm;
-      } else if (np !== null) {
-        this.currentUser.password = np;
+      }
+      if (np !== null && np !== '') {
+        const hashed = await this.cryptoService.hashPassword(np);
+        this.currentUser.password = hashed;
       }
     }
   }
 
   async onSubmitEdit() {
-    this.updateCurrentUser();
+    await this.updateCurrentUser();
     if (this.currentUser) {
       await this._usersService.updateUser(this.currentUser.id, this.currentUser);
-      //console.log('Updated User:', this.currentUser);
     }
   }
 
