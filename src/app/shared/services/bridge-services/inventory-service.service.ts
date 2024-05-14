@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import {Injectable, inject} from '@angular/core';
 import {
   addDoc,
   collection,
@@ -11,8 +11,8 @@ import {
   DocumentReference,
   DocumentData, where, getDocs, query
 } from '@angular/fire/firestore';
-import { Inventory } from '../../../models/bridge/inventory';
-import { Observable } from 'rxjs';
+import {Inventory} from '../../../models/bridge/inventory';
+import {Observable} from 'rxjs';
 import {getDownloadURL, ref, uploadBytes, Storage, FirebaseStorage} from "@angular/fire/storage";
 import {AbstractControl, AsyncValidatorFn, ValidationErrors} from "@angular/forms";
 
@@ -25,7 +25,7 @@ export class InventoryServiceService {
   private _collection = collection(this._firestore, 'inventories');
 
   getInventories(): Observable<Inventory[]> {
-    return collectionData(this._collection, { idField: 'id' }) as Observable<Inventory[]>;
+    return collectionData(this._collection, {idField: 'id'}) as Observable<Inventory[]>;
   }
 
   async getInventory(id: string): Promise<Inventory | undefined> {
@@ -43,7 +43,7 @@ export class InventoryServiceService {
   }
 
   async updateInventory(id: string, inventory: Inventory): Promise<void> {
-    return await updateDoc(this.document(id), { ...inventory });
+    return await updateDoc(this.document(id), {...inventory});
   }
 
   async deleteInventory(id: string): Promise<void> {
@@ -65,7 +65,7 @@ export class InventoryServiceService {
       const bridgeIdentification = control.value;
       const q = query(this._collection, where('generalInformation.bridgeIdentification', '==', bridgeIdentification));
       const querySnapshot = await getDocs(q);
-      return querySnapshot.empty ? null : { bridgeIdentificationNotUnique: true };
+      return querySnapshot.empty ? null : {bridgeIdentificationNotUnique: true};
     };
   }
 }

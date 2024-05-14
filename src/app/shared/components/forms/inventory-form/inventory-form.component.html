@@ -653,7 +653,8 @@
 
           <div class="col-md-8 mb-3">
             <label for="imagen-superestructura" class="form-label">Imagen</label>
-            <input type="file" id="imagen-superestructura" class="form-control" (change)="onFileChange($event, 'superstructureImage')">
+            <input type="file" id="imagen-superestructura" class="form-control"
+                   (change)="onFileChange($event, 'superstructureImage')">
           </div>
         </div>
       </div>
@@ -720,7 +721,8 @@
 
           <div class="col-md-8 mb-3">
             <label for="imagen-sec" class="form-label">Imagen</label>
-            <input type="file" id="imagen-sec" class="form-control" (change)="onFileChange($event, 'superstructureSecondaryImage')">
+            <input type="file" id="imagen-sec" class="form-control"
+                   (change)="onFileChange($event, 'superstructureSecondaryImage')">
           </div>
         </div>
       </div>
@@ -770,7 +772,8 @@
         <div class="row">
           <div class="col-12 mb-3">
             <label for="imagen-estribos" class="form-label">Imagen</label>
-            <input type="file" id="imagen-estribos" class="form-control" (change)="onFileChange($event, 'substructureAbutmentsImage')">
+            <input type="file" id="imagen-estribos" class="form-control"
+                   (change)="onFileChange($event, 'substructureAbutmentsImage')">
           </div>
         </div>
       </div>
@@ -818,7 +821,8 @@
         <div class="row">
           <div class="col-12 mb-3">
             <label for="imagen-detalle" class="form-label">Imagen</label>
-            <input type="file" id="imagen-detalle" class="form-control" (change)="onFileChange($event, 'substructureDetailsImage')">
+            <input type="file" id="imagen-detalle" class="form-control"
+                   (change)="onFileChange($event, 'substructureDetailsImage')">
           </div>
         </div>
       </div>
@@ -869,7 +873,8 @@
         <div class="row">
           <div class="col-12 mb-3">
             <label for="imagen-pilas" class="form-label">Imagen</label>
-            <input type="file" id="imagen-pilas" class="form-control" (change)="onFileChange($event, 'substructurePilesImage')">
+            <input type="file" id="imagen-pilas" class="form-control"
+                   (change)="onFileChange($event, 'substructurePilesImage')">
           </div>
         </div>
       </div>
@@ -914,7 +919,8 @@
         <div class="row">
           <div class="col-12 mb-3">
             <label for="imagen-senales" class="form-label">Imagen</label>
-            <input type="file" id="imagen-senales" class="form-control" (change)="onFileChange($event, 'substructureSignalsImage')">
+            <input type="file" id="imagen-senales" class="form-control"
+                   (change)="onFileChange($event, 'substructureSignalsImage')">
           </div>
         </div>
 
@@ -995,7 +1001,8 @@
         <div class="row">
           <div class="col-md-4 mb-3">
             <label for="vehiculo-diseno" class="form-label">Vehículo de diseño</label>
-            <input type="text" id="vehiculo-diseno" class="form-control" placeholder="Vehículo de diseño" formControlName="vehiculoDiseno" [class.is-invalid]="campoInvalido('vehiculoDiseno')">
+            <input type="text" id="vehiculo-diseno" class="form-control" placeholder="Vehículo de diseño"
+                   formControlName="vehiculoDiseno" [class.is-invalid]="campoInvalido('vehiculoDiseno')">
             <div *ngIf="campoInvalido('vehiculoDiseno')" class="text-danger">
               Por favor completa este campo.
             </div>
@@ -1034,7 +1041,8 @@
 
           <div class="col-md-4 mb-3">
             <label for="propietario" class="form-label">Propietario</label>
-            <input type="text" id="propietario" class="form-control" placeholder="Propietario" formControlName="propietario" [class.is-invalid]="campoInvalido('propietario')">
+            <input type="text" id="propietario" class="form-control" placeholder="Propietario"
+                   formControlName="propietario" [class.is-invalid]="campoInvalido('propietario')">
             <div *ngIf="campoInvalido('propietario')" class="text-danger">
               Por favor completa este campo.
             </div>
@@ -1320,7 +1328,8 @@
 
           <div class="col-md-12 mb-3">
             <label for="imagen-carga" class="form-label">Imagen</label>
-            <input type="file" id="imagen-carga" class="form-control" (change)="onFileChange($event, 'observationsImage')">
+            <input type="file" id="imagen-carga" class="form-control"
+                   (change)="onFileChange($event, 'observationsImage')">
           </div>
         </div>
       </div>
@@ -1329,7 +1338,9 @@
 
     <div class="row">
       <div class="col-12">
-        <button type="submit" class="btn btn-primary" (click)="onSubmit()" [disabled]="form.invalid">Guardar Formulario</button>
+        <button type="submit" class="btn btn-primary" (click)="onSubmit()" [disabled]="form.invalid">Guardar
+          Formulario
+        </button>
         <div *ngIf="form.invalid && formSubmitted" class="alert alert-danger mt-2">
           Por favor llene todos los campos requeridos antes de guardar.
         </div>
