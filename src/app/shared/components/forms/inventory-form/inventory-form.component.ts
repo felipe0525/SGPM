@@ -23,13 +23,13 @@ const imageFields: ImageFields = {
   observationsImage: 'observations'
 };
 
+
 function setImageUrl(inventory: Inventory, key: string, url: string) {
   const path = imageFields[key];
   if (path && inventory[path] && typeof inventory[path] === 'object') {
     (inventory[path] as any).image = url;
   }
 }
-
 
 
 @Component({
@@ -109,7 +109,7 @@ export class InventoryFormComponent implements OnInit {
         validators: Validators.required,
         asyncValidators: [this.inventoryService.checkBridgeIdentificationUnique()],
         updateOn: 'blur'
-      }),      carretera: new FormControl('', Validators.required),
+      }), carretera: new FormControl('', Validators.required),
       pr: new FormControl('', Validators.required),
       regional: new FormControl('', Validators.required),
 
@@ -388,7 +388,6 @@ export class InventoryFormComponent implements OnInit {
 
       const imageUrls: { [key: string]: string } = {};
 
-      // Subir las imágenes y obtener las URLs
       for (const key in imageFields) {
         if (this.imageFiles[key]) {
           const filePath = `images/${inventory.generalInformation.bridgeIdentification}/${key}_${new Date().getTime()}`;
@@ -396,14 +395,12 @@ export class InventoryFormComponent implements OnInit {
         }
       }
 
-      // Asigna las URLs de las imágenes al inventario final
       for (const key in imageUrls) {
         if (imageUrls.hasOwnProperty(key)) {
           setImageUrl(inventory, key, imageUrls[key]);
         }
       }
 
-      // Eliminar campos de imagen si no se subieron imágenes
       for (const key in imageFields) {
         if (!imageUrls[key]) {
           const path = imageFields[key];
