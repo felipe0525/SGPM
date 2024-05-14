@@ -1,13 +1,13 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {bridge} from "../../../../models/bridge/bridge";
 import {Inspection, inspectionComponent, repair} from "../../../../models/bridge/inspection";
 import {BridgeServiceService} from "../../../services/bridge-services/bridge-service.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {inspectionLists} from "../../../../models/lists/inspectionLists";
 import {NgClass, NgForOf, NgIf} from "@angular/common";
 import swal from "sweetalert";
-
+import {InspectionServiceService} from "../../../services/bridge-services/inspection-service.service";
 
 
 @Component({
@@ -22,10 +22,22 @@ import swal from "sweetalert";
   templateUrl: './inspection-form.component.html',
   styleUrl: './inspection-form.component.css'
 })
-export class InspectionFormComponent {
+export class InspectionFormComponent implements OnInit{
+
+  viewMode: 'view' | 'edit' | 'new' | undefined = undefined;
+  inspectionId: number | null = null;
+  bridgeId: number | null = null;
 
   inspections: Inspection[] = [];
-  bridgeInfo: bridge={
+  bridgeBasicInfo ={
+    name:'',
+    regionalId: 0,
+    roadId: 0,
+    bridgeId: 0,
+    road: '',
+    pr: '',
+  }
+  bridgeInfo: any = {
     idBridge: 0,
     name: '',
     regionalId: 0,
@@ -33,21 +45,8 @@ export class InspectionFormComponent {
     bridgeId: 0,
     road: '',
     pr: '',
-    inspections: [],
-    inventory: {
-      idInventory: 0,
-      year: 0,
-      length: 0,
-      width: 0,
-      height: 0,
-      material: '',
-      condition: '',
-      damage: '',
-      photos: ''
-    },
-    municipality: ''
   };
-  formInspection: Inspection ={
+  formInspection: Inspection = {
     inspectionId: 0,
     date: new Date(),
     temperature: 0,
@@ -59,22 +58,70 @@ export class InspectionFormComponent {
     generalComments: ''
   }
   componentNames: string[] = [];
-  yearList : number[]=[];
-  currentMonthStart: string = ''; // Primera fecha del mes actual
-  currentMonthEnd: string = ''; // Última fecha del mes actual
-  damageRatingList:any;
-  damageTypeList:any;
-  repairOptionsByComponent:any;
+  yearList: number[] = [];
+  currentMonthStart: string = '';
+  currentMonthEnd: string = '';
+  damageRatingList: any;
+  damageTypeList: any;
+  repairOptionsByComponent: any;
 
   constructor(
     private bridgeService: BridgeServiceService,
-    private router: Router
+    private inspectionService: InspectionServiceService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {
   }
 
   ngOnInit() {
-    this.bridgeInfo = this.bridgeService.generarDatosQuemados();
-    this.componentNames = ['Superficie del puente', 'Juntas de expansión', 'Andenes/ bordillos', 'Barandas', 'Conos/ taludes', 'Aletas', 'Estribos', 'Pilas', 'Apoyos', 'Losa', 'Vigas/ Largueros/ Diafragmas', 'Elementos de arco', 'Cables/ Pendolones/ Torres / Macizas', 'Elementos de armadura', 'Cauce', 'Otros elementos', 'Puente general'];
+    //Obtain the mode, bridgeId and/or inspectionId from the query params
+    //Obtain the mode, bridgeId y/o inspectionId from the query params
+    this.route.queryParams.subscribe(params => {
+      const mode = params['mode'];
+      if (mode) {
+        this.viewMode = mode === 'edit' ? 'edit' : mode === 'new' ? 'new' : 'view';
+      } else {
+        this.viewMode = 'view';
+      }
+    });
+
+    if (this.viewMode === 'new'){
+      this.inspectionService.generateInspectionId().subscribe((data: number) => {
+        this.inspectionId = data;
+        this.formInspection.inspectionId = this.inspectionId;
+      });
+      this.route.params.subscribe(params => {
+        const id = params['id'];
+        if (id) {
+          this.bridgeId = +id;
+        } else {
+          this.bridgeId = null;
+        }
+      });
+    }else if(this.viewMode === 'edit' || this.viewMode === 'view'){
+      this.route.queryParams.subscribe(params => {
+        const id = params['id'];
+        if (id) {
+          this.inspectionId = +id;
+
+        } else {
+          this.inspectionId = null;
+        }
+        const bridgeId = params['bridgeId'];
+        if (bridgeId) {
+          this.bridgeId = +bridgeId;
+        } else {
+          this.bridgeId = null;
+        }
+      });
+    }
+    //Get the bridge basic info with the bridgeId
+    this.bridgeService.getBridgeBasicInfo(this.bridgeId).subscribe((data: bridge) => {
+      this.bridgeBasicInfo = data;
+      console.log(this.bridgeBasicInfo);
+    });
+
+    this.componentNames = inspectionLists.componentNames;
     this.formInspection = this.initializeFormInspection();
     this.yearList = inspectionLists.yearList;
     this.damageRatingList = inspectionLists.ratingComponentOptions;
@@ -93,33 +140,41 @@ export class InspectionFormComponent {
 
   }
 
-  private initializeFormInspection(): Inspection {
-    const inspectionComponents: inspectionComponent[] = [];
-    if (this.componentNames !== undefined) {
-      this.componentNames.forEach(componentName => {
-        const newComponent:inspectionComponent = {
-          name: componentName,
-          rating: -1,
-          maintenance: '',
-          specializedInspection: '',
-          damageType: '',
-          repairs: []
-        }
-        inspectionComponents.push(newComponent);
+  private initializeFormInspection(): any {
+    if(this.viewMode === 'new'){
+      const inspectionComponents: inspectionComponent[] = [];
+      if (this.componentNames !== undefined) {
+        this.componentNames.forEach(componentName => {
+          const newComponent: inspectionComponent = {
+            name: componentName,
+            rating: -1,
+            maintenance: '',
+            specializedInspection: '',
+            damageType: '',
+            repairs: [],
+            photos: [],
+          }
+          inspectionComponents.push(newComponent);
+        });
+      }
+      return {
+        inspectionId: 0,
+        date: new Date(),
+        temperature: 0,
+        inspector: '',
+        administrator: '',
+        nextInspectionYear: -1,
+        bridgeSurfaceName: '',
+        inspectionComponents: inspectionComponents,
+        generalComments: ''
+      }
+    }else {
+      this.inspectionService.getInspectionByInspectionId(this.inspectionId).subscribe((data: Inspection) => {
+        this.formInspection = data;
+        console.log(this.formInspection);
       });
     }
-    //new inspection(0, new Date(), 0, '', '', 0, inspectionComponents, '');
-    return {
-      inspectionId: 0,
-      date: new Date(),
-      temperature: 0,
-      inspector: '',
-      administrator: '',
-      nextInspectionYear: -1,
-      bridgeSurfaceName: '',
-      inspectionComponents: inspectionComponents,
-      generalComments: ''
-    }
+
   }
 
   onSubmit() {
@@ -131,66 +186,47 @@ export class InspectionFormComponent {
         'Por favor, llene todos los campos',
         'error'
       )
-    }else if(this.formInspection.temperature <0 || this.formInspection.temperature > 50){
+      return;
+    } else if (this.formInspection.temperature < 0 || this.formInspection.temperature > 50) {
       swal(
         '¡Error!',
         'La temperatura debe estar entre 0 y 50',
         'error'
       )
+      return;
     } else if (inputDate > today) {
       swal(
         '¡Error!',
         'La fecha no puede ser mayor que el día de hoy',
         'error'
       )
+      return;
     } else if (this.formInspection.nextInspectionYear < 2024 || this.formInspection.nextInspectionYear > 2040) {
       swal(
         '¡Error!',
         'Seleccione un año para la próxima inspección',
         'error'
       )
-    } else if (!this.validateRatings()) {
-      swal(
-        '¡Error!',
-        'Por favor, selecciona la calificación de cada componente',
-        'error'
-      )
-    } else if (!this.validateMaintainance()) {
-      swal(
-        '¡Error!',
-        'Por favor, selecciona una opción para el campo de mantenimiento',
-        'error'
-      )
-    } else if (!this.validateSpecializedInspection()) {
-      swal(
-        '¡Error!',
-        'Por favor, selecciona una opción para el campo de inspección especial',
-        'error'
-      )
-    } else if (!this.validateRepairFields()) {
-      swal(
-        '¡Error!',
-        'Por favor, verifica los campos de reparación',
-        'error'
-      )
-    } else {
+      return;
+    } else if (this.validateRatings() && this.validateMaintainance() && this.validateSpecializedInspection() && this.validateRepairFields() && this.validateDamagetype()) {
       swal(
         '¡Éxito!',
         'Inspección enviada con éxito',
         'success'
       )
-      this.router.navigate(['/inspections']);
+      this.inspectionService.setInspection(this.formInspection);
+      //go to tthe mode view
+      this.router.navigate(['home/bridge-management/inspections/inspection-bridge', this.inspectionId], { queryParams: { mode: 'view', bridgeId: this.bridgeId } });
+
     }
   }
-
-
 
 
   validateRatings(): boolean {
     if (this.formInspection && this.formInspection.inspectionComponents) {
       for (const component of this.formInspection.inspectionComponents) {
 
-        if (component.rating < 0 || component.rating > 5) {
+        if (component.rating === -1){
           swal(
             '¡Error!',
             'Por favor, seleccione una calificación para el componente ' + component.name,
@@ -211,17 +247,15 @@ export class InspectionFormComponent {
   validateMaintainance(): boolean {
     // @ts-ignore
     for (const component of this.formInspection.inspectionComponents) {
-
-      if (component.maintenance !== '+') {
-        if (component.maintenance !== '-') {
+        if (component.maintenance.valueOf() === '') {
           swal(
             '¡Error!',
             'Por favor, seleccione una opción para el campo de mantenimiento del componente ' + component.name,
             'error'
           )
+          console.log('error', component.maintenance)
           return false;
         }
-      }
     }
     return true;
   }
@@ -229,7 +263,7 @@ export class InspectionFormComponent {
   validateSpecializedInspection(): boolean {
     // @ts-ignore
     for (const component of this.formInspection.inspectionComponents) {
-      if (component.specializedInspection !== '' && component.specializedInspection !== '+') {
+      if (component.specializedInspection === '') {
         swal(
           '¡Error!',
           'Por favor, seleccione una opción para la inspección especial del componente ' + component.name,
@@ -241,19 +275,20 @@ export class InspectionFormComponent {
     return true;
   }
 
-  validateRepairYear(): boolean {
-    if (this.formInspection && this.formInspection.inspectionComponents) {
-      for (const component of this.formInspection.inspectionComponents) {
-        for (const repair of component.repairs) {
-          if (repair.year < 2024 || repair.year > 2040) {
-            return false;
-          }
+  validateDamagetype():boolean{
+    if(this.formInspection && this.formInspection.inspectionComponents){
+      for(const component of this.formInspection.inspectionComponents){
+        if(component.damageType === ''){
+          swal(
+            '¡Error!',
+            'Por favor, seleccione un tipo de daño para el componente ' + component.name,
+            'error'
+          )
+          return false;
         }
       }
-      return true;
-    } else {
-      return false;
     }
+    return true;
   }
 
   private validateRepairFields(): boolean {
@@ -310,8 +345,6 @@ export class InspectionFormComponent {
   }
 
 
-
-
   addRepair(componentIndex: number): void {
     if (this.formInspection && this.formInspection.inspectionComponents &&
       componentIndex >= 0 && componentIndex < this.formInspection.inspectionComponents.length) {
@@ -328,7 +361,7 @@ export class InspectionFormComponent {
     }
   }
 
-  removeRepair(componentIndex: number){
+  removeRepair(componentIndex: number) {
     //Remove last repair
     if (this.formInspection && this.formInspection.inspectionComponents &&
       componentIndex >= 0 && componentIndex < this.formInspection.inspectionComponents.length) {
@@ -356,7 +389,7 @@ export class InspectionFormComponent {
   }
 
 
-  uploadPhotos(event: Event, repair: any): void {
+  uploadPhotos(event: Event, component: any): void {
     const fileList = (event.target as HTMLInputElement).files;
 
     if (!fileList || fileList.length === 0) {
@@ -368,7 +401,7 @@ export class InspectionFormComponent {
       return;
     }
 
-    if (repair.photos.length + fileList.length > 5) {
+    if (component.photos.length + fileList.length > 5) {
       swal(
         '¡Error!',
         'Solo se permiten un máximo de 5 fotos por componente',
@@ -378,7 +411,7 @@ export class InspectionFormComponent {
     }
 
     for (let i = 0; i < fileList.length; i++) {
-      repair.photos.push(fileList[i]);
+      component.photos.push(fileList[i]);
     }
   }
 
@@ -386,23 +419,27 @@ export class InspectionFormComponent {
     return URL.createObjectURL(photo);
   }
 
-  deletePhoto(repair: any, index: number): void {
-    if (index >= 0 && index < repair.photos.length) {
-      repair.photos.splice(index, 1);
+  deletePhoto(component: any, index: number): void {
+    if (index >= 0 && index < component.photos.length) {
+      component.photos.splice(index, 1);
     }
   }
 
-  clickFileInput(i: number, j: number): void {
-    const fileInput = document.getElementById(`repairPhoto${i}${j}`);
+  clickFileInput(i: number): void {
+    const fileInput = document.getElementById(`componentPhoto${i}`);
     if (fileInput) {
       (fileInput as HTMLInputElement).click();
     } else {
       swal(
         '¡Error!',
-        'Elemento no encontrado:', `repairPhoto${i}${j}`,
+        `Elemento no encontrado: componentPhoto${i}`,
         'error'
       )
     }
   }
 
+
+  cancel() {
+    this.router.navigate(['home/bridge-management/inspections ']);
+  }
 }
