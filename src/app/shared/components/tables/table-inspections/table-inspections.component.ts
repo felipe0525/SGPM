@@ -7,6 +7,7 @@ import {IconDelete} from "../../../../../assets/icons/delete";
 import {IconEdit} from "../../../../../assets/icons/edit";
 import {IconSettings} from "../../../../../assets/icons/settings";
 import {IconView} from "../../../../../assets/icons/view";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-table-inspections',
@@ -16,12 +17,14 @@ import {IconView} from "../../../../../assets/icons/view";
     IconDelete,
     IconEdit,
     IconSettings,
-    IconView
+    IconView,
+    FormsModule
   ],
   templateUrl: './table-inspections.component.html',
   styleUrl: './table-inspections.component.css'
 })
 export class TableInspectionsComponent implements OnInit{
+  searchTerm: string = '';
   bridgeId: number = -1;
   bridgeName: string = '';
   inspections: any[] =[
@@ -32,6 +35,7 @@ export class TableInspectionsComponent implements OnInit{
       date: Date,
     }
   ]
+  filteredInspections: any[] = this.inspections;
   constructor(
     private inspectionService: InspectionServiceService,
     private bridgeService: BridgeServiceService,
@@ -45,6 +49,7 @@ export class TableInspectionsComponent implements OnInit{
     this.bridgeService.getBridgeName(this.bridgeId).subscribe((data: any) => {
       this.bridgeName = data;
     });
+
     /*
     this.inspectionService.getInspections(this.bridgeId).subscribe((data: any) => {
       this.inspections = data;
@@ -53,28 +58,28 @@ export class TableInspectionsComponent implements OnInit{
       {
         inspectionId: 1,
         administrator: 'lucas',
-        inspector: 'tomas',
-        date: 2021-10-10,
+        inspector: 'pablo',
+        date: '2021-10-10',
       },
       {
         inspectionId: 2,
         administrator: 'lucas',
-        inspector: 'tomas',
-        date: 2021-10-10,
+        inspector: 'erick',
+        date: '2021-10-10',
       },
       {
         inspectionId: 3,
-        administrator: 'lucas',
+        administrator: 'bran',
         inspector: 'tomas',
-        date: 2021-10-10,
+        date: '2021-10-10',
       }
     ];
+    this.filteredInspections = this.inspections;
 
   }
 
   viewInspection(inspectionId: number) {
     this.router.navigate(['home/bridge-management/inspections/inspection-bridge', inspectionId], { queryParams: { mode: 'view', bridgeId : this.bridgeId } });
-
   }
   editInspection(inspectionId: number) {
     this.router.navigate(['home/bridge-management/inspections/inspection-bridge', inspectionId], { queryParams: { mode: 'edit', bridgeId : this.bridgeId } });
@@ -86,5 +91,25 @@ export class TableInspectionsComponent implements OnInit{
   goToInventary() {
     //this.router.navigate(['home/bridge-management/inventories/inventory-bridge', this.bridgeId])
     this.router.navigate(['home/bridge-management/inventories/inventory-bridge'])
+  }
+
+
+  filterInspections() {
+    console.log('Search Term:', this.searchTerm);
+    if (!this.searchTerm.trim()) {
+      // If searchTerm is empty, show all inspections
+      console.log('No Search Term. Showing all inspections.');
+      this.filteredInspections = this.inspections;
+    } else {
+      // Filter inspections based on searchTerm
+      console.log('Filtering Inspections.');
+      this.filteredInspections = this.inspections.filter(inspection =>
+        inspection.administrator.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        inspection.inspector.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        inspection.inspectionId.toString().includes(this.searchTerm.toLowerCase()) || // Convert inspectionId to string for comparison
+        inspection.date.toLowerCase().includes(this.searchTerm.toLowerCase()) // Ensure date is in string format
+      );
+    }
+    console.log('Filtered Inspections:', this.filteredInspections);
   }
 }

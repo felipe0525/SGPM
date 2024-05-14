@@ -5,7 +5,8 @@
     <div class="col-md-6 mb-3">
       <div class="input-group ">
         <input type="text" class="form-control" placeholder="Buscar: Fecha, Inspeccion, Inspector"
-               aria-label="Recipient's username" aria-describedby="basic-addon2">
+               aria-label="Recipient's username" aria-describedby="basic-addon2"
+               [(ngModel)]="searchTerm" (ngModelChange)="filterInspections()">
         <span class="input-group-text">
           <i class="fas fa-search"></i>
         </span>
@@ -33,7 +34,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let inspection of inspections">
+      <tr *ngFor="let inspection of filteredInspections">
         <td class="text-center" >{{inspection.inspectionId}}</td>
         <td class="text-center">{{inspection.administrator}}</td>
         <td class="text-center">{{ inspection.inspector }}</td>
