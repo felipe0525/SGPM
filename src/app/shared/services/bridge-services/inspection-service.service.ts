@@ -2,7 +2,7 @@ import {inject, Injectable} from '@angular/core';
 import {
   addDoc,
   collection,
-  collectionData,
+  collectionData, deleteDoc,
   doc,
   DocumentData,
   DocumentReference,
@@ -206,5 +206,45 @@ export class InspectionServiceService {
     }
   }
 
+
+  async deleteInspection(bridgeId: any, id: any): Promise<void> {
+    try {
+      // Buscar el inventario con el ID proporcionado
+      const inventoryQuery = query(this._collection, where('generalInformation.bridgeIdentification', '==', bridgeId));
+      const inventorySnapshot = await getDocs(inventoryQuery);
+
+      // Verificar si se encontró el inventario
+      if (inventorySnapshot.empty) {
+        console.error('No se encontró ningún inventario con el ID proporcionado');
+        return;
+      }
+
+      // Obtener la referencia al documento de inventario encontrado
+      const inventoryDocRef = inventorySnapshot.docs[0].ref;
+
+      // Obtener las inspecciones dentro del inventario
+      const inspectionCollectionRef = collection(inventoryDocRef, 'inspections');
+
+      // Realizar una consulta para encontrar la inspección específica
+      const inspectionQuery = query(inspectionCollectionRef, where('inspectionId', '==', id));
+      const inspectionSnapshot = await getDocs(inspectionQuery);
+
+      // Verificar si se encontró la inspección
+      if (inspectionSnapshot.empty) {
+        console.error('No se encontró ninguna inspección con el ID proporcionado');
+        return;
+      }
+
+      // Obtener la referencia al documento de inspección encontrado
+      const inspectionDocRef = inspectionSnapshot.docs[0].ref;
+
+      // Eliminar la inspección
+      await deleteDoc(inspectionDocRef);
+
+      console.log('Inspección eliminada con éxito');
+    } catch (error) {
+      console.error('Error al eliminar la inspección:', error);
+    }
+  }
 
 }
