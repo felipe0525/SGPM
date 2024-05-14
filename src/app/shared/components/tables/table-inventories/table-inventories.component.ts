@@ -24,7 +24,7 @@ export class TableInventoriesComponent implements OnInit {
     this.inventoryService.getInventories().subscribe((data: Inventory[]) => {
       this.inventories = data.map(inventory => ({
         ...inventory,
-        inventoryDate: (inventory.inventoryDate as any).toDate() // Convierte a instancia de Date
+        inventoryDate: (inventory.inventoryDate as any).toDate()
       }));
     });
   }
@@ -35,5 +35,28 @@ export class TableInventoriesComponent implements OnInit {
 
   navigateToInspections(bridgeId: string) {
     this.router.navigate([`home/bridge-management/inventories/${bridgeId}/inspections`]);
+  }
+
+  navigateToEditInventory(bridgeId: string, event: MouseEvent) {
+    event.stopPropagation(); // Detiene la propagación del evento de clic
+    this.router.navigate([`home/bridge-management/inventories/${bridgeId}/inventory-bridge`]);
+  }
+
+  navigateToViewInventory(bridgeId: string, event: MouseEvent) {
+    event.stopPropagation(); // Detiene la propagación del evento de clic
+    this.router.navigate([`home/bridge-management/inventories/${bridgeId}/view-inventory-bridge`]);
+  }
+
+
+
+  deleteInventory(bridgeIdentification: string, event: MouseEvent) {
+    event.stopPropagation(); // Detiene la propagación del evento de clic
+    if (confirm('¿Estás seguro de que deseas eliminar este inventario?')) {
+      this.inventoryService.deleteInventory(bridgeIdentification).then(() => {
+        this.inventories = this.inventories.filter(inventory => inventory.generalInformation.bridgeIdentification !== bridgeIdentification);
+      }).catch(error => {
+        console.error('Error al eliminar el inventario:', error);
+      });
+    }
   }
 }

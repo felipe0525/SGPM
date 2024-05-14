@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {inventoryLists} from "../../../../models/lists/inventoryLists";
-import {NgForOf, NgIf} from "@angular/common";
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import {InventoryServiceService} from "../../../services/bridge-services/inventory-service.service";
-import {Inventory} from "../../../../models/bridge/inventory";
-
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import { ActivatedRoute, Router } from "@angular/router";
+import { inventoryLists } from "../../../../models/lists/inventoryLists";
+import { NgForOf, NgIf } from "@angular/common";
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
+import { InventoryServiceService } from "../../../services/bridge-services/inventory-service.service";
+import { Inventory } from "../../../../models/bridge/inventory";
 
 interface ImageFields {
   [key: string]: keyof Inventory;
@@ -23,14 +23,12 @@ const imageFields: ImageFields = {
   observationsImage: 'observations'
 };
 
-
 function setImageUrl(inventory: Inventory, key: string, url: string) {
   const path = imageFields[key];
   if (path && inventory[path] && typeof inventory[path] === 'object') {
     (inventory[path] as any).image = url;
   }
 }
-
 
 @Component({
   selector: 'app-inventory-form',
@@ -42,12 +40,15 @@ function setImageUrl(inventory: Inventory, key: string, url: string) {
     NgIf
   ],
   templateUrl: './inventory-form.component.html',
-  styleUrl: './inventory-form.component.css'
+  styleUrls: ['./inventory-form.component.css']
 })
 export class InventoryFormComponent implements OnInit {
-
   form: FormGroup = new FormGroup({});
   formSubmitted = false;
+  editingInventoryId: string | null = null;
+  isEditMode = false;
+  documentId: string | null = null;
+  isViewMode = false;
 
 
   typeStepOptions = inventoryLists.typeStepOptions;
@@ -75,33 +76,44 @@ export class InventoryFormComponent implements OnInit {
   lightOptions = inventoryLists.lightOptions;
   longitudinalOptions = inventoryLists.longitudinalOptions;
   boardWidthOptions = inventoryLists.boardWidthOptions;
-  separatorWidthOptions = inventoryLists.separatorWidthOptions
-  sidewalkWidthOptions = inventoryLists.sidewalkWidthOptions
-  roadwayWidthOptions = inventoryLists.roadwayWidthOptions
-  pileHeightOptions = inventoryLists.pileHeightOptions
-  abutmentHeightOptions = inventoryLists.abutmentHeightOptions
-  supportLengthOptions = inventoryLists.supportLengthOptions
-  skewAngleOptions = inventoryLists.skewAngleOptions
-  latitudeDegreesOptions = inventoryLists.latitudeDegreesOptions
-  longitudeDegreesOptions = inventoryLists.longitudeDegreesOptions
-  minutesOptions = inventoryLists.minutesOptions
-  secondsOptions = inventoryLists.secondsOptions
-  seismicAccelerationCoefficientOptions = inventoryLists.seismicAccelerationCoefficientOptions
-  variableLengthOptions = inventoryLists.variableLengthOptions
-  brmOptions = inventoryLists.brmOptions
-  criticalSpanLengthOptions = inventoryLists.criticalSpanLengthOptions
-  classificationFactorOptions = inventoryLists.classificationFactorOptions
-  linealOptions = inventoryLists.linealOptions
+  separatorWidthOptions = inventoryLists.separatorWidthOptions;
+  sidewalkWidthOptions = inventoryLists.sidewalkWidthOptions;
+  roadwayWidthOptions = inventoryLists.roadwayWidthOptions;
+  pileHeightOptions = inventoryLists.pileHeightOptions;
+  abutmentHeightOptions = inventoryLists.abutmentHeightOptions;
+  supportLengthOptions = inventoryLists.supportLengthOptions;
+  skewAngleOptions = inventoryLists.skewAngleOptions;
+  latitudeDegreesOptions = inventoryLists.latitudeDegreesOptions;
+  longitudeDegreesOptions = inventoryLists.longitudeDegreesOptions;
+  minutesOptions = inventoryLists.minutesOptions;
+  secondsOptions = inventoryLists.secondsOptions;
+  seismicAccelerationCoefficientOptions = inventoryLists.seismicAccelerationCoefficientOptions;
+  variableLengthOptions = inventoryLists.variableLengthOptions;
+  brmOptions = inventoryLists.brmOptions;
+  criticalSpanLengthOptions = inventoryLists.criticalSpanLengthOptions;
+  classificationFactorOptions = inventoryLists.classificationFactorOptions;
+  linealOptions = inventoryLists.linealOptions;
 
   imageFiles: { [key: string]: File } = {};
 
-
-  constructor(private inventoryService: InventoryServiceService) {
-  }
-
+  constructor(private inventoryService: InventoryServiceService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
+    this.route.paramMap.subscribe(params => {
+      this.editingInventoryId = params.get('bridgeIdentification');
+      this.isViewMode = this.router.url.includes('/view-inventory-bridge');
+      if (this.editingInventoryId) {
+        this.isEditMode = !this.isViewMode;
+        this.loadInventoryData(this.editingInventoryId);
+      }
+    });
+
+    if (this.isViewMode) {
+      this.form.disable();
+    }
+
     this.form = new FormGroup({
+      // Define todos los controles del formulario aquí...
       nombre: new FormControl('', Validators.required),
       identificacionRegional: new FormControl('', Validators.required),
       identificacionCarretera: new FormControl('', Validators.required),
@@ -109,7 +121,8 @@ export class InventoryFormComponent implements OnInit {
         validators: Validators.required,
         asyncValidators: [this.inventoryService.checkBridgeIdentificationUnique()],
         updateOn: 'blur'
-      }), carretera: new FormControl('', Validators.required),
+      }),
+      carretera: new FormControl('', Validators.required),
       pr: new FormControl('', Validators.required),
       regional: new FormControl('', Validators.required),
 
@@ -216,7 +229,173 @@ export class InventoryFormComponent implements OnInit {
       momento: new FormControl('', Validators.required),
       lineaCargaRueda: new FormControl('', Validators.required),
 
+      observaciones: new FormControl('', Validators.required),
+
+      generalImage: new FormControl(''),
+      generalImageUrl: new FormControl(''),
+      technicalImage: new FormControl(''),
+      technicalImageUrl: new FormControl(''),
+      superstructureImage: new FormControl(''),
+      superstructureImageUrl: new FormControl(''),
+      superstructureSecondaryImage: new FormControl(''),
+      superstructureSecondaryImageUrl: new FormControl(''),
+      substructureAbutmentsImage: new FormControl(''),
+      substructureAbutmentsImageUrl: new FormControl(''),
+      substructureDetailsImage: new FormControl(''),
+      substructureDetailsImageUrl: new FormControl(''),
+      substructurePilesImage: new FormControl(''),
+      substructurePilesImageUrl: new FormControl(''),
+      substructureSignalsImage: new FormControl(''),
+      substructureSignalsImageUrl: new FormControl(''),
+      supportsImage: new FormControl(''),
+      supportsImageUrl: new FormControl(''),
+      observationsImage: new FormControl(''),
+      observationsImageUrl: new FormControl(''),
+
     });
+
+    if (this.isEditMode) {
+      this.form.get('identificacionPuente')?.clearAsyncValidators();
+    }
+
+    console.log('Form initialized:', this.form);
+  }
+
+  async loadInventoryData(bridgeIdentification: string) {
+    console.log('Loading inventory data for bridgeIdentification:', bridgeIdentification);
+    const inventoryResult = await this.inventoryService.getInventoryByBridgeIdentification(bridgeIdentification);
+    console.log('Inventory data loaded:', inventoryResult);
+    if (inventoryResult) {
+      const { id, data: inventory } = inventoryResult;
+      this.documentId = id;
+      this.form.patchValue({
+        nombre: inventory.generalInformation.name,
+        identificacionRegional: inventory.generalInformation.regionalIdentification,
+        identificacionCarretera: inventory.generalInformation.roadIdentification,
+        identificacionPuente: inventory.generalInformation.bridgeIdentification,
+        carretera: inventory.generalInformation.road,
+        pr: inventory.generalInformation.pr,
+        regional: inventory.generalInformation.regional,
+
+        tipoDePasoUno: inventory.steps.stepTypeOne,
+        primeroUno: inventory.steps.firstOne,
+        supInfUno: inventory.steps.supInfOne,
+        galiboIUno: inventory.steps.clearanceIOne,
+        galiboIMUno: inventory.steps.clearanceIMOne,
+        galiboDMUno: inventory.steps.clearanceDMOne,
+        galiboDUno: inventory.steps.clearanceDOne,
+
+        tipoDePasoDos: inventory.steps.stepTypeTwo,
+        primeroDos: inventory.steps.firstTwo,
+        supInfDos: inventory.steps.supInfTwo,
+        galiboIDos: inventory.steps.clearanceITwo,
+        galiboIMDos: inventory.steps.clearanceIMTwo,
+        galiboDMDos: inventory.steps.clearanceDMTwo,
+        galiboDDos: inventory.steps.clearanceDTwo,
+
+        anioConstruccion: inventory.administrativeData.constructionYear,
+        anioReconstruccion: inventory.administrativeData.reconstructionYear,
+        direccionAbs: inventory.administrativeData.absDirection,
+        requisitosInspeccion: inventory.administrativeData.inspectionRequirements,
+        numeroSeccionesInspeccion: inventory.administrativeData.inspectionSectionsNumber,
+        estacionConteo: inventory.administrativeData.countingStation,
+        fechaRecoleccionDatos: inventory.administrativeData.dataCollectionDate ? new Date(inventory.administrativeData.dataCollectionDate).toISOString().substring(0, 10) : '',
+        inicialesInspector: inventory.administrativeData.inspectorInitials,
+
+        numeroLuces: inventory.technicalData.lightsNumber,
+        longitudLuzMenor: inventory.technicalData.minorSpanLength,
+        longitudLuzMayor: inventory.technicalData.majorSpanLength,
+        longitudTotal: inventory.technicalData.totalLength,
+        anchoTablero: inventory.technicalData.boardWidth,
+        anchoSeparador: inventory.technicalData.separatorWidth,
+        anchoAndenIzquierdo: inventory.technicalData.leftSidewalkWidth,
+        anchoAndenDerecho: inventory.technicalData.rightSidewalkWidth,
+        anchoCalzada: inventory.technicalData.roadwayWidth,
+        anchoEntreBordillos: inventory.technicalData.curbWidth,
+        anchoAcceso: inventory.technicalData.accessWidth,
+        alturaPilas: inventory.technicalData.pileHeight,
+        alturaEstribos: inventory.technicalData.abutmentHeight,
+        longitudApoyoPilas: inventory.technicalData.supportLengthOnPiles,
+        longitudApoyoEstribos: inventory.technicalData.supportLengthOnAbutments,
+        puenteTerra: inventory.technicalData.embankmentBridge,
+        puenteCurva: inventory.technicalData.curveBridge,
+        esviaje: inventory.technicalData.skewAngle,
+
+        disenoTipo: inventory.superstructurePrimary.designType,
+        tipoEstructuracionTransversal: inventory.superstructurePrimary.transversalStructuringType,
+        tipoEstructuracionLongitudinal: inventory.superstructurePrimary.longitudinalStructuringType,
+        material: inventory.superstructurePrimary.material,
+
+        disenoTipoSec: inventory.superstructureSecondary.designType,
+        tipoEstructuracionTransversalSec: inventory.superstructureSecondary.transversalStructuringType,
+        tipoEstructuracionLongitudinalSec: inventory.superstructureSecondary.longitudinalStructuringType,
+        materialSec: inventory.superstructureSecondary.material,
+
+        tipoEstribos: inventory.substructureAbutments.type,
+        materialEstribos: inventory.substructureAbutments.material,
+        tipoCimentacion: inventory.substructureAbutments.foundationType,
+
+        tipoBaranda: inventory.substructureDetails.railingType,
+        superficieRodadura: inventory.substructureDetails.roadwaySurface,
+        juntaExpansion: inventory.substructureDetails.expansionJoint,
+
+        tipoPilas: inventory.substructurePiles.type,
+        materialPilas: inventory.substructurePiles.material,
+        tipoCimentacionPilas: inventory.substructurePiles.foundationType,
+
+        cargaMaxima: inventory.substructureSignals.maxLoad,
+        velocidadMaxima: inventory.substructureSignals.maxSpeed,
+        otraInfo: inventory.substructureSignals.otherInfo,
+
+        apoyosFijosEstribos: inventory.supports.fixedSupportsOnAbutments,
+        apoyosMovilesEstribos: inventory.supports.movableSupportsOnAbutments,
+        apoyosFijosPilas: inventory.supports.fixedSupportsOnPiles,
+        apoyosMovilesPilas: inventory.supports.movableSupportsOnPiles,
+        apoyosFijosVigas: inventory.supports.fixedSupportsOnBeams,
+        apoyosMovilesVigas: inventory.supports.movableSupportsOnBeams,
+        vehiculoDiseno: inventory.supports.designVehicle,
+        claseCarga: inventory.supports.loadDistributionClass,
+
+        propietario: inventory.stakeholders.owner,
+        departamento: inventory.stakeholders.department,
+        administradorVial: inventory.stakeholders.roadManager,
+        proyectista: inventory.stakeholders.designer,
+        municipio: inventory.stakeholders.municipality,
+
+        latitudGrado: inventory.geographicPosition.latitudeDegree,
+        latitudMinuto: inventory.geographicPosition.latitudeMinute,
+        latitudSegundo: inventory.geographicPosition.latitudeSecond,
+        longitudGrado: inventory.geographicPosition.longitudeDegree,
+        longitudMinuto: inventory.geographicPosition.longitudeMinute,
+        longitudSegundo: inventory.geographicPosition.longitudeSecond,
+        coefAceleracionSismica: inventory.geographicPosition.seismicAccelerationCoefficient,
+        pasoCausa: inventory.geographicPosition.causewayPassage,
+        existeVariante: inventory.geographicPosition.variantExists,
+        longitudVariante: inventory.geographicPosition.variantLength,
+        estado: inventory.geographicPosition.condition,
+
+        longitudLuzCritica: inventory.legalTrafficLoadCapacity.criticalSpanLength,
+        factorClasificacion: inventory.legalTrafficLoadCapacity.classificationFactor,
+        fuerzaCortante: inventory.transportLoadCapacity.shearForce,
+        momento: inventory.transportLoadCapacity.moment,
+        lineaCargaRueda: inventory.transportLoadCapacity.wheelLoadLine,
+
+        observaciones: inventory.observations.notes,
+
+        generalImageUrl: inventory.generalInformation.image,
+        technicalImageUrl: inventory.technicalData.geoImage,
+        superstructureImageUrl: inventory.superstructurePrimary.image,
+        superstructureSecondaryImageUrl: inventory.superstructureSecondary.image,
+        substructureAbutmentsImageUrl: inventory.substructureAbutments.image,
+        substructureDetailsImageUrl: inventory.substructureDetails.image,
+        substructurePilesImageUrl: inventory.substructurePiles.image,
+        substructureSignalsImageUrl: inventory.substructureSignals.image,
+        supportsImageUrl: inventory.supports.image,
+        observationsImageUrl: inventory.observations.image,
+
+      });
+      console.log('Form after patchValue:', this.form.value);
+    }
   }
 
   get f() {
@@ -233,8 +412,10 @@ export class InventoryFormComponent implements OnInit {
     if (file) {
       this.imageFiles[controlName] = file;
       this.form.get(controlName)?.setValue(file);
+      this.form.get(`${controlName}Url`)?.setValue(file.name);
     }
   }
+
 
   hasImageField(obj: any): obj is { image?: string } {
     return obj && typeof obj === 'object' && 'image' in obj;
@@ -242,6 +423,7 @@ export class InventoryFormComponent implements OnInit {
 
   async onSubmit() {
     this.formSubmitted = true;
+    console.log('Form submitted:', this.form.value);
     if (this.form.valid) {
       const inventory: Inventory = {
         inventoryDate: new Date(),
@@ -381,7 +563,7 @@ export class InventoryFormComponent implements OnInit {
           wheelLoadLine: this.form.value.lineaCargaRueda,
         },
         observations: {
-          notes: this.form.value.observaciones || "",
+          notes: this.form.value.observaciones,
           image: "",
         }
       };
@@ -396,29 +578,18 @@ export class InventoryFormComponent implements OnInit {
       }
 
       for (const key in imageUrls) {
-        if (imageUrls.hasOwnProperty(key)) {
-          setImageUrl(inventory, key, imageUrls[key]);
-        }
+        setImageUrl(inventory, key, imageUrls[key]);
       }
 
-      for (const key in imageFields) {
-        if (!imageUrls[key]) {
-          const path = imageFields[key];
-          if (inventory[path] && typeof inventory[path] === 'object') {
-            delete (inventory[path] as any).image;
-          }
-        }
-      }
-
-      try {
+      if (this.isEditMode && this.documentId) {
+        await this.inventoryService.updateInventory(this.documentId, inventory);
+      } else {
         await this.inventoryService.createInventory(inventory);
-        console.log('Formulario enviado:', inventory);
-      } catch (error) {
-        console.error('Error al enviar el formulario:', error);
       }
-    } else {
-      console.log('El formulario no es válido');
+
+      this.router.navigate(['/home/bridge-management/inventories']);
     }
   }
+
 
 }

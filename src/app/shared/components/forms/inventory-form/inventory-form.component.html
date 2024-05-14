@@ -1,21 +1,18 @@
 <div class="container mt-5">
   <h1>Formato de inventario de Puentes</h1>
 
-
   <form [formGroup]="form">
 
     <div class="card my-3">
-
       <div class="card-header">
         INFORMACION GENERAL
       </div>
       <div class="card-body">
-
         <!-- Primera parte -->
         <div class="row g-3">
           <div class="col-md-4">
             <label>Nombre</label>
-            <input type="text" class="form-control" placeholder="Nombre" formControlName="nombre"
+            <input type="text" [readonly]="isViewMode"  class="form-control" placeholder="Nombre" formControlName="nombre"
                    [class.is-invalid]="campoInvalido('nombre')">
             <div *ngIf="campoInvalido('nombre')" class="text-danger">
               Por favor completa este campo con el nombre.
@@ -24,15 +21,20 @@
 
           <div class="col-md-8">
             <label>Imagen</label>
-            <input type="file" class="form-control" (change)="onFileChange($event, 'generalImage')">
+            <input *ngIf="!isViewMode" type="file" class="form-control" (change)="onFileChange($event, 'generalImage')" #generalImageInput>
+            <input type="hidden" formControlName="generalImageUrl">
+            <div *ngIf="form.get('generalImageUrl')?.value">
+              <a href="{{ form.get('generalImageUrl')?.value }}" target="_blank"> Imagen Subida </a>
+            </div>
           </div>
+
         </div>
 
         <!-- Segunda parte -->
         <div class="row g-3 mt-2">
           <div class="col-md-4">
             <label>Identificacion Regional</label>
-            <input type="text" class="form-control" placeholder="Regional" formControlName="identificacionRegional"
+            <input type="text" [readonly]="isViewMode" class="form-control" placeholder="Regional" formControlName="identificacionRegional"
                    [class.is-invalid]="campoInvalido('identificacionRegional')">
             <div *ngIf="campoInvalido('identificacionRegional')" class="text-danger">
               Por favor completa este campo.
@@ -40,7 +42,7 @@
           </div>
           <div class="col-md-4">
             <label>Identificacion Carretera</label>
-            <input type="text" class="form-control" placeholder="Carretera" formControlName="identificacionCarretera"
+            <input type="text" [readonly]="isViewMode" class="form-control" placeholder="Carretera" formControlName="identificacionCarretera"
                    [class.is-invalid]="campoInvalido('identificacionCarretera')">
             <div *ngIf="campoInvalido('identificacionCarretera')" class="text-danger">
               Por favor completa este campo.
@@ -48,7 +50,7 @@
           </div>
           <div class="col-md-4">
             <label>Identificacion Puente</label>
-            <input type="text" class="form-control" placeholder=" " formControlName="identificacionPuente"
+            <input type="text" [readonly]="isViewMode" class="form-control" placeholder=" " formControlName="identificacionPuente"
                    [class.is-invalid]="campoInvalido('identificacionPuente')">
             <div *ngIf="campoInvalido('identificacionPuente')" class="text-danger">
               Por favor completa este campo.
@@ -60,7 +62,7 @@
         <div class="row mt-3">
           <div class="col-md-4">
             <label>Carretera</label>
-            <input type="text" class="form-control" placeholder="Carretera" formControlName="carretera"
+            <input type="text" [readonly]="isViewMode" class="form-control" placeholder="Carretera" formControlName="carretera"
                    [class.is-invalid]="campoInvalido('carretera')">
             <div *ngIf="campoInvalido('carretera')" class="text-danger">
               Por favor completa este campo.
@@ -68,7 +70,7 @@
           </div>
           <div class="col-md-4">
             <label>PR</label>
-            <input type="text" class="form-control" placeholder="PR" formControlName="pr"
+            <input type="text" [readonly]="isViewMode" class="form-control" placeholder="PR" formControlName="pr"
                    [class.is-invalid]="campoInvalido('pr')">
             <div *ngIf="campoInvalido('pr')" class="text-danger">
               Por favor completa este campo.
@@ -76,7 +78,7 @@
           </div>
           <div class="col-md-4">
             <label>Regional</label>
-            <input type="text" class="form-control" placeholder="Regional" formControlName="regional"
+            <input type="text" [readonly]="isViewMode" class="form-control" placeholder="Regional" formControlName="regional"
                    [class.is-invalid]="campoInvalido('regional')">
             <div *ngIf="campoInvalido('regional')" class="text-danger">
               Por favor completa este campo.
@@ -86,7 +88,6 @@
       </div>
     </div>
     <!-- Sección de Datos Pasos -->
-
     <div class="card my-3">
       <div class="card-header">
         PASOS
@@ -100,7 +101,7 @@
 
           <div class="col">
             <label>Tipo de Paso</label>
-            <select class="form-control" formControlName="tipoDePasoUno">
+            <select class="form-control" [disabled]="isViewMode" formControlName="tipoDePasoUno">
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of typeStepOptions" [value]="option.value">{{ option.label }}</option>
             </select>
@@ -109,10 +110,9 @@
             </div>
           </div>
 
-
           <div class="col-md-1">
             <label>Primero</label>
-            <select class="form-control" formControlName="primeroUno">
+            <select class="form-control" [disabled]="isViewMode" formControlName="primeroUno">
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of snOptions" [value]="option.value">{{ option.label }}</option>
             </select>
@@ -123,7 +123,7 @@
 
           <div class="col-md-1">
             <label>Sup/Inf</label>
-            <select class="form-control" formControlName="supInfUno">
+            <select class="form-control"[disabled]="isViewMode"  formControlName="supInfUno">
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of siOptions" [value]="option.value">{{ option.label }}</option>
             </select>
@@ -134,45 +134,40 @@
 
           <div class="col">
             <label>Galibo (I)</label>
-            <input type="text" class="form-control" placeholder="I" formControlName="galiboIUno"
+            <input type="text" [readonly]="isViewMode" class="form-control" placeholder="I" formControlName="galiboIUno"
                    [class.is-invalid]="campoInvalido('galiboIUno')">
             <div *ngIf="campoInvalido('galiboIUno')" class="text-danger">
               Obligatorio.
             </div>
           </div>
 
-
           <div class="col">
             <label>Galibo (IM)</label>
-            <input type="text" class="form-control" placeholder="IM" formControlName="galiboIMUno"
+            <input type="text" [readonly]="isViewMode" class="form-control" [disabled]="isViewMode"placeholder="IM" formControlName="galiboIMUno"
                    [class.is-invalid]="campoInvalido('galiboIMUno')">
             <div *ngIf="campoInvalido('galiboIMUno')" class="text-danger">
               Obligatorio.
             </div>
           </div>
 
-
-          <div class="col ">
+          <div class="col">
             <label> Galibo (DM)</label>
-            <input type="text" class="form-control" placeholder="DM" formControlName="galiboDMUno"
+            <input type="text" [readonly]="isViewMode" class="form-control" placeholder="DM" formControlName="galiboDMUno"
                    [class.is-invalid]="campoInvalido('galiboDMUno')">
             <div *ngIf="campoInvalido('galiboDMUno')" class="text-danger">
               Obligatorio.
             </div>
           </div>
 
-
-          <div class="col ">
+          <div class="col">
             <label> Galibo (D)</label>
-            <input type="text" class="form-control" placeholder="D" formControlName="galiboDUno"
+            <input type="text" [readonly]="isViewMode" class="form-control" placeholder="D" formControlName="galiboDUno"
                    [class.is-invalid]="campoInvalido('galiboDUno')">
             <div *ngIf="campoInvalido('galiboDUno')" class="text-danger">
               Obligatorio.
             </div>
           </div>
-
         </div>
-
 
         <div class="row g-3">
           <div class="col-md-1">
@@ -190,7 +185,6 @@
               Obligatorio.
             </div>
           </div>
-
 
           <div class="col-md-1">
             <label>Primero</label>
@@ -216,50 +210,44 @@
 
           <div class="col">
             <label>Galibo (I)</label>
-            <input type="text" class="form-control" placeholder="I" formControlName="galiboIDos"
+            <input type="text"  [readonly]="isViewMode" class="form-control" placeholder="I" formControlName="galiboIDos"
                    [class.is-invalid]="campoInvalido('galiboIDos')">
             <div *ngIf="campoInvalido('galiboIDos')" class="text-danger">
               Obligatorio.
             </div>
           </div>
 
-
           <div class="col">
             <label>Galibo (IM)</label>
-            <input type="text" class="form-control" placeholder="IM" formControlName="galiboIMDos"
+            <input type="text" [readonly]="isViewMode" class="form-control" placeholder="IM" formControlName="galiboIMDos"
                    [class.is-invalid]="campoInvalido('galiboIMDos')">
             <div *ngIf="campoInvalido('galiboIMDos')" class="text-danger">
               Obligatorio.
             </div>
           </div>
 
-
-          <div class="col ">
+          <div class="col">
             <label> Galibo (DM)</label>
-            <input type="text" class="form-control" placeholder="DM" formControlName="galiboDMDos"
+            <input type="text" [readonly]="isViewMode" class="form-control" placeholder="DM" formControlName="galiboDMDos"
                    [class.is-invalid]="campoInvalido('galiboDMDos')">
             <div *ngIf="campoInvalido('galiboDMDos')" class="text-danger">
               Obligatorio.
             </div>
           </div>
 
-
-          <div class="col ">
+          <div class="col">
             <label> Galibo (D)</label>
-            <input type="text" class="form-control" placeholder="D" formControlName="galiboDDos"
+            <input type="text" [readonly]="isViewMode" class="form-control" placeholder="D" formControlName="galiboDDos"
                    [class.is-invalid]="campoInvalido('galiboDDos')">
             <div *ngIf="campoInvalido('galiboDDos')" class="text-danger">
               Obligatorio.
             </div>
           </div>
-
         </div>
       </div>
     </div>
 
-
     <!-- Sección de Datos Administrativos -->
-
     <div class="card my-3">
       <div class="card-header">
         DATOS ADMINISTRATIVOS
@@ -298,7 +286,6 @@
               Obligatorio.
             </div>
           </div>
-
         </div>
         <div class="row">
           <div class="col-md-4 mb-3">
@@ -315,7 +302,7 @@
 
           <div class="col-md-4 mb-3">
             <label for="numero-secciones-inspeccion" class="form-label">Número de secciones de inspección</label>
-            <select id="numero-secciones-inspeccion" class="form-control " formControlName="numeroSeccionesInspeccion">
+            <select id="numero-secciones-inspeccion" class="form-control" formControlName="numeroSeccionesInspeccion">
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of sectionOptions" [value]="option.value">{{ option.label }}</option>
             </select>
@@ -326,18 +313,17 @@
 
           <div class="col-md-4 mb-3">
             <label for="estacion-conteo" class="form-label">Estación de conteo</label>
-            <input type="text" id="estacion-conteo" class="form-control" placeholder="Estación de conteo"
+            <input type="text" [readonly]="isViewMode" id="estacion-conteo" class="form-control" placeholder="Estación de conteo"
                    formControlName="estacionConteo" [class.is-invalid]="campoInvalido('estacionConteo')">
             <div *ngIf="campoInvalido('estacionConteo')" class="text-danger">
               Por favor completa este campo.
             </div>
           </div>
-
         </div>
         <div class="row">
           <div class="col-md-4 mb-3">
             <label for="fecha-recoleccion-datos" class="form-label">Fecha de recolección de datos</label>
-            <input type="date" id="fecha-recoleccion-datos" class="form-control"
+            <input type="date" [readonly]="isViewMode" id="fecha-recoleccion-datos" class="form-control"
                    placeholder="Fecha de recolección de datos" formControlName="fechaRecoleccionDatos"
                    [class.is-invalid]="campoInvalido('fechaRecoleccionDatos')">
             <div *ngIf="campoInvalido('fechaRecoleccionDatos')" class="text-danger">
@@ -345,22 +331,18 @@
             </div>
           </div>
 
-
           <div class="col-md-4 mb-3">
             <label for="iniciales-inspector" class="form-label">Iniciales de inspector</label>
-            <input type="text" id="iniciales-inspector" class="form-control" placeholder="Iniciales de inspector"
+            <input type="text" [readonly]="isViewMode" id="iniciales-inspector" class="form-control" placeholder="Iniciales de inspector"
                    formControlName="inicialesInspector" [class.is-invalid]="campoInvalido('inicialesInspector')">
             <div *ngIf="campoInvalido('inicialesInspector')" class="text-danger">
               Por favor completa este campo.
             </div>
           </div>
-          <div class="col-md-4">
-
-          </div>
+          <div class="col-md-4"></div>
         </div>
       </div>
     </div>
-
 
     <!-- Sección de Datos Técnicos, Geometría -->
     <div class="card my-3">
@@ -369,7 +351,6 @@
       </div>
       <div class="card-body">
         <div class="row">
-
           <div class="col-md-4 mb-3">
             <label class="form-label">Número de luces</label>
             <select class="form-control" formControlName="numeroLuces">
@@ -380,7 +361,6 @@
               Obligatorio.
             </div>
           </div>
-
 
           <div class="col-md-4 mb-3">
             <label class="form-label">Longitud Luz menor (m)</label>
@@ -393,7 +373,6 @@
             </div>
           </div>
 
-
           <div class="col-md-4 mb-3">
             <label class="form-label">Longitud Luz mayor (m)</label>
             <select class="form-control" formControlName="longitudLuzMayor">
@@ -404,10 +383,8 @@
               Obligatorio.
             </div>
           </div>
-
         </div>
         <div class="row">
-
           <div class="col-md-4 mb-3">
             <label class="form-label">Longitud total (m)</label>
             <select class="form-control" formControlName="longitudTotal">
@@ -440,7 +417,6 @@
               Obligatorio.
             </div>
           </div>
-
         </div>
         <div class="row">
           <div class="col-md-4 mb-3">
@@ -475,7 +451,6 @@
               Obligatorio.
             </div>
           </div>
-
         </div>
         <div class="row">
           <div class="col-md-4 mb-3">
@@ -510,7 +485,6 @@
               Obligatorio.
             </div>
           </div>
-
         </div>
         <div class="row">
           <div class="col-md-4 mb-3">
@@ -545,7 +519,6 @@
               Obligatorio.
             </div>
           </div>
-
         </div>
         <div class="row">
           <div class="col-md-4 mb-3">
@@ -580,18 +553,19 @@
               Obligatorio.
             </div>
           </div>
-
         </div>
         <div class="row">
           <div class="col-12 mb-3">
             <label for="imagen-geo" class="form-label">Imagen</label>
-            <input type="file" id="imagen-geo" class="form-control" (change)="onFileChange($event, 'technicalImage')">
+            <input *ngIf="!isViewMode" type="file" id="imagen-geo" class="form-control" (change)="onFileChange($event, 'technicalImage')" #technicalImageInput>
+            <input type="hidden" formControlName="technicalImageUrl">
+            <div *ngIf="form.get('technicalImageUrl')?.value">
+              <a href="{{ form.get('technicalImageUrl')?.value }}" target="_blank">Imagen Subida</a>
+            </div>
           </div>
-
         </div>
       </div>
     </div>
-
 
     <!-- Sección de Superestructura, Tipo Principal -->
     <div class="card my-3">
@@ -600,7 +574,6 @@
       </div>
       <div class="card-body">
         <div class="row">
-
           <div class="col-md-4 mb-3">
             <label>Diseño tipo (S/N)</label>
             <select class="form-control" formControlName="disenoTipo">
@@ -622,8 +595,6 @@
             <div *ngIf="campoInvalido('tipoEstructuracionTransversal')" class="text-danger">
               Obligatorio.
             </div>
-
-
           </div>
           <div class="col-md-4 mb-3">
             <label>Tipo de estructuración longitudinal</label>
@@ -636,7 +607,6 @@
               Obligatorio.
             </div>
           </div>
-
         </div>
         <div class="row">
           <div class="col-md-4 mb-3">
@@ -653,13 +623,15 @@
 
           <div class="col-md-8 mb-3">
             <label for="imagen-superestructura" class="form-label">Imagen</label>
-            <input type="file" id="imagen-superestructura" class="form-control"
-                   (change)="onFileChange($event, 'superstructureImage')">
+            <input *ngIf="!isViewMode" type="file" id="imagen-superestructura" class="form-control" (change)="onFileChange($event, 'superstructureImage')" #superstructureImageInput>
+            <input type="hidden" formControlName="superstructureImageUrl">
+            <div *ngIf="form.get('superstructureImageUrl')?.value">
+              <a href="{{ form.get('superstructureImageUrl')?.value }}" target="_blank">Imagen Subida</a>
+            </div>
           </div>
         </div>
       </div>
     </div>
-
 
     <!-- Sección de Superestructura, Tipo Secundario -->
     <div class="card my-3">
@@ -668,7 +640,6 @@
       </div>
       <div class="card-body">
         <div class="row">
-
           <div class="col-md-4 mb-3">
             <label class="form-label">Diseño tipo (S/N)</label>
             <select class="form-control" formControlName="disenoTipoSec">
@@ -705,7 +676,6 @@
           </div>
         </div>
 
-
         <div class="row">
           <div class="col-md-4 mb-3">
             <label class="form-label">Material</label>
@@ -721,13 +691,15 @@
 
           <div class="col-md-8 mb-3">
             <label for="imagen-sec" class="form-label">Imagen</label>
-            <input type="file" id="imagen-sec" class="form-control"
-                   (change)="onFileChange($event, 'superstructureSecondaryImage')">
+            <input *ngIf="!isViewMode" type="file" id="imagen-sec" class="form-control" (change)="onFileChange($event, 'superstructureSecondaryImage')" #superstructureSecondaryImageInput>
+            <input type="hidden" formControlName="superstructureSecondaryImageUrl">
+            <div *ngIf="form.get('superstructureSecondaryImageUrl')?.value">
+              <a href="{{ form.get('superstructureSecondaryImageUrl')?.value }}" target="_blank">Imagen Subida</a>
+            </div>
           </div>
         </div>
       </div>
     </div>
-
 
     <!-- Sección de Subestructura, Estribos -->
     <div class="card my-3">
@@ -772,13 +744,15 @@
         <div class="row">
           <div class="col-12 mb-3">
             <label for="imagen-estribos" class="form-label">Imagen</label>
-            <input type="file" id="imagen-estribos" class="form-control"
-                   (change)="onFileChange($event, 'substructureAbutmentsImage')">
+            <input *ngIf="!isViewMode" type="file" id="imagen-estribos" class="form-control" (change)="onFileChange($event, 'substructureAbutmentsImage')" #substructureAbutmentsImageInput>
+            <input type="hidden" formControlName="substructureAbutmentsImageUrl">
+            <div *ngIf="form.get('substructureAbutmentsImageUrl')?.value">
+              <a href="{{ form.get('substructureAbutmentsImageUrl')?.value }}" target="_blank">Imagen Subida</a>
+            </div>
           </div>
         </div>
       </div>
     </div>
-
 
     <!-- Sección de Subestructura, Detalles -->
     <div class="card my-3">
@@ -821,13 +795,15 @@
         <div class="row">
           <div class="col-12 mb-3">
             <label for="imagen-detalle" class="form-label">Imagen</label>
-            <input type="file" id="imagen-detalle" class="form-control"
-                   (change)="onFileChange($event, 'substructureDetailsImage')">
+            <input *ngIf="!isViewMode" type="file" id="imagen-detalle" class="form-control" (change)="onFileChange($event, 'substructureDetailsImage')" #substructureDetailsImageInput>
+            <input type="hidden" formControlName="substructureDetailsImageUrl">
+            <div *ngIf="form.get('substructureDetailsImageUrl')?.value">
+              <a href="{{ form.get('substructureDetailsImageUrl')?.value }}" target="_blank">Imagen Subida</a>
+            </div>
           </div>
         </div>
       </div>
     </div>
-
 
     <!-- Sección de Subestructura, Pilas -->
     <div class="card my-3">
@@ -869,17 +845,18 @@
             </div>
           </div>
         </div>
-
         <div class="row">
           <div class="col-12 mb-3">
             <label for="imagen-pilas" class="form-label">Imagen</label>
-            <input type="file" id="imagen-pilas" class="form-control"
-                   (change)="onFileChange($event, 'substructurePilesImage')">
+            <input *ngIf="!isViewMode" type="file" id="imagen-pilas" class="form-control" (change)="onFileChange($event, 'substructurePilesImage')" #substructurePilesImageInput>
+            <input type="hidden" formControlName="substructurePilesImageUrl">
+            <div *ngIf="form.get('substructurePilesImageUrl')?.value">
+              <a href="{{ form.get('substructurePilesImageUrl')?.value }}" target="_blank">Imagen Subida</a>
+            </div>
           </div>
         </div>
       </div>
     </div>
-
 
     <!-- Sección de Subestructura, Señales -->
     <div class="card my-3">
@@ -914,19 +891,19 @@
               Por favor completa este campo.
             </div>
           </div>
-
         </div>
         <div class="row">
           <div class="col-12 mb-3">
             <label for="imagen-senales" class="form-label">Imagen</label>
-            <input type="file" id="imagen-senales" class="form-control"
-                   (change)="onFileChange($event, 'substructureSignalsImage')">
+            <input *ngIf="!isViewMode" type="file" id="imagen-senales" class="form-control" (change)="onFileChange($event, 'substructureSignalsImage')" #substructureSignalsImageInput>
+            <input type="hidden" formControlName="substructureSignalsImageUrl">
+            <div *ngIf="form.get('substructureSignalsImageUrl')?.value">
+              <a href="{{ form.get('substructureSignalsImageUrl')?.value }}" target="_blank">Imagen Subida</a>
+            </div>
           </div>
         </div>
-
       </div>
     </div>
-
 
     <!-- Sección de Apoyos -->
     <div class="card my-3">
@@ -1001,8 +978,7 @@
         <div class="row">
           <div class="col-md-4 mb-3">
             <label for="vehiculo-diseno" class="form-label">Vehículo de diseño</label>
-            <input type="text" id="vehiculo-diseno" class="form-control" placeholder="Vehículo de diseño"
-                   formControlName="vehiculoDiseno" [class.is-invalid]="campoInvalido('vehiculoDiseno')">
+            <input type="text" id="vehiculo-diseno" class="form-control" placeholder="Vehículo de diseño" formControlName="vehiculoDiseno" [class.is-invalid]="campoInvalido('vehiculoDiseno')">
             <div *ngIf="campoInvalido('vehiculoDiseno')" class="text-danger">
               Por favor completa este campo.
             </div>
@@ -1017,19 +993,20 @@
               Obligatorio.
             </div>
           </div>
-          <div class="col-md-4">
-
-          </div>
+          <div class="col-md-4"></div>
         </div>
         <div class="row">
           <div class="col-12 mb-3">
             <label for="imagen-apoyos" class="form-label">Imagen</label>
-            <input type="file" id="imagen-apoyos" class="form-control" (change)="onFileChange($event, 'supportsImage')">
+            <input *ngIf="!isViewMode" type="file" id="imagen-apoyos" class="form-control" (change)="onFileChange($event, 'supportsImage')" #supportsImageInput>
+            <input type="hidden" formControlName="supportsImageUrl">
+            <div *ngIf="form.get('supportsImageUrl')?.value">
+              <a href="{{ form.get('supportsImageUrl')?.value }}" target="_blank">Imagen Subida</a>
+            </div>
           </div>
         </div>
       </div>
     </div>
-
 
     <!-- Sección de Miembros Interesados -->
     <div class="card my-3">
@@ -1038,66 +1015,56 @@
       </div>
       <div class="card-body">
         <div class="row">
-
           <div class="col-md-4 mb-3">
             <label for="propietario" class="form-label">Propietario</label>
-            <input type="text" id="propietario" class="form-control" placeholder="Propietario"
+            <input type="text" [readonly]="isViewMode" id="propietario" class="form-control" placeholder="Propietario"
                    formControlName="propietario" [class.is-invalid]="campoInvalido('propietario')">
             <div *ngIf="campoInvalido('propietario')" class="text-danger">
               Por favor completa este campo.
             </div>
           </div>
 
-
           <div class="col-md-4 mb-3">
             <label for="departamento" class="form-label">Departamento</label>
-            <input type="text" id="departamento" class="form-control" placeholder="Departamento"
+            <input type="text" [readonly]="isViewMode" id="departamento" class="form-control" placeholder="Departamento"
                    formControlName="departamento" [class.is-invalid]="campoInvalido('departamento')">
             <div *ngIf="campoInvalido('departamento')" class="text-danger">
               Por favor completa este campo.
             </div>
           </div>
 
-
           <div class="col-md-4 mb-3">
             <label for="administrador-vial" class="form-label">Administrador Vial</label>
-            <input type="text" id="administrador-vial" class="form-control" placeholder="Administrador Vial"
+            <input type="text" [readonly]="isViewMode" id="administrador-vial" class="form-control" placeholder="Administrador Vial"
                    formControlName="administradorVial" [class.is-invalid]="campoInvalido('administradorVial')">
             <div *ngIf="campoInvalido('administradorVial')" class="text-danger">
               Por favor completa este campo.
             </div>
           </div>
-
-
         </div>
         <div class="row">
           <div class="col-md-4 mb-3">
             <label for="proyectista" class="form-label">Proyectista</label>
-            <input type="text" id="proyectista" class="form-control" placeholder="Proyectista"
+            <input type="text" [readonly]="isViewMode" id="proyectista" class="form-control" placeholder="Proyectista"
                    formControlName="proyectista" [class.is-invalid]="campoInvalido('proyectista')">
             <div *ngIf="campoInvalido('proyectista')" class="text-danger">
               Por favor completa este campo.
             </div>
           </div>
 
-
           <div class="col-md-4 mb-3">
             <label for="municipio" class="form-label">Municipio</label>
-            <input type="text" id="municipio" class="form-control" placeholder="Municipio" formControlName="municipio"
+            <input type="text" [readonly]="isViewMode" id="municipio" class="form-control" placeholder="Municipio" formControlName="municipio"
                    [class.is-invalid]="campoInvalido('municipio')">
             <div *ngIf="campoInvalido('municipio')" class="text-danger">
               Por favor completa este campo.
             </div>
           </div>
 
-
-          <div class="col-md-4">
-            <!-- Placeholder for alignment or future fields -->
-          </div>
+          <div class="col-md-4"></div>
         </div>
       </div>
     </div>
-
 
     <!-- Sección de Posición Geográfica -->
     <div class="card my-3">
@@ -1171,9 +1138,7 @@
               Obligatorio.
             </div>
           </div>
-
         </div>
-
         <div class="row">
           <div class="col-md-4 mb-3">
             <label class="form-label">Coeficiente de aceleración sísmica (Aa)</label>
@@ -1209,7 +1174,6 @@
               Obligatorio.
             </div>
           </div>
-
         </div>
         <div class="row">
           <div class="col-md-4 mb-3">
@@ -1237,7 +1201,6 @@
       </div>
     </div>
 
-
     <!-- Sección de Carga para tránsito legal-->
     <div class="card my-3">
       <div class="card-header">
@@ -1245,7 +1208,6 @@
       </div>
       <div class="card-body">
         <div class="row">
-
           <div class="col-md-6 mb-3">
             <label class="form-label">Long. Luz crítica (m)</label>
             <select class="form-control" formControlName="longitudLuzCritica">
@@ -1272,20 +1234,16 @@
       </div>
     </div>
 
-
     <!-- Sección de Carga para tránsito legal-->
-
     <div class="card my-3">
       <div class="card-header">
         CARGA: Capacidad de carga para transportes
       </div>
       <div class="card-body">
-
         <div class="row">
-
           <div class="col-md-4 mb-3">
             <label for="fuerza-cortante" class="form-label">Fuerza cortante (N)</label>
-            <input type="text" id="fuerza-cortante" class="form-control" placeholder="Fuerza cortante"
+            <input type="text" [readonly]="isViewMode" id="fuerza-cortante" class="form-control" placeholder="Fuerza cortante"
                    formControlName="fuerzaCortante" [class.is-invalid]="campoInvalido('fuerzaCortante')">
             <div *ngIf="campoInvalido('fuerzaCortante')" class="text-danger">
               Por favor completa este campo Rnago entre 10 y 1000 KN.
@@ -1293,7 +1251,7 @@
           </div>
           <div class="col-md-4 mb-3">
             <label for="momento" class="form-label">Momento (N)</label>
-            <input type="text" id="momento" class="form-control" placeholder="Momento" formControlName="momento"
+            <input type="text" [readonly]="isViewMode" id="momento" class="form-control" placeholder="Momento" formControlName="momento"
                    [class.is-invalid]="campoInvalido('momento')">
             <div *ngIf="campoInvalido('momento')" class="text-danger">
               Por favor completa este campo Rnago entre 10 y 1000 KN.
@@ -1313,43 +1271,42 @@
       </div>
     </div>
 
-
     <div class="card my-3">
       <div class="card-header">
         OBSERVACIONES
       </div>
       <div class="card-body">
         <div class="row">
-
           <div class="col-md-12">
             <label for="observaciones" class="form-label">Observaciones</label>
-            <textarea id="observaciones" class="form-control" placeholder="Observaciones" rows="4"></textarea>
+            <textarea id="observaciones" [readonly]="isViewMode" class="form-control" placeholder="Observaciones" rows="4" formControlName="observaciones" [class.is-invalid]="campoInvalido('observaciones')"></textarea>
+            <div *ngIf="campoInvalido('observaciones')" class="text-danger">
+              Por favor completa este campo.
+            </div>
           </div>
+
+
 
           <div class="col-md-12 mb-3">
             <label for="imagen-carga" class="form-label">Imagen</label>
-            <input type="file" id="imagen-carga" class="form-control"
-                   (change)="onFileChange($event, 'observationsImage')">
+            <input  *ngIf="!isViewMode" type="file" id="imagen-carga" class="form-control" (change)="onFileChange($event, 'observationsImage')" #observationsImageInput>
+            <input type="hidden" formControlName="observationsImageUrl">
+            <div *ngIf="form.get('observationsImageUrl')?.value">
+              <a href="{{ form.get('observationsImageUrl')?.value }}" target="_blank">Imagen Subida</a>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-
     <div class="row">
       <div class="col-12">
-        <button type="submit" class="btn btn-primary" (click)="onSubmit()" [disabled]="form.invalid">Guardar
-          Formulario
+        <button type="submit" class="btn btn-primary" (click)="onSubmit()" [disabled]="form.invalid"> {{ isEditMode ? 'Modificar Fomulario' : 'Crear Formulario' }}
         </button>
         <div *ngIf="form.invalid && formSubmitted" class="alert alert-danger mt-2">
           Por favor llene todos los campos requeridos antes de guardar.
         </div>
       </div>
     </div>
-
-
   </form>
 </div>
-
-
-

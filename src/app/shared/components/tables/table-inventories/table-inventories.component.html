@@ -26,15 +26,21 @@
         <th scope="col" class="text-center"><strong>Nombre Puente</strong></th>
         <th scope="col" class="text-center"><strong>Fecha Inventario</strong></th>
         <th scope="col" class="text-center"><strong>Municipio</strong></th>
+        <th scope="col" class="text-center"><strong>Acciones</strong></th>
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let inventory of inventories; let i = index" (click)="navigateToInspections(inventory.generalInformation.bridgeIdentification)" style="cursor: pointer;">
+      <tr *ngFor="let inventory of inventories; let i = index" style="cursor: pointer;" (click)="navigateToInspections(inventory.generalInformation.bridgeIdentification)">
         <th scope="row" class="text-center">{{ i + 1 }}</th>
         <td class="text-center">{{ inventory.generalInformation.bridgeIdentification }}</td>
         <td class="text-center">{{ inventory.generalInformation.name }}</td>
         <td class="text-center">{{ inventory.inventoryDate | date:'dd/MM/yyyy' }}</td>
         <td class="text-center">{{ inventory.stakeholders.municipality }}</td>
+        <td class="text-center">
+          <i class="fas fa-eye text-info me-2" (click)="navigateToViewInventory(inventory.generalInformation.bridgeIdentification, $event)"></i>
+          <i class="fas fa-edit text-warning me-2" (click)="navigateToEditInventory(inventory.generalInformation.bridgeIdentification, $event)"></i>
+          <i class="fas fa-trash text-danger" (click)="deleteInventory(inventory.generalInformation.bridgeIdentification, $event)"></i>
+        </td>
       </tr>
       </tbody>
     </table>
