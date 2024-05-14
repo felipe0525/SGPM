@@ -18,7 +18,7 @@ export const routes: Routes = [
     path: 'home/bridge-management',
     children: [
       { path: 'inspections', component: InspectionsComponent },
-      { path: 'inspections/inspection-bridge', component: InspectionBridgeComponent },
+      { path: 'inspections/inspection-bridge/:id', component: InspectionBridgeComponent },
       { path: 'inventories', component: InventoriesComponent },
       { path: 'inventories/inventory-bridge', component: InventoryBridgeComponent },
       { path: '', redirectTo: 'inventories', pathMatch: 'full' }
