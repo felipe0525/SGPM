@@ -3,12 +3,20 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {InspectionServiceService} from "../../../services/bridge-services/inspection-service.service";
 import {NgForOf} from "@angular/common";
 import {BridgeServiceService} from "../../../services/bridge-services/bridge-service.service";
+import {IconDelete} from "../../../../../assets/icons/delete";
+import {IconEdit} from "../../../../../assets/icons/edit";
+import {IconSettings} from "../../../../../assets/icons/settings";
+import {IconView} from "../../../../../assets/icons/view";
 
 @Component({
   selector: 'app-table-inspections',
   standalone: true,
   imports: [
-    NgForOf
+    NgForOf,
+    IconDelete,
+    IconEdit,
+    IconSettings,
+    IconView
   ],
   templateUrl: './table-inspections.component.html',
   styleUrl: './table-inspections.component.css'
@@ -46,19 +54,19 @@ export class TableInspectionsComponent implements OnInit{
         inspectionId: 1,
         administrator: 'lucas',
         inspector: 'tomas',
-        date: 25-10-2021,
+        date: 2021-10-10,
       },
       {
         inspectionId: 2,
         administrator: 'lucas',
         inspector: 'tomas',
-        date: 25-10-2021,
+        date: 2021-10-10,
       },
       {
         inspectionId: 3,
         administrator: 'lucas',
         inspector: 'tomas',
-        date: 25-10-2021,
+        date: 2021-10-10,
       }
     ];
 
