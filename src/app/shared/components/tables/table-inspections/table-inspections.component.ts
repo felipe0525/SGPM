@@ -77,12 +77,15 @@ export class TableInspectionsComponent implements OnInit{
   }
 
   viewInspection(inspectionId: number) {
-    this.router.navigate([ `home/bridge-management/inventories/${this.bridgeId}/inspections/id/inspection-bridge`], { queryParams: { mode: 'view', inspId:inspectionId} });
+    console.log("inspectionId",inspectionId);
+    this.router.navigate([ `home/bridge-management/inventories/${this.bridgeId}/inspections/id/inspection-bridge`], { queryParams: { mode: 'view', inspid:inspectionId} });
   }
   editInspection(inspectionId: number) {
-    this.router.navigate([`home/bridge-management/inventories/${this.bridgeId}/inspections/id/inspection-bridge`], { queryParams: { mode: 'edit', inspId:inspectionId} });
+    console.log("inspectionId",inspectionId);
+    this.router.navigate([`home/bridge-management/inventories/${this.bridgeId}/inspections/id/inspection-bridge`], { queryParams: { mode: 'edit', inspid:inspectionId} });
   }
   createInspection() {
+
     this.router.navigate([`home/bridge-management/inventories/${this.bridgeId}/inspections/id/inspection-bridge`], { queryParams: { mode: 'new' } });
   }
 
