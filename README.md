@@ -8,7 +8,7 @@ Este proyecto utiliza [Node.js](https://nodejs.org/en/download) y [Angular](http
 
 Para clonar este repositorio, ejecute:
 ```console
-git clone https://github.com/parraluisa/SGPM.git
+git clone git clone https://github.com/felipe0525/SGPM.git
 ```
 
 Si aún no tiene el [CLI de Angular](https://github.com/angular/angular-cli), instálelo globalmente:
