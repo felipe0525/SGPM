@@ -3,7 +3,7 @@
 
   <div class="row mb-3">
     <div class="col-md-6 mb-3">
-      <div class="input-group ">
+      <div class="input-group">
         <input type="text" class="form-control" placeholder="Buscar: Id Puente, Nombre, Municipio"
                aria-label="Recipient's username" aria-describedby="basic-addon2">
         <span class="input-group-text">
@@ -13,10 +13,9 @@
     </div>
 
     <div class="col-md-3 d-flex justify-content-start mb-3">
-      <a type="button" class="btn btn-outline-warning" href="home/bridge-management/inventories/inventory-bridge">Crear Nuevo Inventario</a>
+      <button class="btn btn-outline-warning" (click)="navigateToCreateInventory()">Crear nuevo inventario</button>
     </div>
   </div>
-
 
   <div class="table-responsive">
     <table class="table table-borderless">
@@ -27,18 +26,16 @@
         <th scope="col" class="text-center"><strong>Nombre Puente</strong></th>
         <th scope="col" class="text-center"><strong>Fecha Inventario</strong></th>
         <th scope="col" class="text-center"><strong>Municipio</strong></th>
-
       </tr>
       </thead>
       <tbody>
-      <tr>
-        <th scope="row" class="text-center">1</th>
-        <td class="text-center">123456789</td>
-        <td class="text-center">Puente 1</td>
-        <td class="text-center">02/05/2024</td>
-        <td class="text-center">Facatativa</td>
+      <tr *ngFor="let inventory of inventories; let i = index" (click)="navigateToInspections(inventory.generalInformation.bridgeIdentification)" style="cursor: pointer;">
+        <th scope="row" class="text-center">{{ i + 1 }}</th>
+        <td class="text-center">{{ inventory.generalInformation.bridgeIdentification }}</td>
+        <td class="text-center">{{ inventory.generalInformation.name }}</td>
+        <td class="text-center">{{ inventory.inventoryDate | date:'dd/MM/yyyy' }}</td>
+        <td class="text-center">{{ inventory.stakeholders.municipality }}</td>
       </tr>
-
       </tbody>
     </table>
   </div>
