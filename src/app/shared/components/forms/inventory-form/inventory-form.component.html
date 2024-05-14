@@ -1,841 +1,1344 @@
-<div class="center">
+<div class="container mt-5">
   <h1>Formato de inventario de Puentes</h1>
-</div>
 
-<div class="big_container">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-3">
-        <div class="form-group">
-          <label for="identificacion1">Nombre</label>
-          <input type="text" class="form-control" formControlName="identificacion1" placeholder="Nombre" />
-        </div>
+
+  <form [formGroup]="form">
+
+    <div class="card my-3">
+
+      <div class="card-header">
+        INFORMACION GENERAL
       </div>
+      <div class="card-body">
 
-      <div class="col-md-2">
-        <label for="identificacion1">Imagen</label>
-        <input type="text" class="form-control" id="imagen" placeholder="Imagen" />
-      </div>
-      <div class="col-md-2">
-        <div class="form-group">
-          <label for="identificacion1">Identificación</label>
-          <input type="text" class="form-control" id="identificacion1" formControlName="identificacion1" placeholder="Regional" />
-        </div>
-      </div>
-      <div class="col-md-2">
-        <div class="form-group">
-          <label for="identificacion2"></label>
-          <input type="text" class="form-control" formControlName="identificacion2" placeholder="Carretera" />
-        </div>
-      </div>
-      <div class="col-md-2">
-        <div class="form-group">
-          <label for="identificacion3"></label>
-          <input type="text" class="form-control" id="identificacion3" formControlName="identificacion3" placeholder="Puente" />
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-5">
-        <div class="form-group">
-          <label for="carretera">Carretera</label>
-          <input type="text" class="form-control" id="carretera" formControlName="carretera" placeholder="Carretera" />
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="form-group">
-          <label for="identificacion1">PR</label>
-          <input type="text" class="form-control" id="PR" formControlName="PR" placeholder="PR" />
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="form-group">
-          <label for="identificacion2">Regional</label>
-          <input type="text" class="form-control" id="identificacion2" formControlName="identificacion2" placeholder="Regional" />
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="contenedor">
-    <div class="div1">
-      <div class="container">
-        <label>PASOS</label>
-
-        <div class="row">
-          <div class="form-group col-md-1">
-            <label for="identificacion1">No.</label>
-            <input type="number" class="form-control" formControlName="no" />
+        <!-- Primera parte -->
+        <div class="row g-3">
+          <div class="col-md-4">
+            <label>Nombre</label>
+            <input type="text" class="form-control" placeholder="Nombre" formControlName="nombre"
+                   [class.is-invalid]="campoInvalido('nombre')">
+            <div *ngIf="campoInvalido('nombre')" class="text-danger">
+              Por favor completa este campo con el nombre.
+            </div>
           </div>
 
-          <div class="form-group col-md-3">
-            <label for="tipo_paso">Tipo Paso</label>
-            <select class="form-control" formControlName="tipo_paso">
-              <option value="10">Carretera nacional (del INV)</option>
-              <option value="11">Carretera concesionada</option>
-              <option value="12">Otra carretera (no del INV)</option>
-              <option value="13">Paso peatonal</option>
-              <option value="20">Ferrocarril</option>
-              <option value="30">Río o Arroyo</option>
-              <option value="31">Canal</option>
-              <option value="40">Valle</option>
-              <option value="90">Otro</option>
-              <option value="91">No aplicable</option>
-              <option value="92">Desconocido</option>
-              <option value="93">No registrado</option>
-            </select>
-          </div>
-
-          <div class="form-group col-md-3">
-            <label for="identificacion1">Primero (S/N)</label>
-            <input type="text" class="form-control" formControlName="tipo_paso" placeholder="(S/N)" />
-          </div>
-          <div class="form-group col-md-1">
-            <label for="identificacion1">I</label>
-            <input type="text" class="form-control" formControlName="i" placeholder="I" />
-          </div>
-          <div class="form-group col-md-1">
-            <label for="identificacion1">IM</label>
-            <input type="text" class="form-control" formControlName="IM" placeholder="IM" />
-          </div>
-          <div class="form-group col-md-1">
-            <label for="identificacion1">DM</label>
-            <input type="text" class="form-control" formControlName="tipo_paso" placeholder="DM" />
-          </div>
-          <div class="form-group col-md-1">
-            <label for="identificacion1">D</label>
-            <input type="text" class="form-control" formControlName="tipo_paso" placeholder="D" />
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="form-group col-md-1">
-            <input type="number" class="form-control" id="no" formControlName="no" />
-          </div>
-
-          <div class="form-group col-md-3">
-            <select class="form-control" formControlName="tipo_paso">
-              <option value="10">Carretera nacional (del INV)</option>
-              <option value="11">Carretera concesionada</option>
-              <option value="12">Otra carretera (no del INV)</option>
-              <option value="13">Paso peatonal</option>
-              <option value="20">Ferrocarril</option>
-              <option value="30">Río o Arroyo</option>
-              <option value="31">Canal</option>
-              <option value="40">Valle</option>
-              <option value="90">Otro</option>
-              <option value="91">No aplicable</option>
-              <option value="92">Desconocido</option>
-              <option value="93">No registrado</option>
-            </select>
-          </div>
-
-          <div class="form-group col-md-3">
-            <input type="text" class="form-control" formControlName="tipo_paso" placeholder="(S/N)" />
-          </div>
-          <div class="form-group col-md-1">
-            <input type="text" class="form-control" id="i" formControlName="i" placeholder="I" />
-          </div>
-          <div class="form-group col-md-1">
-            <input type="text" class="form-control" id="IM" formControlName="IM" placeholder="IM" />
-          </div>
-          <div class="form-group col-md-1">
-            <input type="text" class="form-control" formControlName="tipo_paso" placeholder="DM" />
-          </div>
-          <div class="form-group col-md-1">
-            <input type="text" class="form-control" id="tipo_paso" formControlName="tipo_paso" placeholder="D" />
-          </div>
-        </div>
-      </div>
-
-      <div class="container">
-        <label>DATOS ADMINISTRATIVOS</label>
-        <div class="row">
-          <div class="form-group">
-            <label>Año de construcción</label>
-            <input type="date" class="form-control" formControlName="Año de construcción" />
-
-            <label>Año de reconstrucción</label>
-            <input type="date" class="form-control" formControlName="Año de reconstrucción" />
-
-            <label>Dirección de absc. de la carret. (N/S/E/O)</label>
-            <input type="text" class="form-control" id="estribos_tipo_cimentacion" formControlName="estribos_tipo_cimentacion" placeholder="Dirección de absc." />
-
-            <label for="requisito_inspeccion">Requisito de inspección</label>
-            <select class="form-control" id="requisito_inspeccion" formControlName="requisito_inspeccion">
-              <option value="0">Nada</option>
-              <option value="1">Grúa con canastilla ("Snooper")</option>
-              <option value="2">Grúa con canastilla ("Lift")</option>
-              <option value="3">Bote</option>
-              <option value="9">Otro</option>
-              <option value="90">Otro</option>
-              <option value="91">No aplicable</option>
-              <option value="92">Desconocido</option>
-              <option value="93">No registrado</option>
-            </select>
-
-            <label>Número de secciones de inspección</label>
-            <input type="text" class="form-control" id="pilas_material" formControlName="pilas_material" placeholder="Número de secciones de inspección" min="1" max="4" />
-
-            <label>Estación de conteo</label>
-            <input type="text" class="form-control" id="pilas_tipo_cimentacion" formControlName="pilas_tipo_cimentacion" placeholder="Estación de conteo" />
-
-            <label>Fecha de recolección de datos</label>
-            <input type="date" class="form-control" id="tipo_baranda" formControlName="tipo_baranda" placeholder="Fecha de recolección de datos" />
-
-            <label>Iniciales del inspector</label>
-            <input type="text" class="form-control" id="superficie_rodadura" formControlName="superficie_rodadura" placeholder="Iniciales del inspector" />
-          </div>
-        </div>
-      </div>
-
-      <div class="container">
-        <label>DATOS TÉCNICOS, GEOMETRIA</label>
-        <div class="row">
-          <div class="form-group">
-            <label>Número de luces</label>
-            <input type="text" class="form-control" />
-
-            <label>Longitud Luz menor (m)</label>
-            <input type="text" class="form-control" />
-
-            <label>Longitud Luz mayor (m)</label>
-            <input type="text" class="form-control" />
-
-            <label>Longitud total (m)</label>
-            <input type="text" class="form-control" />
-
-            <label>Ancho del tablero (m)</label>
-            <input type="text" class="form-control" />
-
-            <label>Ancho del separador (m)</label>
-            <input type="text" class="form-control" />
-
-            <label>Ancho del anden izquierdo (m)</label>
-            <input type="text" class="form-control" />
-
-            <label>Ancho del anden derecho (m)</label>
-            <input type="text" class="form-control" />
-
-            <label>Ancho de calzada (m)</label>
-            <input type="text" class="form-control" />
-
-            <label>Ancho entre bordillos (m)</label>
-            <input type="text" class="form-control" />
-
-            <label>Ancho del acceso (m)</label>
-            <input type="text" class="form-control" />
-
-            <label>Altura de pilas (m)</label>
-            <input type="text" class="form-control" />
-
-            <label>Altura de estribos (m)</label>
-            <input type="text" class="form-control" />
-
-            <label>Longitud de apoyo en pilas (m)</label>
-            <input type="text" class="form-control" />
-
-            <label>Longitud de apoyo en estribos (m)</label>
-            <input type="text" class="form-control" />
-
-            <label>Puente en terraplén (S/N)</label>
-            <input type="text" class="form-control" />
-
-            <label>Puente en curva / Tangente (C/T)</label>
-            <input type="text" class="form-control" />
-
-            <label>Esviajamiento (gra)</label>
-            <input type="text" class="form-control" />
-
+          <div class="col-md-8">
             <label>Imagen</label>
-            <input type="text" class="form-control" />
+            <input type="file" class="form-control" (change)="onFileChange($event, 'generalImage')">
+          </div>
+        </div>
+
+        <!-- Segunda parte -->
+        <div class="row g-3 mt-2">
+          <div class="col-md-4">
+            <label>Identificacion Regional</label>
+            <input type="text" class="form-control" placeholder="Regional" formControlName="identificacionRegional"
+                   [class.is-invalid]="campoInvalido('identificacionRegional')">
+            <div *ngIf="campoInvalido('identificacionRegional')" class="text-danger">
+              Por favor completa este campo.
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label>Identificacion Carretera</label>
+            <input type="text" class="form-control" placeholder="Carretera" formControlName="identificacionCarretera"
+                   [class.is-invalid]="campoInvalido('identificacionCarretera')">
+            <div *ngIf="campoInvalido('identificacionCarretera')" class="text-danger">
+              Por favor completa este campo.
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label>Identificacion Puente</label>
+            <input type="text" class="form-control" placeholder=" " formControlName="identificacionPuente"
+                   [class.is-invalid]="campoInvalido('identificacionPuente')">
+            <div *ngIf="campoInvalido('identificacionPuente')" class="text-danger">
+              Por favor completa este campo.
+            </div>
+          </div>
+        </div>
+
+        <!-- Tercera parte -->
+        <div class="row mt-3">
+          <div class="col-md-4">
+            <label>Carretera</label>
+            <input type="text" class="form-control" placeholder="Carretera" formControlName="carretera"
+                   [class.is-invalid]="campoInvalido('carretera')">
+            <div *ngIf="campoInvalido('carretera')" class="text-danger">
+              Por favor completa este campo.
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label>PR</label>
+            <input type="text" class="form-control" placeholder="PR" formControlName="pr"
+                   [class.is-invalid]="campoInvalido('pr')">
+            <div *ngIf="campoInvalido('pr')" class="text-danger">
+              Por favor completa este campo.
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label>Regional</label>
+            <input type="text" class="form-control" placeholder="Regional" formControlName="regional"
+                   [class.is-invalid]="campoInvalido('regional')">
+            <div *ngIf="campoInvalido('regional')" class="text-danger">
+              Por favor completa este campo.
+            </div>
           </div>
         </div>
       </div>
+    </div>
+    <!-- Sección de Datos Pasos -->
 
-      <div class="container">
-        <label>SUPERESTRUCTURA, TIPO PRINCIPAL</label>
-        <div class="row">
-          <div class="form-group">
-            <label>Diseño tipo (S/N)</label>
-            <input type="text" class="form-control" />
-
-            <label>Tipo de estructuración transversal</label>
-            <select class="form-control"  formControlName="estructura">
-              <option value="10">Losa</option>
-              <option value="11">Losa/viga, 1 viga</option>
-              <option value="12">Losa/viga, 2 vigas</option>
-              <option value="13">Losa/viga, 3 vigas</option>
-              <option value="14">Losa/viga, 4 o más vigas</option>
-              <option value="30">Trabe cajón, 1 cajón</option>
-              <option value="31">Trabe cajón, 2 o más cajones</option>
-              <option value="40">Armadura de paso inferior</option>
-              <option value="41">Armadura de paso superior</option>
-              <option value="42">Armadura de paso a través</option>
-              <option value="50">Arco superior</option>
-              <option value="51">Arco inferior, tipo abierto</option>
-              <option value="52">Arco inferior, tipo cerrado</option>
-              <option value="80">Provisional, tipo Bailey</option>
-              <option value="81">Provisional, tipo Callender Hamilton</option>
-              <option value="90">Otro</option>
-              <option value="91">No aplicable</option>
-              <option value="92">Desconocido</option>
-              <option value="93">No registrado</option>
-            </select>
-
-
-            <label>Tipo de estructuración longitudinal</label>
-            <select class="form-control"  formControlName="tipoEstructura">
-              <option value="10">Simplemente apoyado, sección transversal constante</option>
-              <option value="11">Simplemente apoyado, sección transversal variable</option>
-              <option value="20">Viga continua, sección transversal constante</option>
-              <option value="21">Viga continua, sección transversal variable</option>
-              <option value="30">Viga Gerber, sección transversal constante</option>
-              <option value="31">Viga Gerber, sección transversal variable</option>
-              <option value="40">Pórtico, sección transversal constante</option>
-              <option value="41">Pórtico, sección transversal variable</option>
-              <option value="42">Cajones (box culvert)</option>
-              <option value="50">Puente colgante</option>
-              <option value="60">Puente atirantado</option>
-              <option value="90">Otro</option>
-              <option value="91">No aplicable</option>
-              <option value="92">Desconocido</option>
-              <option value="93">No registrado</option>
-            </select>
-
-
-            <label>Material</label>
-            <select class="form-control"  formControlName="materialConstruccion">
-              <option value="10">Concreto ciclópeo</option>
-              <option value="11">Concreto sin refuerzo</option>
-              <option value="20">Concreto reforzado, in situ</option>
-              <option value="21">Concreto reforzado, prefabricado & in situ</option>
-              <option value="30">Concreto pretensado, in situ</option>
-              <option value="31">Concreto pretensado, prefabricado</option>
-              <option value="32">Concreto pretensado, prefabricado & in situ</option>
-              <option value="50">Acero</option>
-              <option value="51">Acero y concreto</option>
-              <option value="60">Piedra o roca</option>
-              <option value="70">Ladrillo</option>
-              <option value="90">Otro</option>
-              <option value="91">No aplicable</option>
-              <option value="92">Desconocido</option>
-              <option value="93">No registrado</option>
-            </select>
-
-
-            <label>Imagen</label>
-            <input type="text" class="form-control" />
-          </div>
-        </div>
+    <div class="card my-3">
+      <div class="card-header">
+        PASOS
       </div>
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-md-1">
+            <label> No. Paso</label>
+            <input type="text" readonly class="form-control-plaintext" value="1">
+          </div>
 
-      <div class="container">
-        <label>SUPERESTRUCTURA, TIPO SECUNDARIO</label> div class="row">
-        <div class="form-group">
-          <label>Diseño tipo (S/N)</label>
-          <input type="text" class="form-control" />
+          <div class="col">
+            <label>Tipo de Paso</label>
+            <select class="form-control" formControlName="tipoDePasoUno">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of typeStepOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('tipoDePasoUno')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
 
-          <label>Tipo de estructuración transversal</label>
-          <select class="form-control" formControlName="estructura">
-            <option value="10">Losa</option>
-            <option value="11">Losa/viga, 1 viga</option>
-            <option value="12">Losa/viga, 2 vigas</option>
-            <option value="13">Losa/viga, 3 vigas</option>
-            <option value="14">Losa/viga, 4 o más vigas</option>
-            <option value="30">Trabe cajón, 1 cajón</option>
-            <option value="31">Trabe cajón, 2 o más cajones</option>
-            <option value="40">Armadura de paso inferior</option>
-            <option value="41">Armadura de paso superior</option>
-            <option value="42">Armadura de paso a través</option>
-            <option value="50">Arco superior</option>
-            <option value="51">Arco inferior, tipo abierto</option>
-            <option value="52">Arco inferior, tipo cerrado</option>
-            <option value="80">Provisional, tipo Bailey</option>
-            <option value="81">Provisional, tipo Callender Hamilton</option>
-            <option value="90">Otro</option>
-            <option value="91">No aplicable</option>
-            <option value="92">Desconocido</option>
-            <option value="93">No registrado</option>
-          </select>
 
-          <label>Tipo de estructuración longitudinal</label>
-          <select class="form-control" id="tipoEstructura" formControlName="tipoEstructura">
-            <option value="10">Simplemente apoyado, sección transversal constante</option>
-            <option value="11">Simplemente apoyado, sección transversal variable</option>
-            <option value="20">Viga continua, sección transversal constante</option>
-            <option value="21">Viga continua, sección transversal variable</option>
-            <option value="30">Viga Gerber, sección transversal constante</option>
-            <option value="31">Viga Gerber, sección transversal variable</option>
-            <option value="40">Pórtico, sección transversal constante</option>
-            <option value="41">Pórtico, sección transversal variable</option>
-            <option value="42">Cajones (box culvert)</option>
-            <option value="50">Puente colgante</option>
-            <option value="60">Puente atirantado</option>
-            <option value="90">Otro</option>
-            <option value="91">No aplicable</option>
-            <option value="92">Desconocido</option>
-            <option value="93">No registrado</option>
-          </select>
+          <div class="col-md-1">
+            <label>Primero</label>
+            <select class="form-control" formControlName="primeroUno">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of snOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('primeroUno')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
 
-          <label>Material</label>
-          <select class="form-control"  formControlName="materialConstruccion">
-            <option value="10">Concreto ciclópeo</option>
-            <option value="11">Concreto sin refuerzo</option>
-            <option value="20">Concreto reforzado, in situ</option>
-            <option value="21">Concreto reforzado, prefabricado & in situ</option>
-            <option value="30">Concreto pretensado, in situ</option>
-            <option value="31">Concreto pretensado, prefabricado</option>
-            <option value="32">Concreto pretensado, prefabricado & in situ</option>
-            <option value="50">Acero</option>
-            <option value="51">Acero y concreto</option>
-            <option value="60">Piedra o roca</option>
-            <option value="70">Ladrillo</option>
-            <option value="90">Otro</option>
-            <option value="91">No aplicable</option>
-            <option value="92">Desconocido</option>
-            <option value="93">No registrado</option>
-          </select>
+          <div class="col-md-1">
+            <label>Sup/Inf</label>
+            <select class="form-control" formControlName="supInfUno">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of siOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('supInfUno')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
 
-          <label>Imagen</label>
-          <input type="text" class="form-control" />
+          <div class="col">
+            <label>Galibo (I)</label>
+            <input type="text" class="form-control" placeholder="I" formControlName="galiboIUno"
+                   [class.is-invalid]="campoInvalido('galiboIUno')">
+            <div *ngIf="campoInvalido('galiboIUno')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+
+          <div class="col">
+            <label>Galibo (IM)</label>
+            <input type="text" class="form-control" placeholder="IM" formControlName="galiboIMUno"
+                   [class.is-invalid]="campoInvalido('galiboIMUno')">
+            <div *ngIf="campoInvalido('galiboIMUno')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+
+          <div class="col ">
+            <label> Galibo (DM)</label>
+            <input type="text" class="form-control" placeholder="DM" formControlName="galiboDMUno"
+                   [class.is-invalid]="campoInvalido('galiboDMUno')">
+            <div *ngIf="campoInvalido('galiboDMUno')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+
+          <div class="col ">
+            <label> Galibo (D)</label>
+            <input type="text" class="form-control" placeholder="D" formControlName="galiboDUno"
+                   [class.is-invalid]="campoInvalido('galiboDUno')">
+            <div *ngIf="campoInvalido('galiboDUno')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="row g-3">
+          <div class="col-md-1">
+            <label> No. Paso</label>
+            <input type="text" readonly class="form-control-plaintext" value="2">
+          </div>
+
+          <div class="col">
+            <label>Tipo de Paso</label>
+            <select class="form-control" formControlName="tipoDePasoDos">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of typeStepOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('tipoDePasoDos')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+
+          <div class="col-md-1">
+            <label>Primero</label>
+            <select class="form-control" formControlName="primeroDos">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of snOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('primeroDos')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+          <div class="col-md-1">
+            <label>Sup/Inf</label>
+            <select class="form-control" formControlName="supInfDos">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of siOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('supInfDos')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+          <div class="col">
+            <label>Galibo (I)</label>
+            <input type="text" class="form-control" placeholder="I" formControlName="galiboIDos"
+                   [class.is-invalid]="campoInvalido('galiboIDos')">
+            <div *ngIf="campoInvalido('galiboIDos')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+
+          <div class="col">
+            <label>Galibo (IM)</label>
+            <input type="text" class="form-control" placeholder="IM" formControlName="galiboIMDos"
+                   [class.is-invalid]="campoInvalido('galiboIMDos')">
+            <div *ngIf="campoInvalido('galiboIMDos')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+
+          <div class="col ">
+            <label> Galibo (DM)</label>
+            <input type="text" class="form-control" placeholder="DM" formControlName="galiboDMDos"
+                   [class.is-invalid]="campoInvalido('galiboDMDos')">
+            <div *ngIf="campoInvalido('galiboDMDos')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+
+          <div class="col ">
+            <label> Galibo (D)</label>
+            <input type="text" class="form-control" placeholder="D" formControlName="galiboDDos"
+                   [class.is-invalid]="campoInvalido('galiboDDos')">
+            <div *ngIf="campoInvalido('galiboDDos')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
 
-    <div class="div2">
-      <div class="container">
-        <label>SUBESTRUCTURA, ESTRIBOS</label>
+
+    <!-- Sección de Datos Administrativos -->
+
+    <div class="card my-3">
+      <div class="card-header">
+        DATOS ADMINISTRATIVOS
+      </div>
+      <div class="card-body">
         <div class="row">
-          <div class="form-group">
-            <label for="tipo">Tipo</label>
-            <select class="form-control" id="tipo" formControlName="tipo">
-              <option value="10">Con aletas integradas</option>
-              <option value="11">Con aletas separadas</option>
-              <option value="20">Enterrado; sólido</option>
-              <option value="21">
-                Enterrado; columnas/pilotes con viga cabezal
+          <div class="col-md-4 mb-3">
+            <label for="ano-construccion" class="form-label">Año de Construcción</label>
+            <select id="ano-construccion" class="form-control" formControlName="anioConstruccion">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of yearOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('anioConstruccion')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label for="ano-reconstruccion" class="form-label">Año de Reconstrucción</label>
+            <select id="ano-reconstruccion" class="form-control" formControlName="anioReconstruccion">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of yearOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('anioReconstruccion')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label for="direccion-abs" class="form-label">Dirección de absc. de la carret. (N/S/E/O)</label>
+            <select id="direccion-abs" class="form-control" formControlName="direccionAbs">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of abscDirection" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('direccionAbs')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label for="requisitos-inspeccion" class="form-label">Requisitos de inspección</label>
+            <select id="requisitos-inspeccion" class="form-control" formControlName="requisitosInspeccion">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of inspectionRequirementOptions" [value]="option.value">{{ option.label }}
               </option>
-              <option value="90">Otro</option>
-              <option value="91">No aplicable</option>
-              <option value="92">Desconocido</option>
-              <option value="93">No registrado</option>
             </select>
-
-            <label for="material">Material</label>
-            <select class="form-control" id="material" formControlName="material">
-              <option value="10">Mampostería</option>
-              <option value="20">Concreto ciclópeo</option>
-              <option value="21">Concreto reforzado</option>
-              <option value="30">Acero</option>
-              <option value="40">Acero y concreto</option>
-              <option value="50">Tierra armada</option>
-              <option value="60">Ladrillo</option>
-              <option value="90">Otro</option>
-              <option value="91">No aplicable</option>
-              <option value="92">Desconocido</option>
-              <option value="93">No registrado</option>
-            </select>
-
-            <label>Tipo de Cimentación</label>
-            <select class="form-control"  formControlName="cimentacion">
-              <option value="10">Cimentación superficial</option>
-              <option value="20">Pilotes de concreto</option>
-              <option value="21">Pilotes de acero</option>
-              <option value="22">Pilotes de madera</option>
-              <option value="30">Caisson de concreto</option>
-              <option value="40">Cajón autofundante</option>
-              <option value="90">Otro</option>
-              <option value="91">No aplicable</option>
-              <option value="92">Desconocido</option>
-              <option value="93">No registrado</option>
-            </select>
-
-            <label>Inspección</label>
-          </div>
-
-          <div class="row align-items-center">
-            <div class="container2">
-              <img id="imagePreview" src="https://cdn-icons-png.flaticon.com/128/69/69816.png" class="img-thumbnail" alt="Imagen de vista previa" />
+            <div *ngIf="campoInvalido('requisitosInspeccion')" class="text-danger">
+              Obligatorio.
             </div>
-            <div class="col-md-5">
-              <label for="imageInput" class="d-flex justify-content-center align-items-center h-100" id="fileNameLabel">
-                NombreDelArchivo.jpg
-              </label>
-              <input type="file" class="form-control" id="imageInput" accept="image/*" style="display: none;" />
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label for="numero-secciones-inspeccion" class="form-label">Número de secciones de inspección</label>
+            <select id="numero-secciones-inspeccion" class="form-control " formControlName="numeroSeccionesInspeccion">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of sectionOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('numeroSeccionesInspeccion')" class="text-danger">
+              Obligatorio.
             </div>
-
           </div>
-        </div>
-      </div>
 
-      <div class="container">
-        <label>SUBESTRUCTURA, DETALLES</label>
+          <div class="col-md-4 mb-3">
+            <label for="estacion-conteo" class="form-label">Estación de conteo</label>
+            <input type="text" id="estacion-conteo" class="form-control" placeholder="Estación de conteo"
+                   formControlName="estacionConteo" [class.is-invalid]="campoInvalido('estacionConteo')">
+            <div *ngIf="campoInvalido('estacionConteo')" class="text-danger">
+              Por favor completa este campo.
+            </div>
+          </div>
+
+        </div>
         <div class="row">
-          <div class="form-group">
-            <label>Tipo de baranda</label>
-            <select class="form-control" id="opciones" formControlName="opciones">
-              <option value="10">Mampostería</option>
-              <option value="20">Concreto sólido</option>
-              <option value="21">Concreto sólido con pasamanos metálicas</option>
-              <option value="30">Pasamanos de concreto sobre pilastras de concreto</option>
-              <option value="40">Pasamanos metálicas sobre pilastras de concreto</option>
-              <option value="41">Pasamanos metálicas sobre pilastras metálicas</option>
-              <option value="50">Construcción metálica ligera</option>
-              <option value="60">Parte integral de la superestructura</option>
-              <option value="90">Otro</option>
-              <option value="91">No aplicable</option>
-              <option value="92">Desconocido</option>
-              <option value="93">No registrado</option>
-            </select>
-
-            <label>Superficie de rodadura</label>
-            <select class="form-control"  formControlName="materialConstruccion">
-              <option value="10">Asfalto</option>
-              <option value="20">Concreto</option>
-              <option value="30">Acero (con dispositivos de fricción)</option>
-              <option value="40">Afirmado</option>
-              <option value="90">Otro</option>
-              <option value="91">No aplicable</option>
-              <option value="92">Desconocido</option>
-              <option value="93">No registrado</option>
-            </select>
-
-            <label>Junta de expansión</label>
-            <select class="form-control" id="dispositivoJunta" formControlName="dispositivoJunta">
-              <option value="10">Placa de acero</option>
-              <option value="11">Placa de acero cubierto de asfalto</option>
-              <option value="12">Placas verticales angulos de acero</option>
-              <option value="13">Junta dentada</option>
-              <option value="20">Acero con sello fijo de neopreno</option>
-              <option value="21">Acero con neopreno comprimido</option>
-              <option value="30">Bloque de neopreno</option>
-              <option value="40">Junta de goma asfáltica</option>
-              <option value="50">No dispositivo de junta</option>
-              <option value="51">Junta de cartón asfaltado</option>
-              <option value="52">Junta de cartón asfaltado con sello</option>
-              <option value="90">Otro</option>
-              <option value="91">No aplicable</option>
-              <option value="92">Desconocido</option>
-              <option value="93">No registrado</option>
-            </select>
-
-            <label>Imagen</label>
-            <input type="text" class="form-control" />
-          </div>
-        </div>
-      </div>
-
-      <div class="container">
-        <label>SUBESTRUCTURA, PILAS</label>
-        <div class="row">
-          <div class="form-group">
-            <label>Tipo</label>
-            <select class="form-control" id="estructura" formControlName="estructura">
-              <option value="10">Pila sólida</option>
-              <option value="20">Columna sola</option>
-              <option value="21">2 o más columnas sin viga cabezal</option>
-              <option value="30">Columna sola con viga cabezal</option>
-              <option value="31">2 o más columnas con vigas cabezales separadas</option>
-              <option value="32">2 o más columnas con viga cabezal común</option>
-              <option value="33">Columnas con viga cabezal y diafragma</option>
-              <option value="40">Pilotes con viga cabezal</option>
-              <option value="41">Pilotes con viga cabezal y diafragma</option>
-              <option value="50">Mástil (pilón)</option>
-              <option value="60">Torre metálica</option>
-              <option value="90">Otro</option>
-              <option value="91">No aplicable</option>
-              <option value="92">Desconocido</option>
-              <option value="93">No registrado</option>
-            </select>
-
-            <label>Material</label>
-            <select class="form-control" formControlName="materialConstruccion">
-              <option value="10">Mampostería</option>
-              <option value="20">Concreto ciclópeo</option>
-              <option value="21">Concreto reforzado</option>
-              <option value="30">Acero</option>
-              <option value="40">Acero y concreto</option>
-              <option value="50">Tierra armada</option>
-              <option value="60">Ladrillo</option>
-              <option value="90">Otro</option>
-              <option value="91">No aplicable</option>
-              <option value="92">Desconocido</option>
-              <option value="93">No registrado</option>
-            </select>
-
-            <label>Tipo de cimentación</label>
-            <select class="form-control" id="cimentacion" formControlName="cimentacion">
-              <option value="10">Cimentación superficial</option>
-              <option value="20">Pilotes de concreto</option>
-              <option value="21">Pilotes de acero</option>
-              <option value="22">Pilotes de madera</option>
-              <option value="30">Caisson de concreto</option>
-              <option value="40">Cajón autofundante</option>
-              <option value="90">Otro</option>
-              <option value="91">No aplicable</option>
-              <option value="92">Desconocido</option>
-              <option value="93">No registrado</option>
-            </select>
-
-            <label>Imagen</label>
-            <input type="text" class="form-control" />
-          </div>
-        </div>
-      </div>
-
-      <div class="container">
-        <label>SUBESTRUCTURA, SEÑALES</label>
-        <div class="row">
-          <div class="form-group">
-            <label>Carga máxima</label>
-            <input type="text" class="form-control" />
-
-            <label>Velocidad máxima</label>
-            <input type="text" class="form-control" />
-
-            <label>Otra</label>
-            <input type="text" class="form-control" />
-
-            <label>Imagen</label>
-            <input type="text" class="form-control" />
-          </div>
-        </div>
-      </div>
-
-      <div class="container">
-        <label>APOYOS</label>
-        <div class="row">
-          <div class="form-group">
-            <label>Tipo de apoyos fijos sobre estribos</label>
-            <select class="form-control" formControlName="tipoApoyo">
-              <option value="10">Junta de construcción (acaso con una capa de cartón asfaltado o de plomo)</option>
-              <option value="20">Balancín de concreto</option>
-              <option value="30">Placas de neopreno</option>
-              <option value="40">Apoyo fijo de acero</option>
-              <option value="41">Apoyo de deslizamiento (acero)</option>
-              <option value="42">Balancín de acero</option>
-              <option value="43">Apoyos de rodillos (acero)</option>
-              <option value="50">Basculante</option>
-              <option value="90">Otro</option>
-              <option value="91">No aplicable</option>
-              <option value="92">Desconocido</option>
-              <option value="93">No registrado</option>
-            </select>
-
-            <label>Tipo de apoyos móviles sobre estribos</label>
-            <select class="form-control"  formControlName="tipoApoyo">
-              <option value="10">Junta de construcción (acaso con una capa de cartón asfaltado o de plomo)</option>
-              <option value="20">Balancín de concreto</option>
-              <option value="30">Placas de neopreno</option>
-              <option value="40">Apoyo fijo de acero</option>
-              <option value="41">Apoyo de deslizamiento (acero)</option>
-              <option value="42">Balancín de acero</option>
-              <option value="43">Apoyos de rodillos (acero)</option>
-              <option value="50">Basculante</option>
-              <option value="90">Otro</option>
-              <option value="91">No aplicable</option>
-              <option value="92">Desconocido</option>
-              <option value="93">No registrado</option>
-            </select>
-
-
-            <label>Tipo de apoyos fijos en pilas</label>
-            <select class="form-control" formControlName="tipoApoyo">
-              <option value="10">Junta de construcción (acaso con una capa de cartón asfaltado o de plomo)</option>
-              <option value="20">Balancín de concreto</option>
-              <option value="30">Placas de neopreno</option>
-              <option value="40">Apoyo fijo de acero</option>
-              <option value="41">Apoyo de deslizamiento (acero)</option>
-              <option value="42">Balancín de acero</option>
-              <option value="43">Apoyos de rodillos (acero)</option>
-              <option value="50">Basculante</option>
-              <option value="90">Otro</option>
-              <option value="91">No aplicable</option>
-              <option value="92">Desconocido</option>
-              <option value="93">No registrado</option>
-            </select>
-
-
-            <label>Tipo de apoyos móviles en pilas</label>
-            <select class="form-control"  formControlName="tipoApoyo">
-              <option value="10">Junta de construcción (acaso con una capa de cartón asfaltado o de plomo)</option>
-              <option value="20">Balancín de concreto</option>
-              <option value="30">Placas de neopreno</option>
-              <option value="40">Apoyo fijo de acero</option>
-              <option value="41">Apoyo de deslizamiento (acero)</option>
-              <option value="42">Balancín de acero</option>
-              <option value="43">Apoyos de rodillos (acero)</option>
-              <option value="50">Basculante</option>
-              <option value="90">Otro</option>
-              <option value="91">No aplicable</option>
-              <option value="92">Desconocido</option>
-              <option value="93">No registrado</option>
-            </select>
-
-            <label>Tipo de apoyos fijos en vigas</label>
-            <select class="form-control"  formControlName="tipoApoyo">
-              <option value="10">Junta de construcción (acaso con una capa de cartón asfaltado o de plomo)</option>
-              <option value="20">Balancín de concreto</option>
-              <option value="30">Placas de neopreno</option>
-              <option value="40">Apoyo fijo de acero</option>
-              <option value="41">Apoyo de deslizamiento (acero)</option>
-              <option value="42">Balancín de acero</option>
-              <option value="43">Apoyos de rodillos (acero)</option>
-              <option value="50">Basculante</option>
-              <option value="90">Otro</option>
-              <option value="91">No aplicable</option>
-              <option value="92">Desconocido</option>
-              <option value="93">No registrado</option>
-            </select>
-
-
-            <label>Tipo de apoyos móviles en vigas</label>
-            <select class="form-control"  formControlName="tipoApoyo">
-              <option value="10">Junta de construcción (acaso con una capa de cartón asfaltado o de plomo)</option>
-              <option value="20">Balancín de concreto</option>
-              <option value="30">Placas de neopreno</option>
-              <option value="40">Apoyo fijo de acero</option>
-              <option value="41">Apoyo de deslizamiento (acero)</option>
-              <option value="42">Balancín de acero</option>
-              <option value="43">Apoyos de rodillos (acero)</option>
-              <option value="50">Basculante</option>
-              <option value="90">Otro</option>
-              <option value="91">No aplicable</option>
-              <option value="92">Desconocido</option>
-              <option value="93">No registrado</option>
-            </select>
-
-
-            <label>Vehiculo de diseño</label>
-            <input type="text" class="form-control" />
-
-            <label>Clase de distribución de carga</label>
-            <select class="form-control"  formControlName="distribucion">
-              <option value="1">Distribución en 2 direcciones</option>
-              <option value="2">Distribución en 1 dirección</option>
-              <option value="3">No hay distribución</option>
-              <option value="90">Otro</option>
-              <option value="91">No aplicable</option>
-              <option value="92">Desconocido</option>
-              <option value="93">No registrado</option>
-            </select>
-
-            <label>Imagen</label>
-            <input type="text" class="form-control" />
-          </div>
-        </div>
-      </div>
-
-      <div class="container">
-        <label>MIEMBROS INTERESADOS</label>
-
-        <div class="row">
-          <div class="form-group">
-            <label>Propietario</label>
-            <input type="text" class="form-control" />
-
-            <label>Departamento</label>
-            <input type="text" class="form-control" />
-
-            <label>Administrador Vial</label>
-            <input type="text" class="form-control" />
-
-            <label>Proyectista</label>
-            <input type="text" class="form-control" />
-
-            <label>Municipio</label>
-            <input type="text" class="form-control" />
-          </div>
-        </div>
-      </div>
-
-      <div class="container">
-        <label>POSICIÓN GEOGRÁFICA</label>
-        <div class="row">
-          <label>Latitud(N)</label>
-          <div class="form-group col-md-4">
-            <input type="text" class="form-control" />
-          </div>
-          <div class="form-group col-md-4">
-            <input type="text" class="form-control" />
-          </div>
-          <div class="form-group col-md-4">
-            <input type="text" class="form-control" />
-          </div>
-        </div>
-
-        <div class="row">
-          <label>Longitud(O)</label>
-          <div class="form-group col-md-4">
-            <input type="text" class="form-control" />
-          </div>
-          <div class="form-group col-md-4">
-            <input type="text" class="form-control" />
-          </div>
-          <div class="form-group col-md-4">
-            <input type="text" class="form-control" />
+          <div class="col-md-4 mb-3">
+            <label for="fecha-recoleccion-datos" class="form-label">Fecha de recolección de datos</label>
+            <input type="date" id="fecha-recoleccion-datos" class="form-control"
+                   placeholder="Fecha de recolección de datos" formControlName="fechaRecoleccionDatos"
+                   [class.is-invalid]="campoInvalido('fechaRecoleccionDatos')">
+            <div *ngIf="campoInvalido('fechaRecoleccionDatos')" class="text-danger">
+              Por favor completa este campo.
+            </div>
           </div>
 
-          <div class="form-group">
-            <label>Coeficiente de aceleración sísmica(Aa)</label>
-            <input type="text" class="form-control" />
 
-            <label>Paso por el cauce (S/N)</label>
-            <input type="text" class="form-control" />
-
-            <label>Existe variante(S/N)</label>
-            <input type="text" class="form-control" />
-
-            <label>Longitud variante</label>
-            <input type="text" class="form-control" />
-
-            <label>Estado(B/R/M) </label>
-            <input type="text" class="form-control" />
+          <div class="col-md-4 mb-3">
+            <label for="iniciales-inspector" class="form-label">Iniciales de inspector</label>
+            <input type="text" id="iniciales-inspector" class="form-control" placeholder="Iniciales de inspector"
+                   formControlName="inicialesInspector" [class.is-invalid]="campoInvalido('inicialesInspector')">
+            <div *ngIf="campoInvalido('inicialesInspector')" class="text-danger">
+              Por favor completa este campo.
+            </div>
           </div>
-        </div>
-      </div>
+          <div class="col-md-4">
 
-      <div class="container">
-        <label>CARGA</label>
-
-        <div class="form-group">
-          <div>
-            <label>Opacidad de carga para transito legal</label>
           </div>
-
-          <label>Long. Luz crítica (m)</label>
-          <input type="text" class="form-control" />
-
-          <label>Factor de clasificación</label>
-          <input type="text" class="form-control" />
-
-          <div>
-            <label>Opacidad de carga para transportes especiales</label>
-          </div>
-
-          <label>Fuerza cortante (t)</label>
-          <input type="text" class="form-control" />
-
-          <label>Momento (t.m)</label>
-          <input type="text" class="form-control" />
-
-          <label>Linea de carga por rueda (t) </label>
-          <input type="text" class="form-control" />
-
-          <label>Observaciones</label>
-          <input type="text" class="form-control" />
-
-          <label>Imagen</label>
-          <input type="text" class="form-control" />
         </div>
       </div>
     </div>
-  </div>
-  <div class="center">
-    <button type="submit" class="btn btn-warning rounded-4">
-      GUARDAR FORMULARIO
-    </button>
-  </div>
+
+
+    <!-- Sección de Datos Técnicos, Geometría -->
+    <div class="card my-3">
+      <div class="card-header">
+        DATOS TÉCNICOS, GEOMETRÍA
+      </div>
+      <div class="card-body">
+        <div class="row">
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Número de luces</label>
+            <select class="form-control" formControlName="numeroLuces">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of lightOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('numeroLuces')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Longitud Luz menor (m)</label>
+            <select class="form-control" formControlName="longitudLuzMenor">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of longitudinalOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('longitudLuzMenor')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Longitud Luz mayor (m)</label>
+            <select class="form-control" formControlName="longitudLuzMayor">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of longitudinalOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('longitudLuzMayor')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+        </div>
+        <div class="row">
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Longitud total (m)</label>
+            <select class="form-control" formControlName="longitudTotal">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of longitudinalOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('longitudTotal')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Ancho del tablero (m)</label>
+            <select class="form-control" formControlName="anchoTablero">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of boardWidthOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('anchoTablero')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Ancho del separador (m)</label>
+            <select class="form-control" formControlName="anchoSeparador">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of separatorWidthOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('anchoSeparador')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Ancho del andén izquierdo (m)</label>
+            <select class="form-control" formControlName="anchoAndenIzquierdo">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of sidewalkWidthOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('anchoAndenIzquierdo')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Ancho del andén derecho (m)</label>
+            <select class="form-control" formControlName="anchoAndenDerecho">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of sidewalkWidthOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('anchoAndenDerecho')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Ancho de calzada (m)</label>
+            <select class="form-control" formControlName="anchoCalzada">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of roadwayWidthOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('anchoCalzada')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Ancho entre bordillos (m)</label>
+            <select class="form-control" formControlName="anchoEntreBordillos">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of boardWidthOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('anchoEntreBordillos')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Ancho del acceso (m)</label>
+            <select class="form-control" formControlName="anchoAcceso">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of boardWidthOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('anchoAcceso')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Altura de pilas (m)</label>
+            <select class="form-control" formControlName="alturaPilas">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of pileHeightOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('alturaPilas')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Altura de estribos (m)</label>
+            <select class="form-control" formControlName="alturaEstribos">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of abutmentHeightOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('alturaEstribos')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Longitud de apoyo en pilas (m)</label>
+            <select class="form-control" formControlName="longitudApoyoPilas">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of supportLengthOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('longitudApoyoPilas')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Longitud de apoyo en estribos (m)</label>
+            <select class="form-control" formControlName="longitudApoyoEstribos">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of supportLengthOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('longitudApoyoEstribos')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Puente en terraplén (S/N)</label>
+            <select class="form-control" formControlName="puenteTerra">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of snOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('puenteTerra')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Puente en curva / Tangente (C/T)</label>
+            <select class="form-control" formControlName="puenteCurva">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of ctOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('puenteCurva')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Esviajamiento (gra)</label>
+            <select class="form-control" formControlName="esviaje">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of skewAngleOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('esviaje')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-12 mb-3">
+            <label for="imagen-geo" class="form-label">Imagen</label>
+            <input type="file" id="imagen-geo" class="form-control" (change)="onFileChange($event, 'technicalImage')">
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Sección de Superestructura, Tipo Principal -->
+    <div class="card my-3">
+      <div class="card-header">
+        SUPERESTRUCTURA, TIPO PRINCIPAL
+      </div>
+      <div class="card-body">
+        <div class="row">
+
+          <div class="col-md-4 mb-3">
+            <label>Diseño tipo (S/N)</label>
+            <select class="form-control" formControlName="disenoTipo">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of snOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('disenoTipo')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Tipo de estructuración transversal</label>
+            <select class="form-control" formControlName="tipoEstructuracionTransversal">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of transversalStructuringOptions" [value]="option.value">{{ option.label }}
+              </option>
+            </select>
+            <div *ngIf="campoInvalido('tipoEstructuracionTransversal')" class="text-danger">
+              Obligatorio.
+            </div>
+
+
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>Tipo de estructuración longitudinal</label>
+            <select class="form-control" formControlName="tipoEstructuracionLongitudinal">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of longitudinalStructuringOptions" [value]="option.value">{{ option.label }}
+              </option>
+            </select>
+            <div *ngIf="campoInvalido('tipoEstructuracionLongitudinal')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Material</label>
+            <select class="form-control" formControlName="material">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of materialConstructionOptions" [value]="option.value">{{ option.label }}
+              </option>
+            </select>
+            <div *ngIf="campoInvalido('material')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+          <div class="col-md-8 mb-3">
+            <label for="imagen-superestructura" class="form-label">Imagen</label>
+            <input type="file" id="imagen-superestructura" class="form-control" (change)="onFileChange($event, 'superstructureImage')">
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Sección de Superestructura, Tipo Secundario -->
+    <div class="card my-3">
+      <div class="card-header">
+        SUPERESTRUCTURA, TIPO SECUNDARIO
+      </div>
+      <div class="card-body">
+        <div class="row">
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Diseño tipo (S/N)</label>
+            <select class="form-control" formControlName="disenoTipoSec">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of snOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('disenoTipoSec')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Tipo de estructuración transversal</label>
+            <select class="form-control" formControlName="tipoEstructuracionTransversalSec">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of transversalStructuringOptions" [value]="option.value">{{ option.label }}
+              </option>
+            </select>
+            <div *ngIf="campoInvalido('tipoEstructuracionTransversalSec')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Tipo de estructuración longitudinal</label>
+            <select class="form-control" formControlName="tipoEstructuracionLongitudinalSec">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of longitudinalStructuringOptions" [value]="option.value">{{ option.label }}
+              </option>
+            </select>
+            <div *ngIf="campoInvalido('tipoEstructuracionLongitudinalSec')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Material</label>
+            <select class="form-control" formControlName="materialSec">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of materialConstructionOptions" [value]="option.value">{{ option.label }}
+              </option>
+            </select>
+            <div *ngIf="campoInvalido('materialSec')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+          <div class="col-md-8 mb-3">
+            <label for="imagen-sec" class="form-label">Imagen</label>
+            <input type="file" id="imagen-sec" class="form-control" (change)="onFileChange($event, 'superstructureSecondaryImage')">
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Sección de Subestructura, Estribos -->
+    <div class="card my-3">
+      <div class="card-header">
+        SUBESTRUCTURA, ESTRIBOS
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Tipo</label>
+            <select class="form-control" formControlName="tipoEstribos">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of stirrupstypeOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('tipoEstribos')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Material</label>
+            <select class="form-control" formControlName="materialEstribos">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of stirrupsMaterialOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('materialEstribos')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Tipo de Cimentación</label>
+            <select class="form-control" formControlName="tipoCimentacion">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of stirrupsFoundationTypeOptions" [value]="option.value">{{ option.label }}
+              </option>
+            </select>
+            <div *ngIf="campoInvalido('tipoCimentacion')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 mb-3">
+            <label for="imagen-estribos" class="form-label">Imagen</label>
+            <input type="file" id="imagen-estribos" class="form-control" (change)="onFileChange($event, 'substructureAbutmentsImage')">
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Sección de Subestructura, Detalles -->
+    <div class="card my-3">
+      <div class="card-header">
+        SUBESTRUCTURA, DETALLES
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Tipo de baranda</label>
+            <select class="form-control" formControlName="tipoBaranda">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of railingTypeOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('tipoBaranda')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="superficie-rodadura" class="form-label">Superficie de rodadura</label>
+            <select id="superficie-rodadura" class="form-control" formControlName="superficieRodadura">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of roadwaySurfaceOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('superficieRodadura')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="junta-expansion" class="form-label">Junta de expansión</label>
+            <select id="junta-expansion" class="form-control" formControlName="juntaExpansion">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of expansionJointOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('juntaExpansion')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 mb-3">
+            <label for="imagen-detalle" class="form-label">Imagen</label>
+            <input type="file" id="imagen-detalle" class="form-control" (change)="onFileChange($event, 'substructureDetailsImage')">
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Sección de Subestructura, Pilas -->
+    <div class="card my-3">
+      <div class="card-header">
+        SUBESTRUCTURA, PILAS
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Tipo</label>
+            <select class="form-control" formControlName="tipoPilas">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of pileTypeOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('tipoPilas')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Material</label>
+            <select class="form-control" formControlName="materialPilas">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of pileMaterialOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('materialPilas')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Tipo de cimentación</label>
+            <select class="form-control" formControlName="tipoCimentacionPilas">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of foundationTypeOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('tipoCimentacionPilas')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12 mb-3">
+            <label for="imagen-pilas" class="form-label">Imagen</label>
+            <input type="file" id="imagen-pilas" class="form-control" (change)="onFileChange($event, 'substructurePilesImage')">
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Sección de Subestructura, Señales -->
+    <div class="card my-3">
+      <div class="card-header">
+        SUBESTRUCTURA, SEÑALES
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label for="carga-maxima" class="form-label">Carga máxima</label>
+            <input type="number" id="carga-maxima" class="form-control" placeholder="Carga máxima"
+                   formControlName="cargaMaxima" [class.is-invalid]="campoInvalido('cargaMaxima')">
+            <div *ngIf="campoInvalido('cargaMaxima')" class="text-danger">
+              Por favor completa este campo.
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label for="velocidad-maxima" class="form-label">Velocidad Máxima</label>
+            <input type="number" id="velocidad-maxima" class="form-control" placeholder="Velocidad Máxima"
+                   formControlName="velocidadMaxima" [class.is-invalid]="campoInvalido('velocidadMaxima')">
+            <div *ngIf="campoInvalido('velocidadMaxima')" class="text-danger">
+              Por favor completa este campo.
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label for="otra-info" class="form-label">Otra</label>
+            <input type="text" id="otra-info" class="form-control" placeholder="Otra" formControlName="otraInfo"
+                   [class.is-invalid]="campoInvalido('otraInfo')">
+            <div *ngIf="campoInvalido('otraInfo')" class="text-danger">
+              Por favor completa este campo.
+            </div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-12 mb-3">
+            <label for="imagen-senales" class="form-label">Imagen</label>
+            <input type="file" id="imagen-senales" class="form-control" (change)="onFileChange($event, 'substructureSignalsImage')">
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- Sección de Apoyos -->
+    <div class="card my-3">
+      <div class="card-header">
+        APOYOS
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label for="apoyos-fijos-estribos" class="form-label">Tipo de apoyos fijos sobre estribos</label>
+            <select id="apoyos-fijos-estribos" class="form-control" formControlName="apoyosFijosEstribos">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of fixedSupportTypes" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('apoyosFijosEstribos')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="apoyos-moviles-estribos" class="form-label">Tipo de apoyos móviles sobre estribos</label>
+            <select id="apoyos-moviles-estribos" class="form-control" formControlName="apoyosMovilesEstribos">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of fixedSupportTypes" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('apoyosMovilesEstribos')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="apoyos-fijos-pilas" class="form-label">Tipo de apoyos fijos en pilas</label>
+            <select id="apoyos-fijos-pilas" class="form-control" formControlName="apoyosFijosPilas">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of fixedSupportTypes" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('apoyosFijosPilas')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label for="apoyos-moviles-pilas" class="form-label">Tipo de apoyos móviles en pilas</label>
+            <select id="apoyos-moviles-pilas" class="form-control" formControlName="apoyosMovilesPilas">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of fixedSupportTypes" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('apoyosMovilesPilas')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="apoyos-fijos-vigas" class="form-label">Tipo de apoyos fijos en vigas</label>
+            <select id="apoyos-fijos-vigas" class="form-control" formControlName="apoyosFijosVigas">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of fixedSupportTypes" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('apoyosFijosVigas')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="apoyos-moviles-vigas" class="form-label">Tipo de apoyos móviles en vigas</label>
+            <select id="apoyos-moviles-vigas" class="form-control" formControlName="apoyosMovilesVigas">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of fixedSupportTypes" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('apoyosMovilesVigas')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label for="vehiculo-diseno" class="form-label">Vehículo de diseño</label>
+            <input type="text" id="vehiculo-diseno" class="form-control" placeholder="Vehículo de diseño" formControlName="vehiculoDiseno" [class.is-invalid]="campoInvalido('vehiculoDiseno')">
+            <div *ngIf="campoInvalido('vehiculoDiseno')" class="text-danger">
+              Por favor completa este campo.
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="clase-carga" class="form-label">Clase de distribución de carga</label>
+            <select id="clase-carga" class="form-control" formControlName="claseCarga">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of loadDistributionClasses" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('claseCarga')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+          <div class="col-md-4">
+
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 mb-3">
+            <label for="imagen-apoyos" class="form-label">Imagen</label>
+            <input type="file" id="imagen-apoyos" class="form-control" (change)="onFileChange($event, 'supportsImage')">
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Sección de Miembros Interesados -->
+    <div class="card my-3">
+      <div class="card-header">
+        MIEMBROS INTERESADOS
+      </div>
+      <div class="card-body">
+        <div class="row">
+
+          <div class="col-md-4 mb-3">
+            <label for="propietario" class="form-label">Propietario</label>
+            <input type="text" id="propietario" class="form-control" placeholder="Propietario" formControlName="propietario" [class.is-invalid]="campoInvalido('propietario')">
+            <div *ngIf="campoInvalido('propietario')" class="text-danger">
+              Por favor completa este campo.
+            </div>
+          </div>
+
+
+          <div class="col-md-4 mb-3">
+            <label for="departamento" class="form-label">Departamento</label>
+            <input type="text" id="departamento" class="form-control" placeholder="Departamento"
+                   formControlName="departamento" [class.is-invalid]="campoInvalido('departamento')">
+            <div *ngIf="campoInvalido('departamento')" class="text-danger">
+              Por favor completa este campo.
+            </div>
+          </div>
+
+
+          <div class="col-md-4 mb-3">
+            <label for="administrador-vial" class="form-label">Administrador Vial</label>
+            <input type="text" id="administrador-vial" class="form-control" placeholder="Administrador Vial"
+                   formControlName="administradorVial" [class.is-invalid]="campoInvalido('administradorVial')">
+            <div *ngIf="campoInvalido('administradorVial')" class="text-danger">
+              Por favor completa este campo.
+            </div>
+          </div>
+
+
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label for="proyectista" class="form-label">Proyectista</label>
+            <input type="text" id="proyectista" class="form-control" placeholder="Proyectista"
+                   formControlName="proyectista" [class.is-invalid]="campoInvalido('proyectista')">
+            <div *ngIf="campoInvalido('proyectista')" class="text-danger">
+              Por favor completa este campo.
+            </div>
+          </div>
+
+
+          <div class="col-md-4 mb-3">
+            <label for="municipio" class="form-label">Municipio</label>
+            <input type="text" id="municipio" class="form-control" placeholder="Municipio" formControlName="municipio"
+                   [class.is-invalid]="campoInvalido('municipio')">
+            <div *ngIf="campoInvalido('municipio')" class="text-danger">
+              Por favor completa este campo.
+            </div>
+          </div>
+
+
+          <div class="col-md-4">
+            <!-- Placeholder for alignment or future fields -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Sección de Posición Geográfica -->
+    <div class="card my-3">
+      <div class="card-header">
+        POSICIÓN GEOGRÁFICA
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-2 mb-3">
+            <label class="form-label">Latitud (G)</label>
+            <select class="form-control" formControlName="latitudGrado">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of latitudeDegreesOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('latitudGrado')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+          <div class="col-md-2 mb-3">
+            <label class="form-label">Latitud (M)</label>
+            <select class="form-control" formControlName="latitudMinuto">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of minutesOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('latitudMinuto')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+          <div class="col-md-2 mb-3">
+            <label class="form-label">Latitud (S)</label>
+            <select class="form-control" formControlName="latitudSegundo">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of secondsOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('latitudSegundo')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+          <div class="col-md-2 mb-3">
+            <label class="form-label">Longitud (G)</label>
+            <select class="form-control" formControlName="longitudGrado">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of longitudeDegreesOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('longitudGrado')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+          <div class="col-md-2 mb-3">
+            <label class="form-label">Longitud (M)</label>
+            <select class="form-control" formControlName="longitudMinuto">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of longitudeDegreesOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('longitudMinuto')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+          <div class="col-md-2 mb-3">
+            <label class="form-label">Longitud (S)</label>
+            <select class="form-control" formControlName="longitudSegundo">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of longitudeDegreesOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('longitudSegundo')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Coeficiente de aceleración sísmica (Aa)</label>
+            <select class="form-control" formControlName="coefAceleracionSismica">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of seismicAccelerationCoefficientOptions"
+                      [value]="option.value">{{ option.label }}
+              </option>
+            </select>
+            <div *ngIf="campoInvalido('coefAceleracionSismica')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Paso por el cause (S/N)</label>
+            <select class="form-control" formControlName="pasoCausa">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of snOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('pasoCausa')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Existe variante (S/N)</label>
+            <select class="form-control" formControlName="existeVariante">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of snOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('existeVariante')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Longitud variante</label>
+            <select class="form-control" formControlName="longitudVariante">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of variableLengthOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('longitudVariante')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Estado (B/R/M)</label>
+            <select class="form-control" formControlName="estado">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of brmOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('estado')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Sección de Carga para tránsito legal-->
+    <div class="card my-3">
+      <div class="card-header">
+        CARGA: Capacidad de carga para tránsito legal
+      </div>
+      <div class="card-body">
+        <div class="row">
+
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Long. Luz crítica (m)</label>
+            <select class="form-control" formControlName="longitudLuzCritica">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of criticalSpanLengthOptions" [value]="option.value">{{ option.label }}
+              </option>
+            </select>
+            <div *ngIf="campoInvalido('longitudLuzCritica')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Factor de clasificación</label>
+            <select class="form-control" formControlName="factorClasificacion">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of classificationFactorOptions" [value]="option.value">{{ option.label }}
+              </option>
+            </select>
+            <div *ngIf="campoInvalido('factorClasificacion')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Sección de Carga para tránsito legal-->
+
+    <div class="card my-3">
+      <div class="card-header">
+        CARGA: Capacidad de carga para transportes
+      </div>
+      <div class="card-body">
+
+        <div class="row">
+
+          <div class="col-md-4 mb-3">
+            <label for="fuerza-cortante" class="form-label">Fuerza cortante (N)</label>
+            <input type="text" id="fuerza-cortante" class="form-control" placeholder="Fuerza cortante"
+                   formControlName="fuerzaCortante" [class.is-invalid]="campoInvalido('fuerzaCortante')">
+            <div *ngIf="campoInvalido('fuerzaCortante')" class="text-danger">
+              Por favor completa este campo Rnago entre 10 y 1000 KN.
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="momento" class="form-label">Momento (N)</label>
+            <input type="text" id="momento" class="form-control" placeholder="Momento" formControlName="momento"
+                   [class.is-invalid]="campoInvalido('momento')">
+            <div *ngIf="campoInvalido('momento')" class="text-danger">
+              Por favor completa este campo Rnago entre 10 y 1000 KN.
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Línea de carga por rueda (t)</label>
+            <select class="form-control" formControlName="lineaCargaRueda">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of linealOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <div *ngIf="campoInvalido('lineaCargaRueda')" class="text-danger">
+              Obligatorio.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="card my-3">
+      <div class="card-header">
+        OBSERVACIONES
+      </div>
+      <div class="card-body">
+        <div class="row">
+
+          <div class="col-md-12">
+            <label for="observaciones" class="form-label">Observaciones</label>
+            <textarea id="observaciones" class="form-control" placeholder="Observaciones" rows="4"></textarea>
+          </div>
+
+          <div class="col-md-12 mb-3">
+            <label for="imagen-carga" class="form-label">Imagen</label>
+            <input type="file" id="imagen-carga" class="form-control" (change)="onFileChange($event, 'observationsImage')">
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary" (click)="onSubmit()" [disabled]="form.invalid">Guardar Formulario</button>
+        <div *ngIf="form.invalid && formSubmitted" class="alert alert-danger mt-2">
+          Por favor llene todos los campos requeridos antes de guardar.
+        </div>
+      </div>
+    </div>
+
+
+  </form>
 </div>
+
+
+
