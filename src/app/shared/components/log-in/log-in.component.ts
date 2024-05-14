@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router } from '@angular/router';
 import { UsersService } from '../../services/account-services/user.service';
 import { CommonModule } from '@angular/common';
+import swal from "sweetalert";
 
 @Component({
   selector: 'app-log-in',
@@ -19,7 +20,7 @@ export class LogInComponent {
   private _router = inject(Router);
 
   loginForm: FormGroup;
-  
+
   constructor(private router: Router, private fb: FormBuilder) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -29,7 +30,11 @@ export class LogInComponent {
 
   async onSubmit() {
     if (this.loginForm.invalid) {
-      console.log('Invalid form');
+      swal(
+        'Error',
+        'Por favor ingresa un correo y contraseña válidos',
+        'error'
+      )
       return;
     }
 
@@ -40,7 +45,11 @@ export class LogInComponent {
       if (user) {
         this._router.navigate(['/home']);
       } else {
-        console.log('Invalid email or password');
+        swal(
+          'Error',
+          'Usuario o contraseña incorrectos',
+          'error'
+        )
       }
     } catch (error) {
       console.error('Login error:', error);
