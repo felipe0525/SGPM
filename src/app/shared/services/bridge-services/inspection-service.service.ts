@@ -8,7 +8,7 @@ import {
   DocumentReference,
   Firestore, getDoc,
   getDocs,
-  query,
+  query, setDoc, updateDoc,
   where
 } from '@angular/fire/firestore';
 import {from, map, Observable, of, switchMap} from "rxjs";
@@ -165,5 +165,46 @@ export class InspectionServiceService {
       return true;
     }
   }
+
+  async updateInspection(bridgeId: any, updatedInspection: Inspection): Promise<void> {
+    try {
+      // Buscar el inventario con el ID proporcionado
+      const inventoryQuery = query(this._collection, where('generalInformation.bridgeIdentification', '==', bridgeId));
+      const inventorySnapshot = await getDocs(inventoryQuery);
+
+      // Verificar si se encontró el inventario
+      if (inventorySnapshot.empty) {
+        console.error('No se encontró ningún inventario con el ID proporcionado');
+        return;
+      }
+
+      // Obtener la referencia al documento de inventario encontrado
+      const inventoryDocRef = inventorySnapshot.docs[0].ref;
+
+      // Obtener las inspecciones dentro del inventario
+      const inspectionCollectionRef = collection(inventoryDocRef, 'inspections');
+
+      // Realizar una consulta para encontrar la inspección específica
+      const inspectionQuery = query(inspectionCollectionRef, where('inspectionId', '==', updatedInspection.inspectionId));
+      const inspectionSnapshot = await getDocs(inspectionQuery);
+
+      // Verificar si se encontró la inspección
+      if (inspectionSnapshot.empty) {
+        console.error('No se encontró ninguna inspección con el ID proporcionado');
+        return;
+      }
+
+      // Obtener la referencia al documento de inspección encontrado
+      const inspectionDocRef = inspectionSnapshot.docs[0].ref;
+
+      // Actualizar los datos de la inspección con los nuevos datos
+      await updateDoc(inspectionDocRef, {...updatedInspection});
+
+      console.log('Inspección actualizada con éxito');
+    } catch (error) {
+      console.error('Error al actualizar la inspección:', error);
+    }
+  }
+
 
 }

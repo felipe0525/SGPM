@@ -171,7 +171,7 @@ export class InspectionFormComponent implements OnInit{
 
   }
 
-  onSubmit() {
+  onSubmit(viewMode: "view" | "edit" | "new" | undefined) {
     const today = new Date();
     const inputDate = new Date(this.formInspection.date);
     console.log(this.formInspection)
@@ -209,7 +209,12 @@ export class InspectionFormComponent implements OnInit{
         'Inspección enviada con éxito',
         'success'
       )
-      this.inspectionService.setInspection(this.bridgeId,this.formInspection);
+      if (this.viewMode === 'new'){
+        this.inspectionService.setInspection(this.bridgeId,this.formInspection);
+      }
+      else if(this.viewMode === 'edit'){
+        this.inspectionService.updateInspection(this.bridgeId,this.formInspection);
+      }
 
       this.router.navigate([`home/bridge-management/inventories/${this.bridgeId}/inspections`]);
 
