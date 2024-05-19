@@ -25,7 +25,7 @@
           <th scope="col" class="text-center"><strong>Nombre</strong></th>
           <th scope="col" class="text-center"><strong>Inspector</strong></th>
           <th scope="col" class="text-center"><strong>Fecha de Inspeccion</strong></th>
-          <th scope="col" class="text-center" style="width: 50px;"></th>
+          <th scope="col" class="text-center"><strong>Acciones</strong></th>
         </tr>
       </thead>
       <tbody>
@@ -35,14 +35,9 @@
           <td class="text-center">{{ inspection.inspector }}</td>
           <td class="text-center">{{inspection.date}}</td>
           <td class="text-center">
-            <button class="btn btn-icon" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <app-icon-settings />
-            </button>
-            <ul class="dropdown-menu">
-              <li><button class="dropdown-item" (click)="viewInspection(inspection.id)"><app-icon-view /> Ver</button></li>
-              <li><button class="dropdown-item" (click)="editInspection(inspection.id)"><app-icon-edit /> Editar</button></li>
-              <li><button class="dropdown-item" (click)="deleteInspection(inspection.id)"><app-icon-delete /> Eliminar</button></li>
-            </ul>
+            <i class="fas fa-eye text-info me-2" (click)="viewInspection(inspection.id)"></i>
+            <i class="fas fa-edit text-warning me-2" (click)="editInspection(inspection.id)"></i>
+            <i class="fas fa-trash text-danger" (click)="deleteInspection(inspection.id)"></i>
           </td>
         </tr>
       </tbody>
