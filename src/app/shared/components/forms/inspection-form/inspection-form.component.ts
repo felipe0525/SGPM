@@ -1,16 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {FormsModule} from "@angular/forms";
-import {bridge} from "../../../../models/bridge/bridge";
-import {Inspection, inspectionComponent, repair} from "../../../../models/bridge/inspection";
-import {BridgeServiceService} from "../../../services/bridge-services/bridge-service.service";
+import {Inspection, inspectionComponent} from "../../../../models/bridge/inspection";
 import {ActivatedRoute, Router} from "@angular/router";
 import {inspectionLists} from "../../../../models/lists/inspectionLists";
 import {NgClass, NgForOf, NgIf} from "@angular/common";
 import swal from "sweetalert";
 import {InspectionServiceService} from "../../../services/bridge-services/inspection-service.service";
-import {UsersService} from "../../../services/account-services/user.service";
 import {InventoryServiceService} from "../../../services/bridge-services/inventory-service.service";
-import {Inventory} from "../../../../models/bridge/inventory";
 
 
 @Component({
@@ -25,15 +21,15 @@ import {Inventory} from "../../../../models/bridge/inventory";
   templateUrl: './inspection-form.component.html',
   styleUrl: './inspection-form.component.css'
 })
-export class InspectionFormComponent implements OnInit{
+export class InspectionFormComponent implements OnInit {
 
   viewMode: 'view' | 'edit' | 'new' | undefined = undefined;
   inspectionId: number | null = null;
   bridgeId: any;
 
   inspections: Inspection[] = [];
-  bridgeBasicInfo ={
-    name:'',
+  bridgeBasicInfo = {
+    name: '',
     regionalId: 0,
     roadId: 0,
     bridgeId: 0,
@@ -84,20 +80,18 @@ export class InspectionFormComponent implements OnInit{
         this.bridgeId = null;
       }
     });
-    if (this.viewMode === 'new'){
+    if (this.viewMode === 'new') {
       this.inspectionService.generateInspectionId().then((inspectionId) => {
         if (inspectionId != null) {
           this.inspectionId = inspectionId;
           this.formInspection.inspectionId = inspectionId;
         }
       });
-    }else if(this.viewMode === 'edit' || this.viewMode === 'view'){
+    } else if (this.viewMode === 'edit' || this.viewMode === 'view') {
       this.route.queryParams.subscribe(params => {
         const inspectionId = params['inspid'];
-        console.log('inspid', inspectionId)
         if (inspectionId) {
           this.inspectionId = inspectionId;
-          console.log('inspid asign', this.inspectionId);
         } else {
           this.inspectionId = null;
         }
@@ -135,7 +129,7 @@ export class InspectionFormComponent implements OnInit{
   }
 
   private initializeFormInspection(): any {
-    if(this.viewMode === 'new'){
+    if (this.viewMode === 'new') {
       const inspectionComponents: inspectionComponent[] = [];
       if (this.componentNames !== undefined) {
         this.componentNames.forEach(componentName => {
@@ -161,7 +155,7 @@ export class InspectionFormComponent implements OnInit{
         inspectionComponents: inspectionComponents,
         generalComments: ''
       }
-    }else {
+    } else {
       this.inspectionService.getInspection(this.bridgeId, this.inspectionId).then((inspection) => {
         if (inspection != null) {
           this.formInspection = inspection
@@ -174,7 +168,6 @@ export class InspectionFormComponent implements OnInit{
   onSubmit(viewMode: "view" | "edit" | "new" | undefined) {
     const today = new Date();
     const inputDate = new Date(this.formInspection.date);
-    console.log(this.formInspection)
     if (!this.validateBasicInfo()) {
       swal(
         '¡Error!',
@@ -209,11 +202,10 @@ export class InspectionFormComponent implements OnInit{
         'Inspección enviada con éxito',
         'success'
       )
-      if (this.viewMode === 'new'){
-        this.inspectionService.setInspection(this.bridgeId,this.formInspection);
-      }
-      else if(this.viewMode === 'edit'){
-        this.inspectionService.updateInspection(this.bridgeId,this.formInspection);
+      if (this.viewMode === 'new') {
+        this.inspectionService.setInspection(this.bridgeId, this.formInspection);
+      } else if (this.viewMode === 'edit') {
+        this.inspectionService.updateInspection(this.bridgeId, this.formInspection);
       }
 
       this.router.navigate([`home/bridge-management/inventories/${this.bridgeId}/inspections`]);
@@ -221,12 +213,11 @@ export class InspectionFormComponent implements OnInit{
     }
   }
 
-
   validateRatings(): boolean {
     if (this.formInspection && this.formInspection.inspectionComponents) {
       for (const component of this.formInspection.inspectionComponents) {
 
-        if (component.rating === -1){
+        if (component.rating === -1) {
           swal(
             '¡Error!',
             'Por favor, seleccione una calificación para el componente ' + component.name,
@@ -239,28 +230,25 @@ export class InspectionFormComponent implements OnInit{
     return true;
   }
 
-
   validateBasicInfo(): boolean {
     return !(this.formInspection.date == null || this.formInspection.temperature == null || this.formInspection.inspector == '' || this.formInspection.nextInspectionYear == null || this.formInspection.administrator == '')
   }
 
   validateMaintainance(): boolean {
     for (const component of this.formInspection.inspectionComponents) {
-        if (component.maintenance.valueOf() === '') {
-          swal(
-            '¡Error!',
-            'Por favor, seleccione una opción para el campo de mantenimiento del componente ' + component.name,
-            'error'
-          )
-          console.log('error', component.maintenance)
-          return false;
-        }
+      if (component.maintenance.valueOf() === '') {
+        swal(
+          '¡Error!',
+          'Por favor, seleccione una opción para el campo de mantenimiento del componente ' + component.name,
+          'error'
+        )
+        return false;
+      }
     }
     return true;
   }
 
   validateSpecializedInspection(): boolean {
-    // @ts-ignore
     for (const component of this.formInspection.inspectionComponents) {
       if (component.specializedInspection === '') {
         swal(
@@ -274,10 +262,10 @@ export class InspectionFormComponent implements OnInit{
     return true;
   }
 
-  validateDamagetype():boolean{
-    if(this.formInspection && this.formInspection.inspectionComponents){
-      for(const component of this.formInspection.inspectionComponents){
-        if(component.damageType === ''){
+  validateDamagetype(): boolean {
+    if (this.formInspection && this.formInspection.inspectionComponents) {
+      for (const component of this.formInspection.inspectionComponents) {
+        if (component.damageType === '') {
           swal(
             '¡Error!',
             'Por favor, seleccione un tipo de daño para el componente ' + component.name,
@@ -343,7 +331,6 @@ export class InspectionFormComponent implements OnInit{
     return true;
   }
 
-
   addRepair(componentIndex: number): void {
     if (this.formInspection && this.formInspection.inspectionComponents &&
       componentIndex >= 0 && componentIndex < this.formInspection.inspectionComponents.length) {
@@ -368,7 +355,6 @@ export class InspectionFormComponent implements OnInit{
     }
   }
 
-
   updateRepairOptions(componentName: string): any[] {
     const repairOptions = this.repairOptionsByComponent[componentName];
     if (repairOptions) {
@@ -386,7 +372,6 @@ export class InspectionFormComponent implements OnInit{
       this.formInspection.inspectionComponents[componentIndex].repairs[repairIndex].unit = selectedRepair.unit;
     }
   }
-
 
   uploadPhotos(event: Event, component: any): void {
     const fileList = (event.target as HTMLInputElement).files;
@@ -414,7 +399,6 @@ export class InspectionFormComponent implements OnInit{
     }
   }
 
-
   createPhotoUrl(photo: File): string {
     return URL.createObjectURL(photo);
   }
@@ -438,8 +422,8 @@ export class InspectionFormComponent implements OnInit{
     }
   }
 
-
   cancel() {
-    this.router.navigate([ `home/bridge-management/inventories/${this.bridgeId}/inspections`]);
+    this.router.navigate([`home/bridge-management/inventories/${this.bridgeId}/inspections`]);
   }
+
 }

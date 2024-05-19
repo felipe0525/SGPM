@@ -1,4 +1,3 @@
-
 <h1 class="inspection-title">Formato de inspección de puentes</h1>
 <form (ngSubmit)="onSubmit(viewMode)" class="mx-auto">
   <div class="container">
@@ -27,7 +26,8 @@
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="inputRoad">Carretera</label>
-        <input type="text" class="form-control" id="inputRoad" placeholder="Carretera" [(ngModel)]="bridgeBasicInfo.road"
+        <input type="text" class="form-control" id="inputRoad" placeholder="Carretera"
+               [(ngModel)]="bridgeBasicInfo.road"
                name="bridgeRoad" readonly>
       </div>
       <div class="form-group col-md-3">
@@ -68,7 +68,9 @@
           #temperatureField="ngModel"
         >
 
-        <div *ngIf="(temperatureField.touched && temperatureField.invalid) || temperatureField.value < 0 || temperatureField.value > 50" class="invalid-feedback">
+        <div
+          *ngIf="(temperatureField.touched && temperatureField.invalid) || temperatureField.value < 0 || temperatureField.value > 50"
+          class="invalid-feedback">
           Debe estar entre 0 y 50
         </div>
 
@@ -226,9 +228,11 @@
               <label>Fotos Cargadas:</label>
               <ul>
                 <li *ngFor="let photoUrl of component.photos; let k = index" class="mt-1">
-                  <a [href]="photoUrl" target="_blank">Foto {{k+1}} {{component.name}}</a>
+                  <a [href]="photoUrl" target="_blank">Foto {{ k + 1 }} {{ component.name }}</a>
 
-                    <button class="btn btn-danger btn-sm ml-5" [hidden]="viewMode ==='view'" (click)="deletePhoto(component, k)">Eliminar</button>
+                  <button class="btn btn-danger btn-sm ml-5" [hidden]="viewMode ==='view'"
+                          (click)="deletePhoto(component, k)">Eliminar
+                  </button>
 
                 </li>
               </ul>
@@ -334,7 +338,8 @@
   <div class="container">
     <div class="form-group">
       <label for="inputGeneralObservations">OBSERVACIONES GENERALES</label>
-      <textarea class="form-control" id="inputGeneralObservations" [(ngModel)]="formInspection.generalComments" name="inputGeneralObservations"
+      <textarea class="form-control" id="inputGeneralObservations" [(ngModel)]="formInspection.generalComments"
+                name="inputGeneralObservations"
                 [readOnly]="viewMode === 'view'"
                 [required]="viewMode !== 'view'"
       ></textarea>
