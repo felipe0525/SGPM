@@ -1,17 +1,21 @@
 import {inject, Injectable} from '@angular/core';
+import { Storage, ref, uploadBytes, getDownloadURL, deleteObject } from '@angular/fire/storage';
 import {
   addDoc,
   collection,
-  collectionData, deleteDoc,
+  collectionData,
+  deleteDoc,
   doc,
   DocumentData,
   DocumentReference,
-  Firestore, getDoc,
+  Firestore,
   getDocs,
-  query, setDoc, updateDoc,
+  query,
+  updateDoc,
   where
 } from '@angular/fire/firestore';
-import {from, map, Observable, of, switchMap} from "rxjs";
+
+import {map, Observable, of, switchMap} from "rxjs";
 import {Inspection} from "../../../models/bridge/inspection";
 
 
@@ -23,7 +27,7 @@ const PATH = 'inventories';
 export class InspectionServiceService {
 
   private _firestore = inject(Firestore);
-
+  private _storage = inject(Storage);
   private _collection = collection(this._firestore, PATH);
   inspection: any;
 
@@ -47,74 +51,52 @@ export class InspectionServiceService {
               }));
             })
           );
-
         }
       })
     );
   }
 
-
-  async setInspection(bridgeId: any, inspection: Inspection): Promise<DocumentReference<DocumentData>> {
+  async setInspection(bridgeId: any, inspection: Inspection): Promise<DocumentReference> {
     const q = query(this._collection, where('generalInformation.bridgeIdentification', '==', bridgeId));
     const inventoriesSnapshot = await getDocs(q);
     const inventoryDocRef = inventoriesSnapshot.docs[0].ref;
     const inspectionCollectionRef = collection(inventoryDocRef, 'inspections');
     return addDoc(inspectionCollectionRef, inspection);
-    /*
-        // Subir la inspección a Firestore
-        const inspectionRef = await addDoc(inspectionCollectionRef, inspection);
 
-        // Subir fotos a Firebase Storage
-        await Promise.all(inspection.inspectionComponents.map(async (component, componentIndex) => {
-          await Promise.all(component.photos.map(async (photoUrl, photoIndex) => {
-            const photoBlob = await this.fetchPhotoBlob(photoUrl); // Función para obtener el blob de la foto
-            const storageRef = ref(getStorage(), `inspections/${inspection.inspectionId}/${componentIndex}/${photoIndex}`);
-            await uploadBytes(storageRef, photoBlob);
-          }));
-        }));
-
-        return inspectionRef;*/
   }
-
 
   async getInspection(bridgeIdentification: any, inspectionId: any): Promise<Inspection | null> {
     try {
-      // Buscar el inventario con el ID proporcionado
+      // Search the inventory with the provided ID
       const inventoryQuery = query(this._collection, where('generalInformation.bridgeIdentification', '==', bridgeIdentification));
       const inventorySnapshot = await getDocs(inventoryQuery);
-
-      // Verificar si se encontró el inventario
+      //verify if the inventory was found
       if (inventorySnapshot.empty) {
         console.error('No se encontró ningún inventario con el ID proporcionado');
         return null;
       }
-
-      // Obtener la referencia al documento de inventario encontrado
+      //Get the reference to the found inventory document
       const inventoryDocRef = inventorySnapshot.docs[0].ref;
       console.log('Path al inventario:', inventoryDocRef.path);
-
-      // Obtener las inspecciones dentro del inventario
+      //Get the inspections inside the inventory
       const inspectionCollectionRef = collection(inventoryDocRef, 'inspections');
       console.log('Path a las inspecciones:', inspectionCollectionRef.path);
 
-
       const inspectionsQuery = query(inspectionCollectionRef, where('inspectionId', '==', parseInt(inspectionId)));
       const inspectionsSnapshot = await getDocs(inspectionsQuery);
-
-      // Verificar si se encontró alguna inspección con el ID proporcionado
+      // Verify if any inspection was found with the provided ID
       if (inspectionsSnapshot.empty) {
         console.error('No se encontró ninguna inspección con el ID proporcionado');
         return null;
       }
-
-      // Obtener el primer documento de inspección encontrado (asumiendo que solo hay una coincidencia)
+      // Get the first found inspection document (assuming there is only one match)
       const inspectionData = inspectionsSnapshot.docs[0].data();
       console.log('Información de la inspección:', inspectionData);
 
-      // Convertir los datos a los tipos definidos en el modelo
-      const inspection: Inspection = {
+      // Convert the data to the types defined in the model
+      return {
         inspectionId: inspectionData['inspectionId'],
-        date: inspectionData['date'], // Convertir el timestamp a Date
+        date: inspectionData['date'],
         temperature: inspectionData['temperature'],
         inspector: inspectionData['inspector'],
         administrator: inspectionData['administrator'],
@@ -122,15 +104,11 @@ export class InspectionServiceService {
         inspectionComponents: inspectionData['inspectionComponents'],
         generalComments: inspectionData['generalComments']
       };
-
-      return inspection;
     } catch (error) {
       console.error('Error al obtener la inspección:', error);
       return null;
     }
   }
-
-
 
   async generateInspectionId(): Promise<number | null> {
     let id: number;
@@ -158,7 +136,6 @@ export class InspectionServiceService {
           }
         }
       }
-
       return false;
     } catch (error) {
       console.error('Error al verificar la existencia del ID de inspección:', error);
@@ -168,36 +145,29 @@ export class InspectionServiceService {
 
   async updateInspection(bridgeId: any, updatedInspection: Inspection): Promise<void> {
     try {
-      // Buscar el inventario con el ID proporcionado
+      // Search the inventory with the provided ID
       const inventoryQuery = query(this._collection, where('generalInformation.bridgeIdentification', '==', bridgeId));
       const inventorySnapshot = await getDocs(inventoryQuery);
-
-      // Verificar si se encontró el inventario
+      // Verify if the inventory was found
       if (inventorySnapshot.empty) {
         console.error('No se encontró ningún inventario con el ID proporcionado');
         return;
       }
-
-      // Obtener la referencia al documento de inventario encontrado
+      //Get the reference to the found inventory document
       const inventoryDocRef = inventorySnapshot.docs[0].ref;
-
-      // Obtener las inspecciones dentro del inventario
+      //Get the inspections inside the inventory
       const inspectionCollectionRef = collection(inventoryDocRef, 'inspections');
-
-      // Realizar una consulta para encontrar la inspección específica
+      // Perform a query to find the specific inspection
       const inspectionQuery = query(inspectionCollectionRef, where('inspectionId', '==', updatedInspection.inspectionId));
       const inspectionSnapshot = await getDocs(inspectionQuery);
-
-      // Verificar si se encontró la inspección
+      // Verify if the inspection was found
       if (inspectionSnapshot.empty) {
         console.error('No se encontró ninguna inspección con el ID proporcionado');
         return;
       }
-
-      // Obtener la referencia al documento de inspección encontrado
+      //Get the reference to the found inspection document
       const inspectionDocRef = inspectionSnapshot.docs[0].ref;
-
-      // Actualizar los datos de la inspección con los nuevos datos
+      // Update the inspection data with the new data
       await updateDoc(inspectionDocRef, {...updatedInspection});
 
       console.log('Inspección actualizada con éxito');
@@ -209,42 +179,46 @@ export class InspectionServiceService {
 
   async deleteInspection(bridgeId: any, id: any): Promise<void> {
     try {
-      // Buscar el inventario con el ID proporcionado
+      // Search the inventory with the provided ID
       const inventoryQuery = query(this._collection, where('generalInformation.bridgeIdentification', '==', bridgeId));
       const inventorySnapshot = await getDocs(inventoryQuery);
-
-      // Verificar si se encontró el inventario
+      // Verify if the inventory was found
       if (inventorySnapshot.empty) {
         console.error('No se encontró ningún inventario con el ID proporcionado');
         return;
       }
-
-      // Obtener la referencia al documento de inventario encontrado
+      //Get the reference to the found inventory document
       const inventoryDocRef = inventorySnapshot.docs[0].ref;
-
-      // Obtener las inspecciones dentro del inventario
+      // Get the inspections inside the inventory
       const inspectionCollectionRef = collection(inventoryDocRef, 'inspections');
-
-      // Realizar una consulta para encontrar la inspección específica
+      // Perform a query to find the specific inspection
       const inspectionQuery = query(inspectionCollectionRef, where('inspectionId', '==', id));
       const inspectionSnapshot = await getDocs(inspectionQuery);
-
-      // Verificar si se encontró la inspección
+      // Verify if the inspection was found
       if (inspectionSnapshot.empty) {
         console.error('No se encontró ninguna inspección con el ID proporcionado');
         return;
       }
-
-      // Obtener la referencia al documento de inspección encontrado
+      // Get the reference to the inspection document found
       const inspectionDocRef = inspectionSnapshot.docs[0].ref;
-
-      // Eliminar la inspección
+      // Delete the inspection
       await deleteDoc(inspectionDocRef);
 
       console.log('Inspección eliminada con éxito');
     } catch (error) {
       console.error('Error al eliminar la inspección:', error);
     }
+  }
+
+  async uploadPhoto(bridgeId: number, inspectionId: number, file: File): Promise<string> {
+    const storageRef = ref(this._storage, `images/${bridgeId}/inspections/${inspectionId}/${file.name}`);
+    await uploadBytes(storageRef, file);
+    return await getDownloadURL(storageRef);
+  }
+
+  async deletePhoto(bridgeId: number, inspectionId: number, photoUrl: string): Promise<void> {
+    const storageRef = ref(this._storage, photoUrl);
+    await deleteObject(storageRef);
   }
 
 }
