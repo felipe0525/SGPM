@@ -9,6 +9,7 @@ export class inspectionLists {
     {value: 3, label: '3. Daño significativo, reparación necesaria muy pronto.'},
     {value: 4, label: '4. Daño grave, reparación necesaria inmediatamente.'},
     {value: 5, label: '5. Daño extremo, falla total o riesgo de falla total del componente.'},
+    {value: 6, label: '?. Desconocido.'}
   ];
 
   static damageTypeComponentOptions = [
