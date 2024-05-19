@@ -214,7 +214,7 @@
 
                 <div *ngIf="viewMode !== 'view'">
                   <button
-                    class="btn btn-primary"
+                    class="btn btn-warning"
                     (click)="clickFileInput(i)"
                   >
                     <i class="fa fa-upload" aria-hidden="true"></i>
@@ -335,10 +335,11 @@
 
             </div>
 
-            <div class="form-group" *ngIf="viewMode !== 'view'">
-              <button type="button" class="btn btn-primary" (click)="addRepair(i)">Adicionar reparación</button>
-              <button type="button" class="btn btn-danger mx-5" (click)="removeRepair(i)">Eliminar reparación</button>
+            <div class="form-group d-flex justify-content-lg-start" *ngIf="viewMode !== 'view'">
+              <button type="button" class="btn btn-warning " (click)="addRepair(i)">Adicionar reparación</button>
+              <button type="button" class="btn btn-danger mx-1" (click)="removeRepair(i)">Eliminar reparación</button>
             </div>
+
           </form>
         </div>
       </div>
