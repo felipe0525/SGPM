@@ -1,42 +1,44 @@
-import {inject, Injectable} from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   addDoc,
   collection,
   collectionData,
   deleteDoc,
   doc,
-  DocumentData,
-  DocumentReference,
   Firestore,
   getDoc,
-  getDocs,
-  query,
   updateDoc,
-  where
+  DocumentReference,
+  DocumentData, where, getDocs, query
 } from '@angular/fire/firestore';
-import {Inventory} from '../../../models/bridge/inventory';
-import {Observable} from 'rxjs';
-import {FirebaseStorage, getDownloadURL, ref, Storage, uploadBytes} from "@angular/fire/storage";
-import {AbstractControl, AsyncValidatorFn, ValidationErrors} from "@angular/forms";
+import { Inventory } from '../../../models/bridge/inventory';
+import { Observable } from 'rxjs';
+import { getDownloadURL, ref, uploadBytes, Storage, FirebaseStorage } from "@angular/fire/storage";
+import { AbstractControl, AsyncValidatorFn, FormControl, ValidationErrors } from "@angular/forms";
 
 @Injectable({
   providedIn: 'root'
 })
 export class InventoryServiceService {
-  private _firestore = inject(Firestore);
-  private _storage = inject(Storage);
-  private _collection = collection(this._firestore, 'inventories');
+  private collection = collection(this.firestore, 'inventories');
+
+  constructor(private firestore: Firestore, private storage: Storage) { }
 
   getInventories(): Observable<Inventory[]> {
-    return collectionData(this._collection, {idField: 'id'}) as Observable<Inventory[]>;
+    return collectionData(this.collection, { idField: 'id' }) as Observable<Inventory[]>;
   }
 
-  async getInventory(id: string): Promise<Inventory | undefined> {
-    try {
-      const snapshot = await getDoc(this.document(id));
-      return snapshot.data() as Inventory;
-    } catch (error) {
-      console.error('Error fetching inventory:', error);
+  async getInventoryByBridgeIdentification(bridgeIdentification: string): Promise<{ id: string, data: Inventory } | undefined> {
+    console.log(`Fetching inventory with bridgeIdentification: ${bridgeIdentification}`);
+    const q = query(this.collection, where('generalInformation.bridgeIdentification', '==', bridgeIdentification));
+    const querySnapshot = await getDocs(q);
+    if (!querySnapshot.empty) {
+      const docSnapshot = querySnapshot.docs[0];
+      const data = docSnapshot.data() as Inventory;
+      console.log(`Inventory data for bridgeIdentification ${bridgeIdentification}:`, data);
+      return { id: docSnapshot.id, data: data };
+    } else {
+      console.log(`No inventory found with bridgeIdentification: ${bridgeIdentification}`);
       return undefined;
     }
   }
@@ -58,34 +60,30 @@ export class InventoryServiceService {
   }
 
 
-  async createInventory(inventory: Inventory): Promise<DocumentReference<DocumentData>> {
-    return await addDoc(this._collection, inventory);
+  async createInventory(inventory: Inventory): Promise<void> {
+    await addDoc(this.collection, inventory);
   }
 
   async updateInventory(id: string, inventory: Inventory): Promise<void> {
-    return await updateDoc(this.document(id), {...inventory});
+    await updateDoc(doc(this.firestore, `inventories/${id}`), { ...inventory });
   }
 
   async deleteInventory(id: string): Promise<void> {
-    return await deleteDoc(this.document(id));
-  }
-
-  private document(id: string) {
-    return doc(this._firestore, `inventories/${id}`);
+    await deleteDoc(doc(this.firestore, `inventories/${id}`));
   }
 
   async uploadImage(file: File, path: string): Promise<string> {
-    const storageRef = ref(this._storage as unknown as FirebaseStorage, path);
+    const storageRef = ref(this.storage, path);
     const snapshot = await uploadBytes(storageRef, file);
-    return await getDownloadURL(snapshot.ref);
+    return getDownloadURL(snapshot.ref);
   }
 
   checkBridgeIdentificationUnique(): AsyncValidatorFn {
     return async (control: AbstractControl): Promise<ValidationErrors | null> => {
-      const bridgeIdentification = control.value;
-      const q = query(this._collection, where('generalInformation.bridgeIdentification', '==', bridgeIdentification));
+      const value = control.value;
+      const q = query(this.collection, where('generalInformation.bridgeIdentification', '==', value));
       const querySnapshot = await getDocs(q);
-      return querySnapshot.empty ? null : {bridgeIdentificationNotUnique: true};
+      return querySnapshot.empty ? null : { bridgeIdentificationNotUnique: true };
     };
   }
 

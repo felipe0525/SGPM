@@ -16,11 +16,14 @@ export const routes: Routes = [
   {
     path: 'home/bridge-management',
     children: [
-      { path: 'inventories', component: InventoriesComponent }, // aparecen todos los invenatarios
+      { path: 'inventories', component: InventoriesComponent }, // aparecen todos los inventarios
       { path: 'inventories/inventory-bridge', component: InventoryBridgeComponent }, // se crea un nuevo inventario
-      { path: 'inventories/:id/inspections', component: InspectionsComponent }, // se ven las inspecciones de un inventario
-      { path: 'inventories/:id/inspections/inventory-bridge', component: InventoryBridgeComponent }, // se ve el inventario
-      { path: 'inventories/:id/inspections/id/inspection-bridge', component: InspectionBridgeComponent }, // se ve la inspeccion detallada
+      { path: 'inventories/:bridgeIdentification/inspections', component: InspectionsComponent }, // se ven las inspecciones de un inventario
+      { path: 'inventories/:bridgeIdentification/inventory-bridge', component: InventoryBridgeComponent }, // se modifica el inventario seleccionado
+      { path: 'inventories/:bridgeIdentification/inspections/inventory-bridge', component: InventoryBridgeComponent }, // se ve el inventario
+      { path: 'inventories/:bridgeIdentification/inspections/:inspectionId/inspection-bridge', component: InspectionBridgeComponent }, // se ve la inspección detallada
+      { path: 'inventories/:bridgeIdentification/view-inventory-bridge', component: InventoryBridgeComponent },
+
       { path: '', redirectTo: 'inventories', pathMatch: 'full' }
     ]
   },
