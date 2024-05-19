@@ -3,7 +3,7 @@ import {FormsModule} from "@angular/forms";
 import {Inspection, inspectionComponent} from "../../../../models/bridge/inspection";
 import {ActivatedRoute, Router} from "@angular/router";
 import {inspectionLists} from "../../../../models/lists/inspectionLists";
-import {NgClass, NgForOf, NgIf} from "@angular/common";
+import {NgClass, NgForOf, NgIf, NgSwitch, NgSwitchCase, NgSwitchDefault} from "@angular/common";
 import swal from "sweetalert";
 import {InspectionServiceService} from "../../../services/bridge-services/inspection-service.service";
 import {InventoryServiceService} from "../../../services/bridge-services/inventory-service.service";
@@ -16,7 +16,10 @@ import {InventoryServiceService} from "../../../services/bridge-services/invento
     FormsModule,
     NgForOf,
     NgIf,
-    NgClass
+    NgClass,
+    NgSwitch,
+    NgSwitchCase,
+    NgSwitchDefault
   ],
   templateUrl: './inspection-form.component.html',
   styleUrl: './inspection-form.component.css'
