@@ -20,8 +20,6 @@ export interface inspectionComponent {
   photos: String[];
 }
 
-
-
 export interface repair {
   type: string;
   quantity: number;
@@ -30,7 +28,6 @@ export interface repair {
   cost: number;
   damage: string;
 }
-
 
 export interface basicInspection {
   id: number;
