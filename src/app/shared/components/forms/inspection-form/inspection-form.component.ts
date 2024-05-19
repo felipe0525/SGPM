@@ -24,7 +24,7 @@ import {InventoryServiceService} from "../../../services/bridge-services/invento
 export class InspectionFormComponent implements OnInit {
 
   viewMode: 'view' | 'edit' | 'new' | undefined = undefined;
-  inspectionId: number | null = null;
+  inspectionId: number = -1;
   bridgeId: any;
 
   inspections: Inspection[] = [];
@@ -73,11 +73,9 @@ export class InspectionFormComponent implements OnInit {
       }
     });
     this.route.params.subscribe(params => {
-      const id = params['id'];
+      const id = params['bridgeIdentification'];
       if (id) {
         this.bridgeId = id;
-      } else {
-        this.bridgeId = null;
       }
     });
     if (this.viewMode === 'new') {
@@ -92,8 +90,6 @@ export class InspectionFormComponent implements OnInit {
         const inspectionId = params['inspid'];
         if (inspectionId) {
           this.inspectionId = inspectionId;
-        } else {
-          this.inspectionId = null;
         }
       });
     }
@@ -375,37 +371,38 @@ export class InspectionFormComponent implements OnInit {
 
   uploadPhotos(event: Event, component: any): void {
     const fileList = (event.target as HTMLInputElement).files;
-
     if (!fileList || fileList.length === 0) {
-      swal(
-        '¡Error!',
-        'No se han seleccionado archivos.',
-        'error'
-      )
+      swal('¡Error!', 'No se han seleccionado archivos.', 'error');
       return;
     }
-
     if (component.photos.length + fileList.length > 5) {
-      swal(
-        '¡Error!',
-        'Solo se permiten un máximo de 5 fotos por componente',
-        'error'
-      )
+      swal('¡Error!', 'Solo se permiten un máximo de 5 fotos por componente', 'error');
       return;
     }
 
+    const promises = [];
     for (let i = 0; i < fileList.length; i++) {
-      component.photos.push(URL.createObjectURL(fileList[i]));
+      const file = fileList[i];
+      promises.push(this.inspectionService.uploadPhoto(this.bridgeId, this.inspectionId, file));
     }
-  }
 
-  createPhotoUrl(photo: File): string {
-    return URL.createObjectURL(photo);
+    Promise.all(promises).then(photoUrls => {
+      component.photos.push(...photoUrls);
+      this.inspectionService.updateInspectionPhotos(this.bridgeId, this.inspectionId, component.photos);
+    }).catch(error => {
+      console.error('Error al subir las fotos:', error);
+    });
   }
 
   deletePhoto(component: any, index: number): void {
     if (index >= 0 && index < component.photos.length) {
-      component.photos.splice(index, 1);
+      const photoUrl = component.photos[index];
+      this.inspectionService.deletePhoto(this.bridgeId, this.inspectionId, photoUrl).then(() => {
+        component.photos.splice(index, 1);
+        this.inspectionService.updateInspectionPhotos(this.bridgeId, this.inspectionId, component.photos);
+      }).catch(error => {
+        console.error('Error al eliminar la foto:', error);
+      });
     }
   }
 
@@ -423,7 +420,10 @@ export class InspectionFormComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate([`home/bridge-management/inventories/${this.bridgeId}/inspections`]);
+    this.inspectionService.deleteInspectionPhotosFolder(this.bridgeId, this.inspectionId).then(() => {
+      this.router.navigate([`home/bridge-management/inventories/${this.bridgeId}/inspections`]);
+    }).catch(error => {
+      console.error('Error al eliminar la carpeta de fotos:', error);
+    });
   }
-
 }
