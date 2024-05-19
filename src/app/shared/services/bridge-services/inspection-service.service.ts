@@ -1,12 +1,12 @@
 import {inject, Injectable} from '@angular/core';
-import { Storage, ref, uploadBytes, getDownloadURL, deleteObject } from '@angular/fire/storage';
+import { ref, listAll, deleteObject } from '@angular/fire/storage';
+import { Storage, uploadBytes, getDownloadURL } from '@angular/fire/storage';
 import {
   addDoc,
   collection,
   collectionData,
   deleteDoc,
   doc,
-  DocumentData,
   DocumentReference,
   Firestore,
   getDocs,
@@ -176,39 +176,65 @@ export class InspectionServiceService {
     }
   }
 
+  async updateInspectionPhotos(bridgeId: number, inspectionId: number, photos: string[]): Promise<void> {
+    const inventoryQuery = query(this._collection, where('generalInformation.bridgeIdentification', '==', bridgeId));
+    const inventorySnapshot = await getDocs(inventoryQuery);
+    if (inventorySnapshot.empty) {
+      console.error('No se encontró ningún inventario con el ID proporcionado');
+      return;
+    }
+    const inventoryDocRef = inventorySnapshot.docs[0].ref;
+    const inspectionCollectionRef = collection(inventoryDocRef, 'inspections');
+    const inspectionQuery = query(inspectionCollectionRef, where('inspectionId', '==', inspectionId));
+    const inspectionSnapshot = await getDocs(inspectionQuery);
+    if (inspectionSnapshot.empty) {
+      console.error('No se encontró ninguna inspección con el ID proporcionado');
+      return;
+    }
+    const inspectionDocRef = inspectionSnapshot.docs[0].ref;
+    await updateDoc(inspectionDocRef, { photos: photos });
+  }
 
   async deleteInspection(bridgeId: any, id: any): Promise<void> {
     try {
-      // Search the inventory with the provided ID
       const inventoryQuery = query(this._collection, where('generalInformation.bridgeIdentification', '==', bridgeId));
       const inventorySnapshot = await getDocs(inventoryQuery);
-      // Verify if the inventory was found
       if (inventorySnapshot.empty) {
         console.error('No se encontró ningún inventario con el ID proporcionado');
         return;
       }
-      //Get the reference to the found inventory document
       const inventoryDocRef = inventorySnapshot.docs[0].ref;
-      // Get the inspections inside the inventory
       const inspectionCollectionRef = collection(inventoryDocRef, 'inspections');
-      // Perform a query to find the specific inspection
       const inspectionQuery = query(inspectionCollectionRef, where('inspectionId', '==', id));
       const inspectionSnapshot = await getDocs(inspectionQuery);
-      // Verify if the inspection was found
       if (inspectionSnapshot.empty) {
         console.error('No se encontró ninguna inspección con el ID proporcionado');
         return;
       }
-      // Get the reference to the inspection document found
       const inspectionDocRef = inspectionSnapshot.docs[0].ref;
-      // Delete the inspection
-      await deleteDoc(inspectionDocRef);
 
+      await this.deleteInspectionPhotosFolder(bridgeId, id); // Delete all photos from the folder
+
+      await deleteDoc(inspectionDocRef); // Delete inspection
       console.log('Inspección eliminada con éxito');
     } catch (error) {
       console.error('Error al eliminar la inspección:', error);
     }
   }
+
+
+  async deleteInspectionPhotosFolder(bridgeId: number, inspectionId: number): Promise<void> {
+    try {
+      const folderRef = ref(this._storage, `images/${bridgeId}/inspections/${inspectionId}`);
+      const listResult = await listAll(folderRef);
+      const deletionPromises = listResult.items.map(itemRef => deleteObject(itemRef));
+      await Promise.all(deletionPromises);
+      console.log('Todas las fotos de la carpeta han sido eliminadas');
+    } catch (error) {
+      console.error('Error al eliminar las fotos de la carpeta:', error);
+    }
+  }
+
 
   async uploadPhoto(bridgeId: number, inspectionId: number, file: File): Promise<string> {
     const storageRef = ref(this._storage, `images/${bridgeId}/inspections/${inspectionId}/${file.name}`);
@@ -217,8 +243,14 @@ export class InspectionServiceService {
   }
 
   async deletePhoto(bridgeId: number, inspectionId: number, photoUrl: string): Promise<void> {
-    const storageRef = ref(this._storage, photoUrl);
-    await deleteObject(storageRef);
+    try {
+      const storageRef = ref(this._storage, photoUrl);
+      await deleteObject(storageRef);
+      console.log(`Foto eliminada: ${photoUrl}`);
+    } catch (error) {
+      console.error('Error al eliminar la foto:', error);
+    }
   }
+
 
 }
