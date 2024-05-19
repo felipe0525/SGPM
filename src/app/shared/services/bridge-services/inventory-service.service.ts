@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import {Injectable, inject} from '@angular/core';
 import {
   addDoc,
   collection,
@@ -11,10 +11,10 @@ import {
   DocumentReference,
   DocumentData, where, getDocs, query
 } from '@angular/fire/firestore';
-import { Inventory } from '../../../models/bridge/inventory';
-import { Observable } from 'rxjs';
-import { getDownloadURL, ref, uploadBytes, Storage, FirebaseStorage } from "@angular/fire/storage";
-import { AbstractControl, AsyncValidatorFn, FormControl, ValidationErrors } from "@angular/forms";
+import {Inventory} from '../../../models/bridge/inventory';
+import {Observable} from 'rxjs';
+import {getDownloadURL, ref, uploadBytes, Storage, FirebaseStorage} from "@angular/fire/storage";
+import {AbstractControl, AsyncValidatorFn, FormControl, ValidationErrors} from "@angular/forms";
 
 @Injectable({
   providedIn: 'root'
@@ -22,13 +22,17 @@ import { AbstractControl, AsyncValidatorFn, FormControl, ValidationErrors } from
 export class InventoryServiceService {
   private collection = collection(this.firestore, 'inventories');
 
-  constructor(private firestore: Firestore, private storage: Storage) { }
-
-  getInventories(): Observable<Inventory[]> {
-    return collectionData(this.collection, { idField: 'id' }) as Observable<Inventory[]>;
+  constructor(private firestore: Firestore, private storage: Storage) {
   }
 
-  async getInventoryByBridgeIdentification(bridgeIdentification: string): Promise<{ id: string, data: Inventory } | undefined> {
+  getInventories(): Observable<Inventory[]> {
+    return collectionData(this.collection, {idField: 'id'}) as Observable<Inventory[]>;
+  }
+
+  async getInventoryByBridgeIdentification(bridgeIdentification: string): Promise<{
+    id: string,
+    data: Inventory
+  } | undefined> {
     console.log(`Fetching inventory with bridgeIdentification: ${bridgeIdentification}`);
     const q = query(this.collection, where('generalInformation.bridgeIdentification', '==', bridgeIdentification));
     const querySnapshot = await getDocs(q);
@@ -36,7 +40,7 @@ export class InventoryServiceService {
       const docSnapshot = querySnapshot.docs[0];
       const data = docSnapshot.data() as Inventory;
       console.log(`Inventory data for bridgeIdentification ${bridgeIdentification}:`, data);
-      return { id: docSnapshot.id, data: data };
+      return {id: docSnapshot.id, data: data};
     } else {
       console.log(`No inventory found with bridgeIdentification: ${bridgeIdentification}`);
       return undefined;
@@ -45,7 +49,7 @@ export class InventoryServiceService {
 
   async getBridgeName(bridgeIdentification: string): Promise<string | undefined> {
     try {
-      const q = query(this._collection, where('generalInformation.bridgeIdentification', '==', bridgeIdentification));
+      const q = query(this.collection, where('generalInformation.bridgeIdentification', '==', bridgeIdentification));
       const inventoriesSnapshot = await getDocs(q);
       if (inventoriesSnapshot.empty) {
         return undefined;
@@ -65,7 +69,7 @@ export class InventoryServiceService {
   }
 
   async updateInventory(id: string, inventory: Inventory): Promise<void> {
-    await updateDoc(doc(this.firestore, `inventories/${id}`), { ...inventory });
+    await updateDoc(doc(this.firestore, `inventories/${id}`), {...inventory});
   }
 
   async deleteInventory(id: string): Promise<void> {
@@ -83,13 +87,13 @@ export class InventoryServiceService {
       const value = control.value;
       const q = query(this.collection, where('generalInformation.bridgeIdentification', '==', value));
       const querySnapshot = await getDocs(q);
-      return querySnapshot.empty ? null : { bridgeIdentificationNotUnique: true };
+      return querySnapshot.empty ? null : {bridgeIdentificationNotUnique: true};
     };
   }
 
   async getBridgeBasicInfo(bridgeId: any) {
     try {
-      const q = query(this._collection, where('generalInformation.bridgeIdentification', '==', bridgeId));
+      const q = query(this.collection, where('generalInformation.bridgeIdentification', '==', bridgeId));
       const inventoriesSnapshot = await getDocs(q);
       if (inventoriesSnapshot.empty) {
         return undefined;
