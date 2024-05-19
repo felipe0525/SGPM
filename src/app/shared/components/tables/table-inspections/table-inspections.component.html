@@ -1,6 +1,5 @@
 <div class="container my-5">
   <h1 class="text-center mb-5">Puente {{ bridgeName }}</h1>
-
   <div class="row mb-3">
     <div class="col-md-6 mb-3">
       <div class="input-group ">
@@ -13,45 +12,39 @@
       </div>
     </div>
 
-
-    <div class="col-md-2 d-flex justify-content-start mb-3">
-      <button class="btn btn-outline-warning" (click)="goToInventary()">Ver Inventario</button>
-    </div>
     <div class="col-md-3 d-flex justify-content-start mb-3">
       <button class="btn btn-outline-warning"  (click)="createInspection()">Crear Nueva Inspeccion</button>
     </div>
   </div>
 
-
   <div class="table-responsive">
     <table class="table table-borderless">
       <thead>
-      <tr>
-        <th scope="col" class="text-center"><strong>ID Inspeccion</strong></th>
-        <th scope="col" class="text-center"><strong>Nombre</strong></th>
-        <th scope="col" class="text-center"><strong>Inspector</strong></th>
-        <th scope="col" class="text-center"><strong>Fecha de Inspeccion</strong></th>
-        <th scope="col" class="text-center" style="width: 50px;"></th>
-      </tr>
+        <tr>
+          <th scope="col" class="text-center"><strong>ID Inspeccion</strong></th>
+          <th scope="col" class="text-center"><strong>Nombre</strong></th>
+          <th scope="col" class="text-center"><strong>Inspector</strong></th>
+          <th scope="col" class="text-center"><strong>Fecha de Inspeccion</strong></th>
+          <th scope="col" class="text-center" style="width: 50px;"></th>
+        </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let inspection of filteredInspections">
-        <td class="text-center" >{{inspection.id}}</td>
-        <td class="text-center">{{inspection.administrator}}</td>
-        <td class="text-center">{{ inspection.inspector }}</td>
-        <td class="text-center">{{inspection.date}}</td>
-        <td class="text-center">
-          <button class="btn btn-icon" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <app-icon-settings />
-          </button>
-          <ul class="dropdown-menu">
-            <li><button class="dropdown-item" (click)="viewInspection(inspection.id)"><app-icon-view /> Ver</button></li>
-            <li><button class="dropdown-item" (click)="editInspection(inspection.id)"><app-icon-edit /> Editar</button></li>
-            <li><button class="dropdown-item" (click)="deleteInspection(inspection.id)"><app-icon-delete /> Eliminar</button></li>
-          </ul>
-        </td>
-      </tr>
-
+        <tr *ngFor="let inspection of filteredInspections">
+          <td class="text-center" >{{inspection.id}}</td>
+          <td class="text-center">{{inspection.administrator}}</td>
+          <td class="text-center">{{ inspection.inspector }}</td>
+          <td class="text-center">{{inspection.date}}</td>
+          <td class="text-center">
+            <button class="btn btn-icon" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <app-icon-settings />
+            </button>
+            <ul class="dropdown-menu">
+              <li><button class="dropdown-item" (click)="viewInspection(inspection.id)"><app-icon-view /> Ver</button></li>
+              <li><button class="dropdown-item" (click)="editInspection(inspection.id)"><app-icon-edit /> Editar</button></li>
+              <li><button class="dropdown-item" (click)="deleteInspection(inspection.id)"><app-icon-delete /> Eliminar</button></li>
+            </ul>
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>

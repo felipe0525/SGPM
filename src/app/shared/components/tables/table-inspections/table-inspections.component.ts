@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {InspectionServiceService} from "../../../services/bridge-services/inspection-service.service";
 import {NgForOf} from "@angular/common";
-import {BridgeServiceService} from "../../../services/bridge-services/bridge-service.service";
 import {IconDelete} from "../../../../../assets/icons/delete";
 import {IconEdit} from "../../../../../assets/icons/edit";
 import {IconSettings} from "../../../../../assets/icons/settings";
@@ -24,23 +23,23 @@ import {InventoryServiceService} from "../../../services/bridge-services/invento
   templateUrl: './table-inspections.component.html',
   styleUrl: './table-inspections.component.css'
 })
-export class TableInspectionsComponent implements OnInit{
+export class TableInspectionsComponent implements OnInit {
   searchTerm: string = '';
   bridgeId: any;
   bridgeName: string = '';
-  inspections: any[] =[
+  inspections: any[] = [
     {
-      id:0,
+      id: 0,
       administrator: '',
       inspector: '',
       date: Date,
     }
   ]
   filteredInspections: any[] = this.inspections;
+
   constructor(
     private inventoryService: InventoryServiceService,
     private inspectionService: InspectionServiceService,
-    private bridgeService: BridgeServiceService,
     private route: ActivatedRoute,
     private router: Router
   ) {
@@ -72,27 +71,30 @@ export class TableInspectionsComponent implements OnInit{
         });
         this.filteredInspections = this.inspections;
       }
-
     );
   }
 
   viewInspection(inspectionId: number) {
-    console.log("inspectionId",inspectionId);
-    this.router.navigate([ `home/bridge-management/inventories/${this.bridgeId}/inspections/id/inspection-bridge`], { queryParams: { mode: 'view', inspid:inspectionId} });
+    this.router.navigate([`home/bridge-management/inventories/${this.bridgeId}/inspections/id/inspection-bridge`], {
+      queryParams: {
+        mode: 'view',
+        inspid: inspectionId
+      }
+    });
   }
+
   editInspection(inspectionId: number) {
-    console.log("inspectionId",inspectionId);
-    this.router.navigate([`home/bridge-management/inventories/${this.bridgeId}/inspections/id/inspection-bridge`], { queryParams: { mode: 'edit', inspid:inspectionId} });
+    this.router.navigate([`home/bridge-management/inventories/${this.bridgeId}/inspections/id/inspection-bridge`], {
+      queryParams: {
+        mode: 'edit',
+        inspid: inspectionId
+      }
+    });
   }
+
   createInspection() {
-
-    this.router.navigate([`home/bridge-management/inventories/${this.bridgeId}/inspections/id/inspection-bridge`], { queryParams: { mode: 'new' } });
+    this.router.navigate([`home/bridge-management/inventories/${this.bridgeId}/inspections/id/inspection-bridge`], {queryParams: {mode: 'new'}});
   }
-
-  goToInventary() {
-    this.router.navigate([`home/bridge-management/inventories/${this.bridgeId}/inspections/inventory-bridge`])
-  }
-
 
   filterInspections() {
     if (!this.searchTerm.trim()) {
@@ -109,7 +111,7 @@ export class TableInspectionsComponent implements OnInit{
     }
   }
 
-  deleteInspection(id:any) {
+  deleteInspection(id: any) {
     this.inspectionService.deleteInspection(this.bridgeId, id).then(() => {
       this.ngOnInit();
     });
