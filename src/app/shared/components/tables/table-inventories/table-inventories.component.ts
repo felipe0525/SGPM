@@ -23,14 +23,22 @@ export class TableInventoriesComponent implements OnInit {
   constructor(private inventoryService: InventoryServiceService, private router: Router, private authService: AuthService) {}
 
   ngOnInit() {
-    this.inventoryService.getInventories().subscribe((data: Inventory[]) => {
-      this.inventories = data.map(inventory => ({
-        ...inventory,
-        inventoryDate: (inventory.inventoryDate as any).toDate()
-      }));
+    this.authService.userMunicipality$.subscribe(municipality => {
+      if (municipality) {
+        this.inventoryService.getInventoriesByMunicipality(municipality).subscribe((data: Inventory[]) => {
+          this.inventories = data;
+        });
+      } else {
+        this.inventoryService.getInventories().subscribe((data: Inventory[]) => {
+          this.inventories = data.map(inventory => ({
+            ...inventory,
+            inventoryDate: (inventory.inventoryDate as any).toDate()
+          }));
+        });
+      }
     });
   }
-
+  
   navigateToCreateInventory() {
     this.router.navigate(['home/bridge-management/inventories/inventory-bridge']);
   }
@@ -48,8 +56,6 @@ export class TableInventoriesComponent implements OnInit {
     event.stopPropagation(); // Detiene la propagación del evento de clic
     this.router.navigate([`home/bridge-management/inventories/${bridgeId}/view-inventory-bridge`]);
   }
-
-
 
   deleteInventory(bridgeIdentification: string, event: MouseEvent) {
     event.stopPropagation(); // Detiene la propagación del evento de clic

@@ -1,4 +1,4 @@
-import {Injectable, inject} from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   addDoc,
   collection,
@@ -11,10 +11,10 @@ import {
   DocumentReference,
   DocumentData, where, getDocs, query
 } from '@angular/fire/firestore';
-import {Inventory} from '../../../models/bridge/inventory';
-import {Observable} from 'rxjs';
-import {getDownloadURL, ref, uploadBytes, Storage, FirebaseStorage} from "@angular/fire/storage";
-import {AbstractControl, AsyncValidatorFn, FormControl, ValidationErrors} from "@angular/forms";
+import { Inventory } from '../../../models/bridge/inventory';
+import { Observable } from 'rxjs';
+import { getDownloadURL, ref, uploadBytes, Storage, FirebaseStorage } from "@angular/fire/storage";
+import { AbstractControl, AsyncValidatorFn, FormControl, ValidationErrors } from "@angular/forms";
 
 @Injectable({
   providedIn: 'root'
@@ -45,6 +45,11 @@ export class InventoryServiceService {
       console.log(`No inventory found with bridgeIdentification: ${bridgeIdentification}`);
       return undefined;
     }
+  }
+
+  getInventoriesByMunicipality(municipality: string): Observable<Inventory[]> {
+    const queryRef = query(this.collection, where('stakeholders.municipality', '==', municipality));
+    return collectionData(queryRef, { idField: 'id' }) as Observable<Inventory[]>;
   }
 
   async getBridgeName(bridgeIdentification: string): Promise<string | undefined> {
@@ -114,5 +119,4 @@ export class InventoryServiceService {
       return undefined;
     }
   }
-
 }

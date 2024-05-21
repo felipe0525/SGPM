@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { inventoryLists } from "../../../../models/lists/inventoryLists";
 import { NgForOf, NgIf } from "@angular/common";
@@ -107,10 +107,6 @@ export class InventoryFormComponent implements OnInit {
         this.loadInventoryData(this.editingInventoryId);
       }
     });
-
-    if (this.isViewMode) {
-      this.form.disable();
-    }
 
     this.form = new FormGroup({
       // Define todos los controles del formulario aquí...
@@ -256,6 +252,10 @@ export class InventoryFormComponent implements OnInit {
 
     if (this.isEditMode) {
       this.form.get('identificacionPuente')?.clearAsyncValidators();
+    }
+
+    if (this.isViewMode) {
+      this.form.disable();
     }
 
     console.log('Form initialized:', this.form);

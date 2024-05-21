@@ -25,7 +25,7 @@ export const routes: Routes = [
     component: HomeComponent,
     canActivate: [roleGuard],
     data: {
-      requiredRole: ['0', '1', '2']
+      requiredRole: ['0', '1', '2'] // 0 = admin, 1 = student, 2 = municipal
     }
   },
 
@@ -37,7 +37,7 @@ export const routes: Routes = [
         component: InventoriesComponent,
         canActivate: [roleGuard],
         data: {
-          requiredRole: ['0', '1', '2'] // 0 = admin, 1 = student, 2 = municipal
+          requiredRole: ['0', '1', '2']
         }
       },
       {
@@ -91,7 +91,11 @@ export const routes: Routes = [
       {
         path: '', redirectTo: 'inventories', pathMatch: 'full'
       }
-    ]
+    ],
+    canActivate: [roleGuard],
+    data: {
+      requiredRole: ['0', '1', '2']
+    }
   },
   {
     path: 'home/account-management',

@@ -1,13 +1,12 @@
-import {Component, OnInit} from '@angular/core';
-import {FormsModule} from "@angular/forms";
-import {Inspection, inspectionComponent} from "../../../../models/bridge/inspection";
-import {ActivatedRoute, Router} from "@angular/router";
-import {inspectionLists} from "../../../../models/lists/inspectionLists";
-import {NgClass, NgForOf, NgIf, NgSwitch, NgSwitchCase, NgSwitchDefault} from "@angular/common";
+import { Component, OnInit } from '@angular/core';
+import { FormsModule } from "@angular/forms";
+import { Inspection, inspectionComponent } from "../../../../models/bridge/inspection";
+import { ActivatedRoute, Router } from "@angular/router";
+import { inspectionLists } from "../../../../models/lists/inspectionLists";
+import { NgClass, NgForOf, NgIf, NgSwitch, NgSwitchCase, NgSwitchDefault } from "@angular/common";
 import swal from "sweetalert";
-import {InspectionServiceService} from "../../../services/bridge-services/inspection-service.service";
-import {InventoryServiceService} from "../../../services/bridge-services/inventory-service.service";
-
+import { InspectionServiceService } from "../../../services/bridge-services/inspection-service.service";
+import { InventoryServiceService } from "../../../services/bridge-services/inventory-service.service";
 
 @Component({
   selector: 'app-inspection-form',

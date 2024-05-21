@@ -978,7 +978,7 @@
         <div class="row">
           <div class="col-md-4 mb-3">
             <label for="vehiculo-diseno" class="form-label">Vehículo de diseño</label>
-            <input type="text" id="vehiculo-diseno" class="form-control" placeholder="Vehículo de diseño" formControlName="vehiculoDiseno" [class.is-invalid]="campoInvalido('vehiculoDiseno')">
+            <input type="text" id="vehiculo-diseno" [readonly]="isViewMode" class="form-control" placeholder="Vehículo de diseño" formControlName="vehiculoDiseno" [class.is-invalid]="campoInvalido('vehiculoDiseno')">
             <div *ngIf="campoInvalido('vehiculoDiseno')" class="text-danger">
               Por favor completa este campo.
             </div>
