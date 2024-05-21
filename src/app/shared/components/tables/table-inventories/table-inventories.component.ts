@@ -26,7 +26,10 @@ export class TableInventoriesComponent implements OnInit {
     this.authService.userMunicipality$.subscribe(municipality => {
       if (municipality) {
         this.inventoryService.getInventoriesByMunicipality(municipality).subscribe((data: Inventory[]) => {
-          this.inventories = data;
+          this.inventories = data.map(inventory => ({
+            ...inventory,
+            inventoryDate: (inventory.inventoryDate as any).toDate()
+          }));
         });
       } else {
         this.inventoryService.getInventories().subscribe((data: Inventory[]) => {
@@ -38,7 +41,7 @@ export class TableInventoriesComponent implements OnInit {
       }
     });
   }
-  
+
   navigateToCreateInventory() {
     this.router.navigate(['home/bridge-management/inventories/inventory-bridge']);
   }
