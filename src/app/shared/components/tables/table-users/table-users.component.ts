@@ -12,6 +12,7 @@ import { IconDelete } from '../../../../../assets/icons/delete';
 import { IconSettings } from '../../../../../assets/icons/settings';
 import { User } from '../../../../models/account/user';
 import { AuthService } from '../../../services/auth/auth.service';
+import swal from "sweetalert";
 
 declare var bootstrap: any;
 
@@ -89,7 +90,7 @@ export class TableUsersComponent {
     this.isOpen = false;
     this.showToast();
   }
-  
+
   onSubmit() {
   }
 
@@ -123,7 +124,7 @@ export class TableUsersComponent {
     const ns = this.editUserForm.get('new_surname')?.value;
     const nm = this.editUserForm.get('new_municipality')?.value;
     const np = this.editUserForm.get('new_password')?.value;
-  
+
     if (this.currentUser) {
       if (ni !== null) {
         this.currentUser.identification = ni;
@@ -150,7 +151,16 @@ export class TableUsersComponent {
   async onSubmitEdit() {
     await this.updateCurrentUser();
     if (this.currentUser) {
-      await this._usersService.updateUser(this.currentUser.id, this.currentUser);
+      try {
+        await this._usersService.updateUser(this.currentUser.id, this.currentUser);
+        swal('Éxito', 'Usuario actualizado correctamente', 'success').then(() => {
+          const editModalElement = document.getElementById('editModal');
+          const editModal = bootstrap.Modal.getInstance(editModalElement);
+          editModal.hide();
+        });
+      } catch (error) {
+        swal('Error', 'Error al actualizar el usuario', 'error');
+      }
     }
   }
 
@@ -158,7 +168,10 @@ export class TableUsersComponent {
     try {
       if (this.currentUser) {
         await this._usersService.deleteUser(this.currentUser.id);
+        swal('Éxito', 'Usuario eliminado correctamente', 'success');
       }
-    } catch (error) {}
+    } catch (error) {
+      swal('Error', 'Error al eliminar el usuario', 'error');
+    }
   }
 }
