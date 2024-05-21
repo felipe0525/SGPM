@@ -14,7 +14,7 @@ import {
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { User, UserForm } from '../../../models/account/user';
-import { CryptoService } from '../auth/crypto.service';
+import { AuthService } from '../auth/auth.service';
 
 const PATH = 'users';
 
@@ -70,7 +70,7 @@ export class UsersService {
       const userDoc = querySnapshot.docs[0];
       const user = { id: userDoc.id, ...userDoc.data() } as User;
   
-      const passwordsMatch = await this.cryptoService.comparePasswords(password, user.password);
+      const passwordsMatch = await this.authService.comparePasswords(password, user.password);
       if (passwordsMatch) {
         return user;
       }
@@ -95,5 +95,5 @@ export class UsersService {
     return doc(this._firestore, `${PATH}/${id}`);
   }
 
-  constructor(private cryptoService: CryptoService) { }
+  constructor(private authService: AuthService) { }
 }

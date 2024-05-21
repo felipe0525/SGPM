@@ -11,7 +11,7 @@ import { IconEdit } from '../../../../../assets/icons/edit';
 import { IconDelete } from '../../../../../assets/icons/delete';
 import { IconSettings } from '../../../../../assets/icons/settings';
 import { User } from '../../../../models/account/user';
-import { CryptoService } from '../../../services/auth/crypto.service';
+import { AuthService } from '../../../services/auth/auth.service';
 
 declare var bootstrap: any;
 
@@ -51,7 +51,7 @@ export class TableUsersComponent {
   private toast: any;
   editUserForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private userService: UsersService, private cryptoService: CryptoService) {
+  constructor(private fb: FormBuilder, private userService: UsersService, private authService: AuthService) {
     this.editUserForm = this.fb.group({
       new_identification: [''],
       new_email: [''],
@@ -141,7 +141,7 @@ export class TableUsersComponent {
         this.currentUser.municipality = nm;
       }
       if (np !== null && np !== '') {
-        const hashed = await this.cryptoService.hashPassword(np);
+        const hashed = await this.authService.hashPassword(np);
         this.currentUser.password = hashed;
       }
     }

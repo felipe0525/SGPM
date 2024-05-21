@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { UsersService } from '../../services/account-services/user.service';
 import { CommonModule } from '@angular/common';
 import swal from "sweetalert";
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-log-in',
@@ -21,7 +22,7 @@ export class LogInComponent {
 
   loginForm: FormGroup;
 
-  constructor(private router: Router, private fb: FormBuilder) {
+  constructor(private router: Router, private fb: FormBuilder, private authService: AuthService) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
@@ -43,6 +44,8 @@ export class LogInComponent {
     try {
       const user = await this._usersService.searchUserByEmailAndPassword(email, password);
       if (user) {
+        sessionStorage.setItem('user', JSON.stringify(user));
+        this.authService.login(user)
         this._router.navigate(['/home']);
       } else {
         swal(

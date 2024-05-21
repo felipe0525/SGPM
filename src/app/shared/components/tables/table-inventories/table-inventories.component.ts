@@ -1,24 +1,26 @@
-import {Component, OnInit} from '@angular/core';
-import {routes} from "../../../../app.routes";
-import {Router} from "@angular/router";
-import {Inventory} from "../../../../models/bridge/inventory";
-import {InventoryServiceService} from "../../../services/bridge-services/inventory-service.service";
-import { NgForOf, DatePipe } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { Router } from "@angular/router";
+import { Inventory } from "../../../../models/bridge/inventory";
+import { InventoryServiceService } from "../../../services/bridge-services/inventory-service.service";
+import { NgForOf, DatePipe, CommonModule } from '@angular/common';
+import { AuthService } from '../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-table-inventories',
   standalone: true,
   imports: [
     DatePipe,
-    NgForOf
+    NgForOf,
+    CommonModule
   ],
   templateUrl: './table-inventories.component.html',
   styleUrl: './table-inventories.component.css'
 })
 export class TableInventoriesComponent implements OnInit {
   inventories: Inventory[] = [];
+  isPrivilegedUser$ = this.authService.isPrivilegedUser$;
 
-  constructor(private inventoryService: InventoryServiceService, private router: Router) {}
+  constructor(private inventoryService: InventoryServiceService, private router: Router, private authService: AuthService) {}
 
   ngOnInit() {
     this.inventoryService.getInventories().subscribe((data: Inventory[]) => {

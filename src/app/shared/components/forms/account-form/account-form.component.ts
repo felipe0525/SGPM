@@ -4,7 +4,7 @@ import { FormsModule, FormBuilder, FormControl, ReactiveFormsModule, Validators,
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { UserForm } from '../../../../models/account/user';
 import { UsersService } from '../../../services/account-services/user.service';
-import { CryptoService } from '../../../services/auth/crypto.service';
+import { AuthService } from '../../../services/auth/auth.service';
 
 export const StrongPasswordRegx: RegExp = /^(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=\D*\d).{8,}$/;
 
@@ -25,7 +25,7 @@ export class AccountFormComponent implements OnInit {
   submitting = false;
   @Output() userRegistered = new EventEmitter<void>();
 
-  constructor(private route: ActivatedRoute, private router: Router, private fb: FormBuilder, private cryptoService: CryptoService) {
+  constructor(private route: ActivatedRoute, private router: Router, private fb: FormBuilder, private authService: AuthService) {
     this.accountForm = this.fb.group({
       type: ['']
     });
@@ -74,7 +74,7 @@ export class AccountFormComponent implements OnInit {
 
     try {
       const user = this.accountForm.value as UserForm;
-      user.password = await this.cryptoService.hashPassword(user.password)
+      user.password = await this.authService.hashPassword(user.password)
       
       !this.userId
         ? await this._usersService.createUser(user)

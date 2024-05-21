@@ -13,10 +13,10 @@
           <a class="nav-link active" aria-current="page" href="/home">Inicio</a>
         </li>
         <li class="nav-item mx-3">
-          <a class="nav-link" href="/home/bridge-management">Gestion Puentes</a>
+          <a class="nav-link" href="/home/bridge-management">Gestión Puentes</a>
         </li>
-        <li class="nav-item mx-3">
-          <a class="nav-link" href="/home/account-management">Gestion Cuentas</a>
+        <li class="nav-item mx-3" *ngIf="isAdmin$ | async">
+          <a class="nav-link" href="/home/account-management">Gestión Cuentas</a>
         </li>
       </ul>
       <form class="d-flex" role="search">

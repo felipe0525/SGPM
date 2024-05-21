@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {InspectionServiceService} from "../../../services/bridge-services/inspection-service.service";
-import {NgForOf} from "@angular/common";
+import {CommonModule, NgForOf} from "@angular/common";
 import {IconDelete} from "../../../../../assets/icons/delete";
 import {IconEdit} from "../../../../../assets/icons/edit";
 import {IconSettings} from "../../../../../assets/icons/settings";
@@ -9,6 +9,7 @@ import {IconView} from "../../../../../assets/icons/view";
 import {FormsModule} from "@angular/forms";
 import {InventoryServiceService} from "../../../services/bridge-services/inventory-service.service";
 import {waitForAsync} from "@angular/core/testing";
+import { AuthService } from '../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-table-inspections',
@@ -19,7 +20,8 @@ import {waitForAsync} from "@angular/core/testing";
     IconEdit,
     IconSettings,
     IconView,
-    FormsModule
+    FormsModule,
+    CommonModule
   ],
   templateUrl: './table-inspections.component.html',
   styleUrl: './table-inspections.component.css'
@@ -38,11 +40,14 @@ export class TableInspectionsComponent implements OnInit {
   ]
   filteredInspections: any[] = this.inspections;
 
+  isPrivilegedUser$ = this.authService.isPrivilegedUser$;
+
   constructor(
     private inventoryService: InventoryServiceService,
     private inspectionService: InspectionServiceService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {
   }
 
