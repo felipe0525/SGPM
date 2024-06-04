@@ -12,7 +12,7 @@
             class="form-control"
             id="email"
             formControlName="email"
-            placeholder="correo electrónico"
+            placeholder="Correo Electrónico"
           />
           <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="text-danger">
             <small *ngIf="loginForm.get('email')?.errors?.['required']">Correo electrónico es requerido.</small>
