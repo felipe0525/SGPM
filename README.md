@@ -16,6 +16,11 @@ Si aún no tiene el [CLI de Angular](https://github.com/angular/angular-cli), in
 npm install -g @angular/cli
 ```
 
+Instale el [CLI de Firebase](https://github.com/firebase/firebase-tools) globalmente:
+```console
+npm install -g firebase-tools
+```
+
 Instale las dependencias del proyecto con el administrador de paquetes de Node (npm):
 ```console
 cd SGPM
