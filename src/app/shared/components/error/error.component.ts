@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import {RouterLink} from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { RouterLink, Router } from "@angular/router";
 
 @Component({
   selector: 'app-error',
@@ -10,6 +10,17 @@ import {RouterLink} from "@angular/router";
   templateUrl: './error.component.html',
   styleUrl: './error.component.css'
 })
-export class ErrorComponent {
+export class ErrorComponent implements OnInit {
+  buttonRoute!: string;
 
+  constructor(private router: Router) {}
+
+  ngOnInit() {
+    this.setButtonRoute();
+  }
+
+  private setButtonRoute() {
+    const user = sessionStorage.getItem('user');
+    this.buttonRoute = user ? '/' : '/login';
+  }
 }
