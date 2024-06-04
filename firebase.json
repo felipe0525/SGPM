@@ -1,7 +1,7 @@
 {
   "hosting": [
     {
-      "target": "sgpm-puj",
+      "target": "sgpm",
       "source": ".",
       "frameworksBackend": {}
     }
