@@ -1,14 +1,14 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {InspectionServiceService} from "../../../services/bridge-services/inspection-service.service";
-import {CommonModule, NgForOf} from "@angular/common";
-import {IconDelete} from "../../../../../assets/icons/delete";
-import {IconEdit} from "../../../../../assets/icons/edit";
-import {IconSettings} from "../../../../../assets/icons/settings";
-import {IconView} from "../../../../../assets/icons/view";
-import {FormsModule} from "@angular/forms";
-import {InventoryServiceService} from "../../../services/bridge-services/inventory-service.service";
-import {waitForAsync} from "@angular/core/testing";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from "@angular/router";
+import { InspectionServiceService } from "../../../services/bridge-services/inspection-service.service";
+import { CommonModule, NgForOf } from "@angular/common";
+import { IconDelete } from "../../../../../assets/icons/delete";
+import { IconEdit } from "../../../../../assets/icons/edit";
+import { IconSettings } from "../../../../../assets/icons/settings";
+import { IconView } from "../../../../../assets/icons/view";
+import { FormsModule } from "@angular/forms";
+import { InventoryServiceService } from "../../../services/bridge-services/inventory-service.service";
+import { waitForAsync } from "@angular/core/testing";
 import { AuthService } from '../../../services/auth/auth.service';
 
 @Component({
@@ -52,6 +52,7 @@ export class TableInspectionsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('PRIVILEGED: ' + this.isPrivilegedUser$);
     this.route.params.subscribe(params => {
       this.bridgeId = (params['bridgeIdentification']);
     });
@@ -77,8 +78,7 @@ export class TableInspectionsComponent implements OnInit {
             });
           });
         }
-          this.filteredInspections = this.inspections;
-
+        this.filteredInspections = this.inspections;
       }
     );
   }
@@ -102,7 +102,7 @@ export class TableInspectionsComponent implements OnInit {
   }
 
   createInspection() {
-    this.router.navigate([`home/bridge-management/inventories/${this.bridgeId}/inspections/inspection-bridge`], {queryParams: {mode: 'new'}});
+    this.router.navigate([`home/bridge-management/inventories/${this.bridgeId}/inspections/inspection-bridge`], { queryParams: { mode: 'new' } });
   }
 
   filterInspections() {
