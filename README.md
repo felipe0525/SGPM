@@ -2,7 +2,7 @@
 
 El Sistema de Gestión de Puentes es una herramienta para realizar mantenimiento y supervisión de la infraestructura vial de los municipios en Colombia.
 
-Este proyecto utiliza [Node.js](https://nodejs.org/en/download) y [Angular](https://angular.io/guide/setup-local).
+Este proyecto utiliza [Node.js](https://nodejs.org/en/download), [Angular](https://angular.io/guide/setup-local) y [Firebase](https://firebase.google.com/).
 
 ## Clonación y compilación
 
