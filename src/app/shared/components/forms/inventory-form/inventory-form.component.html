@@ -2,7 +2,6 @@
   <h1>Formato de inventario de Puentes</h1>
 
   <form [formGroup]="form">
-
     <div class="card my-3">
       <div class="card-header">
         INFORMACION GENERAL
@@ -18,7 +17,6 @@
               Por favor completa este campo con el nombre.
             </div>
           </div>
-
           <div class="col-md-8">
             <label>Imagen</label>
             <input *ngIf="!isViewMode" type="file" class="form-control" (change)="onFileChange($event, 'generalImage')" #generalImageInput>
@@ -27,34 +25,21 @@
               <a href="{{ form.get('generalImageUrl')?.value }}" target="_blank"> Imagen Subida </a>
             </div>
           </div>
-
         </div>
 
         <!-- Segunda parte -->
         <div class="row g-3 mt-2">
           <div class="col-md-4">
             <label>Identificacion Regional</label>
-            <input type="text" [readonly]="isViewMode" class="form-control" placeholder="Regional" formControlName="identificacionRegional"
-                   [class.is-invalid]="campoInvalido('identificacionRegional')">
-            <div *ngIf="campoInvalido('identificacionRegional')" class="text-danger">
-              Por favor completa este campo.
-            </div>
+            <input type="text" [readonly]="isViewMode" class="form-control" placeholder="Regional" formControlName="identificacionRegional">
           </div>
           <div class="col-md-4">
             <label>Identificacion Carretera</label>
-            <input type="text" [readonly]="isViewMode" class="form-control" placeholder="Carretera" formControlName="identificacionCarretera"
-                   [class.is-invalid]="campoInvalido('identificacionCarretera')">
-            <div *ngIf="campoInvalido('identificacionCarretera')" class="text-danger">
-              Por favor completa este campo.
-            </div>
+            <input type="text" [readonly]="isViewMode" class="form-control" placeholder="Carretera" formControlName="identificacionCarretera">
           </div>
           <div class="col-md-4">
             <label>Identificacion Puente</label>
-            <input type="text" [readonly]="isViewMode" class="form-control" placeholder=" " formControlName="identificacionPuente"
-                   [class.is-invalid]="campoInvalido('identificacionPuente')">
-            <div *ngIf="campoInvalido('identificacionPuente')" class="text-danger">
-              Por favor completa este campo.
-            </div>
+            <input type="text" [readonly]="isViewMode" class="form-control" placeholder=" " formControlName="identificacionPuente">
           </div>
         </div>
 
@@ -62,27 +47,15 @@
         <div class="row mt-3">
           <div class="col-md-4">
             <label>Carretera</label>
-            <input type="text" [readonly]="isViewMode" class="form-control" placeholder="Carretera" formControlName="carretera"
-                   [class.is-invalid]="campoInvalido('carretera')">
-            <div *ngIf="campoInvalido('carretera')" class="text-danger">
-              Por favor completa este campo.
-            </div>
+            <input type="text" [readonly]="isViewMode" class="form-control" placeholder="Carretera" formControlName="carretera">
           </div>
           <div class="col-md-4">
             <label>PR</label>
-            <input type="text" [readonly]="isViewMode" class="form-control" placeholder="PR" formControlName="pr"
-                   [class.is-invalid]="campoInvalido('pr')">
-            <div *ngIf="campoInvalido('pr')" class="text-danger">
-              Por favor completa este campo.
-            </div>
+            <input type="text" [readonly]="isViewMode" class="form-control" placeholder="PR" formControlName="pr">
           </div>
           <div class="col-md-4">
             <label>Regional</label>
-            <input type="text" [readonly]="isViewMode" class="form-control" placeholder="Regional" formControlName="regional"
-                   [class.is-invalid]="campoInvalido('regional')">
-            <div *ngIf="campoInvalido('regional')" class="text-danger">
-              Por favor completa este campo.
-            </div>
+            <input type="text" [readonly]="isViewMode" class="form-control" placeholder="Regional" formControlName="regional">
           </div>
         </div>
       </div>
@@ -98,150 +71,85 @@
             <label> No. Paso</label>
             <input type="text" readonly class="form-control-plaintext" value="1">
           </div>
-
           <div class="col">
             <label>Tipo de Paso</label>
             <select class="form-control" [disabled]="isViewMode" formControlName="tipoDePasoUno">
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of typeStepOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('tipoDePasoUno')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col-md-1">
             <label>Primero</label>
             <select class="form-control" [disabled]="isViewMode" formControlName="primeroUno">
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of snOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('primeroUno')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col-md-1">
             <label>Sup/Inf</label>
             <select class="form-control"[disabled]="isViewMode"  formControlName="supInfUno">
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of siOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('supInfUno')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col">
             <label>Galibo (I)</label>
-            <input type="text" [readonly]="isViewMode" class="form-control" placeholder="I" formControlName="galiboIUno"
-                   [class.is-invalid]="campoInvalido('galiboIUno')">
-            <div *ngIf="campoInvalido('galiboIUno')" class="text-danger">
-              Obligatorio.
-            </div>
+            <input type="text" [readonly]="isViewMode" class="form-control" placeholder="I" formControlName="galiboIUno">
           </div>
-
           <div class="col">
             <label>Galibo (IM)</label>
-            <input type="text" [readonly]="isViewMode" class="form-control" [disabled]="isViewMode"placeholder="IM" formControlName="galiboIMUno"
-                   [class.is-invalid]="campoInvalido('galiboIMUno')">
-            <div *ngIf="campoInvalido('galiboIMUno')" class="text-danger">
-              Obligatorio.
-            </div>
+            <input type="text" [readonly]="isViewMode" class="form-control" [disabled]="isViewMode"placeholder="IM" formControlName="galiboIMUno">
           </div>
-
           <div class="col">
             <label> Galibo (DM)</label>
-            <input type="text" [readonly]="isViewMode" class="form-control" placeholder="DM" formControlName="galiboDMUno"
-                   [class.is-invalid]="campoInvalido('galiboDMUno')">
-            <div *ngIf="campoInvalido('galiboDMUno')" class="text-danger">
-              Obligatorio.
-            </div>
+            <input type="text" [readonly]="isViewMode" class="form-control" placeholder="DM" formControlName="galiboDMUno">
           </div>
-
           <div class="col">
             <label> Galibo (D)</label>
-            <input type="text" [readonly]="isViewMode" class="form-control" placeholder="D" formControlName="galiboDUno"
-                   [class.is-invalid]="campoInvalido('galiboDUno')">
-            <div *ngIf="campoInvalido('galiboDUno')" class="text-danger">
-              Obligatorio.
-            </div>
+            <input type="text" [readonly]="isViewMode" class="form-control" placeholder="D" formControlName="galiboDUno">
           </div>
         </div>
-
         <div class="row g-3">
           <div class="col-md-1">
             <label> No. Paso</label>
             <input type="text" readonly class="form-control-plaintext" value="2">
           </div>
-
           <div class="col">
             <label>Tipo de Paso</label>
             <select class="form-control" formControlName="tipoDePasoDos">
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of typeStepOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('tipoDePasoDos')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col-md-1">
             <label>Primero</label>
             <select class="form-control" formControlName="primeroDos">
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of snOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('primeroDos')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col-md-1">
             <label>Sup/Inf</label>
             <select class="form-control" formControlName="supInfDos">
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of siOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('supInfDos')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col">
             <label>Galibo (I)</label>
-            <input type="text"  [readonly]="isViewMode" class="form-control" placeholder="I" formControlName="galiboIDos"
-                   [class.is-invalid]="campoInvalido('galiboIDos')">
-            <div *ngIf="campoInvalido('galiboIDos')" class="text-danger">
-              Obligatorio.
-            </div>
+            <input type="text"  [readonly]="isViewMode" class="form-control" placeholder="I" formControlName="galiboIDos">
           </div>
-
           <div class="col">
             <label>Galibo (IM)</label>
-            <input type="text" [readonly]="isViewMode" class="form-control" placeholder="IM" formControlName="galiboIMDos"
-                   [class.is-invalid]="campoInvalido('galiboIMDos')">
-            <div *ngIf="campoInvalido('galiboIMDos')" class="text-danger">
-              Obligatorio.
-            </div>
+            <input type="text" [readonly]="isViewMode" class="form-control" placeholder="IM" formControlName="galiboIMDos">
           </div>
-
           <div class="col">
             <label> Galibo (DM)</label>
-            <input type="text" [readonly]="isViewMode" class="form-control" placeholder="DM" formControlName="galiboDMDos"
-                   [class.is-invalid]="campoInvalido('galiboDMDos')">
-            <div *ngIf="campoInvalido('galiboDMDos')" class="text-danger">
-              Obligatorio.
-            </div>
+            <input type="text" [readonly]="isViewMode" class="form-control" placeholder="DM" formControlName="galiboDMDos">
           </div>
-
           <div class="col">
             <label> Galibo (D)</label>
-            <input type="text" [readonly]="isViewMode" class="form-control" placeholder="D" formControlName="galiboDDos"
-                   [class.is-invalid]="campoInvalido('galiboDDos')">
-            <div *ngIf="campoInvalido('galiboDDos')" class="text-danger">
-              Obligatorio.
-            </div>
+            <input type="text" [readonly]="isViewMode" class="form-control" placeholder="D" formControlName="galiboDDos">
           </div>
         </div>
       </div>
@@ -260,31 +168,20 @@
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of yearOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('anioConstruccion')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col-md-4 mb-3">
             <label for="ano-reconstruccion" class="form-label">Año de Reconstrucción</label>
             <select id="ano-reconstruccion" class="form-control" formControlName="anioReconstruccion">
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of yearOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('anioReconstruccion')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col-md-4 mb-3">
             <label for="direccion-abs" class="form-label">Dirección de absc. de la carret. (N/S/E/O)</label>
             <select id="direccion-abs" class="form-control" formControlName="direccionAbs">
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of abscDirection" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('direccionAbs')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
         </div>
         <div class="row">
@@ -295,49 +192,30 @@
               <option *ngFor="let option of inspectionRequirementOptions" [value]="option.value">{{ option.label }}
               </option>
             </select>
-            <div *ngIf="campoInvalido('requisitosInspeccion')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col-md-4 mb-3">
             <label for="numero-secciones-inspeccion" class="form-label">Número de secciones de inspección</label>
             <select id="numero-secciones-inspeccion" class="form-control" formControlName="numeroSeccionesInspeccion">
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of sectionOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('numeroSeccionesInspeccion')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col-md-4 mb-3">
             <label for="estacion-conteo" class="form-label">Estación de conteo</label>
             <input type="text" [readonly]="isViewMode" id="estacion-conteo" class="form-control" placeholder="Estación de conteo"
-                   formControlName="estacionConteo" [class.is-invalid]="campoInvalido('estacionConteo')">
-            <div *ngIf="campoInvalido('estacionConteo')" class="text-danger">
-              Por favor completa este campo.
-            </div>
+                   formControlName="estacionConteo">
           </div>
         </div>
         <div class="row">
           <div class="col-md-4 mb-3">
             <label for="fecha-recoleccion-datos" class="form-label">Fecha de recolección de datos</label>
             <input type="date" [readonly]="isViewMode" id="fecha-recoleccion-datos" class="form-control"
-                   placeholder="Fecha de recolección de datos" formControlName="fechaRecoleccionDatos"
-                   [class.is-invalid]="campoInvalido('fechaRecoleccionDatos')">
-            <div *ngIf="campoInvalido('fechaRecoleccionDatos')" class="text-danger">
-              Por favor completa este campo.
-            </div>
+                   placeholder="Fecha de recolección de datos" formControlName="fechaRecoleccionDatos">
           </div>
-
           <div class="col-md-4 mb-3">
             <label for="iniciales-inspector" class="form-label">Iniciales de inspector</label>
             <input type="text" [readonly]="isViewMode" id="iniciales-inspector" class="form-control" placeholder="Iniciales de inspector"
-                   formControlName="inicialesInspector" [class.is-invalid]="campoInvalido('inicialesInspector')">
-            <div *ngIf="campoInvalido('inicialesInspector')" class="text-danger">
-              Por favor completa este campo.
-            </div>
+                   formControlName="inicialesInspector">
           </div>
           <div class="col-md-4"></div>
         </div>
@@ -357,31 +235,20 @@
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of lightOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('numeroLuces')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col-md-4 mb-3">
             <label class="form-label">Longitud Luz menor (m)</label>
             <select class="form-control" formControlName="longitudLuzMenor">
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of longitudinalOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('longitudLuzMenor')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col-md-4 mb-3">
             <label class="form-label">Longitud Luz mayor (m)</label>
             <select class="form-control" formControlName="longitudLuzMayor">
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of longitudinalOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('longitudLuzMayor')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
         </div>
         <div class="row">
@@ -391,31 +258,20 @@
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of longitudinalOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('longitudTotal')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col-md-4 mb-3">
             <label class="form-label">Ancho del tablero (m)</label>
             <select class="form-control" formControlName="anchoTablero">
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of boardWidthOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('anchoTablero')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col-md-4 mb-3">
             <label class="form-label">Ancho del separador (m)</label>
             <select class="form-control" formControlName="anchoSeparador">
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of separatorWidthOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('anchoSeparador')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
         </div>
         <div class="row">
@@ -425,31 +281,20 @@
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of sidewalkWidthOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('anchoAndenIzquierdo')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col-md-4 mb-3">
             <label class="form-label">Ancho del andén derecho (m)</label>
             <select class="form-control" formControlName="anchoAndenDerecho">
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of sidewalkWidthOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('anchoAndenDerecho')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col-md-4 mb-3">
             <label class="form-label">Ancho de calzada (m)</label>
             <select class="form-control" formControlName="anchoCalzada">
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of roadwayWidthOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('anchoCalzada')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
         </div>
         <div class="row">
@@ -459,31 +304,20 @@
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of boardWidthOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('anchoEntreBordillos')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col-md-4 mb-3">
             <label class="form-label">Ancho del acceso (m)</label>
             <select class="form-control" formControlName="anchoAcceso">
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of boardWidthOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('anchoAcceso')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col-md-4 mb-3">
             <label class="form-label">Altura de pilas (m)</label>
             <select class="form-control" formControlName="alturaPilas">
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of pileHeightOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('alturaPilas')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
         </div>
         <div class="row">
@@ -493,31 +327,20 @@
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of abutmentHeightOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('alturaEstribos')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col-md-4 mb-3">
             <label class="form-label">Longitud de apoyo en pilas (m)</label>
             <select class="form-control" formControlName="longitudApoyoPilas">
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of supportLengthOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('longitudApoyoPilas')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col-md-4 mb-3">
             <label class="form-label">Longitud de apoyo en estribos (m)</label>
             <select class="form-control" formControlName="longitudApoyoEstribos">
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of supportLengthOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('longitudApoyoEstribos')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
         </div>
         <div class="row">
@@ -527,31 +350,20 @@
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of snOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('puenteTerra')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col-md-4 mb-3">
             <label class="form-label">Puente en curva / Tangente (C/T)</label>
             <select class="form-control" formControlName="puenteCurva">
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of ctOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('puenteCurva')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col-md-4 mb-3">
             <label class="form-label">Esviajamiento (gra)</label>
             <select class="form-control" formControlName="esviaje">
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of skewAngleOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('esviaje')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
         </div>
         <div class="row">
@@ -580,11 +392,7 @@
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of snOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('disenoTipo')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col-md-4 mb-3">
             <label>Tipo de estructuración transversal</label>
             <select class="form-control" formControlName="tipoEstructuracionTransversal">
@@ -592,9 +400,6 @@
               <option *ngFor="let option of transversalStructuringOptions" [value]="option.value">{{ option.label }}
               </option>
             </select>
-            <div *ngIf="campoInvalido('tipoEstructuracionTransversal')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
           <div class="col-md-4 mb-3">
             <label>Tipo de estructuración longitudinal</label>
@@ -603,9 +408,6 @@
               <option *ngFor="let option of longitudinalStructuringOptions" [value]="option.value">{{ option.label }}
               </option>
             </select>
-            <div *ngIf="campoInvalido('tipoEstructuracionLongitudinal')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
         </div>
         <div class="row">
@@ -616,11 +418,7 @@
               <option *ngFor="let option of materialConstructionOptions" [value]="option.value">{{ option.label }}
               </option>
             </select>
-            <div *ngIf="campoInvalido('material')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col-md-8 mb-3">
             <label for="imagen-superestructura" class="form-label">Imagen</label>
             <input *ngIf="!isViewMode" type="file" id="imagen-superestructura" class="form-control" (change)="onFileChange($event, 'superstructureImage')" #superstructureImageInput>
@@ -646,11 +444,7 @@
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of snOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('disenoTipoSec')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col-md-4 mb-3">
             <label class="form-label">Tipo de estructuración transversal</label>
             <select class="form-control" formControlName="tipoEstructuracionTransversalSec">
@@ -658,11 +452,7 @@
               <option *ngFor="let option of transversalStructuringOptions" [value]="option.value">{{ option.label }}
               </option>
             </select>
-            <div *ngIf="campoInvalido('tipoEstructuracionTransversalSec')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col-md-4 mb-3">
             <label class="form-label">Tipo de estructuración longitudinal</label>
             <select class="form-control" formControlName="tipoEstructuracionLongitudinalSec">
@@ -670,12 +460,8 @@
               <option *ngFor="let option of longitudinalStructuringOptions" [value]="option.value">{{ option.label }}
               </option>
             </select>
-            <div *ngIf="campoInvalido('tipoEstructuracionLongitudinalSec')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
         </div>
-
         <div class="row">
           <div class="col-md-4 mb-3">
             <label class="form-label">Material</label>
@@ -684,11 +470,7 @@
               <option *ngFor="let option of materialConstructionOptions" [value]="option.value">{{ option.label }}
               </option>
             </select>
-            <div *ngIf="campoInvalido('materialSec')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col-md-8 mb-3">
             <label for="imagen-sec" class="form-label">Imagen</label>
             <input *ngIf="!isViewMode" type="file" id="imagen-sec" class="form-control" (change)="onFileChange($event, 'superstructureSecondaryImage')" #superstructureSecondaryImageInput>
@@ -714,20 +496,13 @@
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of stirrupstypeOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('tipoEstribos')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col-md-4 mb-3">
             <label class="form-label">Material</label>
             <select class="form-control" formControlName="materialEstribos">
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of stirrupsMaterialOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('materialEstribos')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
           <div class="col-md-4 mb-3">
             <label class="form-label">Tipo de Cimentación</label>
@@ -736,9 +511,6 @@
               <option *ngFor="let option of stirrupsFoundationTypeOptions" [value]="option.value">{{ option.label }}
               </option>
             </select>
-            <div *ngIf="campoInvalido('tipoCimentacion')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
         </div>
         <div class="row">
@@ -767,9 +539,6 @@
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of railingTypeOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('tipoBaranda')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
           <div class="col-md-4 mb-3">
             <label for="superficie-rodadura" class="form-label">Superficie de rodadura</label>
@@ -777,9 +546,6 @@
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of roadwaySurfaceOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('superficieRodadura')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
           <div class="col-md-4 mb-3">
             <label for="junta-expansion" class="form-label">Junta de expansión</label>
@@ -787,9 +553,6 @@
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of expansionJointOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('juntaExpansion')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
         </div>
         <div class="row">
@@ -818,31 +581,20 @@
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of pileTypeOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('tipoPilas')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col-md-4 mb-3">
             <label class="form-label">Material</label>
             <select class="form-control" formControlName="materialPilas">
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of pileMaterialOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('materialPilas')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col-md-4 mb-3">
             <label class="form-label">Tipo de cimentación</label>
             <select class="form-control" formControlName="tipoCimentacionPilas">
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of foundationTypeOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('tipoCimentacionPilas')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
         </div>
         <div class="row">
@@ -868,28 +620,16 @@
           <div class="col-md-4 mb-3">
             <label for="carga-maxima" class="form-label">Carga máxima</label>
             <input type="number" id="carga-maxima" class="form-control" placeholder="Carga máxima"
-                   formControlName="cargaMaxima" [class.is-invalid]="campoInvalido('cargaMaxima')">
-            <div *ngIf="campoInvalido('cargaMaxima')" class="text-danger">
-              Por favor completa este campo.
-            </div>
+                   formControlName="cargaMaxima">
           </div>
-
           <div class="col-md-4 mb-3">
             <label for="velocidad-maxima" class="form-label">Velocidad Máxima</label>
             <input type="number" id="velocidad-maxima" class="form-control" placeholder="Velocidad Máxima"
-                   formControlName="velocidadMaxima" [class.is-invalid]="campoInvalido('velocidadMaxima')">
-            <div *ngIf="campoInvalido('velocidadMaxima')" class="text-danger">
-              Por favor completa este campo.
-            </div>
+                   formControlName="velocidadMaxima">
           </div>
-
           <div class="col-md-4 mb-3">
             <label for="otra-info" class="form-label">Otra</label>
-            <input type="text" id="otra-info" class="form-control" placeholder="Otra" formControlName="otraInfo"
-                   [class.is-invalid]="campoInvalido('otraInfo')">
-            <div *ngIf="campoInvalido('otraInfo')" class="text-danger">
-              Por favor completa este campo.
-            </div>
+            <input type="text" id="otra-info" class="form-control" placeholder="Otra" formControlName="otraInfo">
           </div>
         </div>
         <div class="row">
@@ -904,7 +644,6 @@
         </div>
       </div>
     </div>
-
     <!-- Sección de Apoyos -->
     <div class="card my-3">
       <div class="card-header">
@@ -918,9 +657,6 @@
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of fixedSupportTypes" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('apoyosFijosEstribos')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
           <div class="col-md-4 mb-3">
             <label for="apoyos-moviles-estribos" class="form-label">Tipo de apoyos móviles sobre estribos</label>
@@ -928,9 +664,6 @@
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of fixedSupportTypes" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('apoyosMovilesEstribos')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
           <div class="col-md-4 mb-3">
             <label for="apoyos-fijos-pilas" class="form-label">Tipo de apoyos fijos en pilas</label>
@@ -938,9 +671,6 @@
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of fixedSupportTypes" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('apoyosFijosPilas')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
         </div>
         <div class="row">
@@ -950,9 +680,6 @@
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of fixedSupportTypes" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('apoyosMovilesPilas')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
           <div class="col-md-4 mb-3">
             <label for="apoyos-fijos-vigas" class="form-label">Tipo de apoyos fijos en vigas</label>
@@ -960,9 +687,6 @@
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of fixedSupportTypes" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('apoyosFijosVigas')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
           <div class="col-md-4 mb-3">
             <label for="apoyos-moviles-vigas" class="form-label">Tipo de apoyos móviles en vigas</label>
@@ -970,18 +694,12 @@
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of fixedSupportTypes" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('apoyosMovilesVigas')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
         </div>
         <div class="row">
           <div class="col-md-4 mb-3">
             <label for="vehiculo-diseno" class="form-label">Vehículo de diseño</label>
-            <input type="text" id="vehiculo-diseno" [readonly]="isViewMode" class="form-control" placeholder="Vehículo de diseño" formControlName="vehiculoDiseno" [class.is-invalid]="campoInvalido('vehiculoDiseno')">
-            <div *ngIf="campoInvalido('vehiculoDiseno')" class="text-danger">
-              Por favor completa este campo.
-            </div>
+            <input type="text" id="vehiculo-diseno" [readonly]="isViewMode" class="form-control" placeholder="Vehículo de diseño" formControlName="vehiculoDiseno">
           </div>
           <div class="col-md-4 mb-3">
             <label for="clase-carga" class="form-label">Clase de distribución de carga</label>
@@ -989,9 +707,6 @@
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of loadDistributionClasses" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('claseCarga')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
           <div class="col-md-4"></div>
         </div>
@@ -1018,49 +733,29 @@
           <div class="col-md-4 mb-3">
             <label for="propietario" class="form-label">Propietario</label>
             <input type="text" [readonly]="isViewMode" id="propietario" class="form-control" placeholder="Propietario"
-                   formControlName="propietario" [class.is-invalid]="campoInvalido('propietario')">
-            <div *ngIf="campoInvalido('propietario')" class="text-danger">
-              Por favor completa este campo.
-            </div>
+                   formControlName="propietario">
           </div>
-
           <div class="col-md-4 mb-3">
             <label for="departamento" class="form-label">Departamento</label>
             <input type="text" [readonly]="isViewMode" id="departamento" class="form-control" placeholder="Departamento"
-                   formControlName="departamento" [class.is-invalid]="campoInvalido('departamento')">
-            <div *ngIf="campoInvalido('departamento')" class="text-danger">
-              Por favor completa este campo.
-            </div>
+                   formControlName="departamento">
           </div>
-
           <div class="col-md-4 mb-3">
             <label for="administrador-vial" class="form-label">Administrador Vial</label>
             <input type="text" [readonly]="isViewMode" id="administrador-vial" class="form-control" placeholder="Administrador Vial"
-                   formControlName="administradorVial" [class.is-invalid]="campoInvalido('administradorVial')">
-            <div *ngIf="campoInvalido('administradorVial')" class="text-danger">
-              Por favor completa este campo.
-            </div>
+                   formControlName="administradorVial">
           </div>
         </div>
         <div class="row">
           <div class="col-md-4 mb-3">
             <label for="proyectista" class="form-label">Proyectista</label>
             <input type="text" [readonly]="isViewMode" id="proyectista" class="form-control" placeholder="Proyectista"
-                   formControlName="proyectista" [class.is-invalid]="campoInvalido('proyectista')">
-            <div *ngIf="campoInvalido('proyectista')" class="text-danger">
-              Por favor completa este campo.
-            </div>
+                   formControlName="proyectista">
           </div>
-
           <div class="col-md-4 mb-3">
             <label for="municipio" class="form-label">Municipio</label>
-            <input type="text" [readonly]="isViewMode" id="municipio" class="form-control" placeholder="Municipio" formControlName="municipio"
-                   [class.is-invalid]="campoInvalido('municipio')">
-            <div *ngIf="campoInvalido('municipio')" class="text-danger">
-              Por favor completa este campo.
-            </div>
+            <input type="text" [readonly]="isViewMode" id="municipio" class="form-control" placeholder="Municipio" formControlName="municipio">
           </div>
-
           <div class="col-md-4"></div>
         </div>
       </div>
@@ -1079,64 +774,41 @@
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of latitudeDegreesOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('latitudGrado')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col-md-2 mb-3">
             <label class="form-label">Latitud (M)</label>
             <select class="form-control" formControlName="latitudMinuto">
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of minutesOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('latitudMinuto')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col-md-2 mb-3">
             <label class="form-label">Latitud (S)</label>
             <select class="form-control" formControlName="latitudSegundo">
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of secondsOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('latitudSegundo')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col-md-2 mb-3">
             <label class="form-label">Longitud (G)</label>
             <select class="form-control" formControlName="longitudGrado">
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of longitudeDegreesOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('longitudGrado')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col-md-2 mb-3">
             <label class="form-label">Longitud (M)</label>
             <select class="form-control" formControlName="longitudMinuto">
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of longitudeDegreesOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('longitudMinuto')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col-md-2 mb-3">
             <label class="form-label">Longitud (S)</label>
             <select class="form-control" formControlName="longitudSegundo">
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of longitudeDegreesOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('longitudSegundo')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
         </div>
         <div class="row">
@@ -1148,31 +820,20 @@
                       [value]="option.value">{{ option.label }}
               </option>
             </select>
-            <div *ngIf="campoInvalido('coefAceleracionSismica')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col-md-4 mb-3">
             <label class="form-label">Paso por el cause (S/N)</label>
             <select class="form-control" formControlName="pasoCausa">
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of snOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('pasoCausa')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col-md-4 mb-3">
             <label class="form-label">Existe variante (S/N)</label>
             <select class="form-control" formControlName="existeVariante">
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of snOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('existeVariante')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
         </div>
         <div class="row">
@@ -1182,20 +843,20 @@
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of variableLengthOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('longitudVariante')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
-
           <div class="col-md-4 mb-3">
             <label class="form-label">Estado (B/R/M)</label>
             <select class="form-control" formControlName="estado">
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of brmOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('estado')" class="text-danger">
-              Obligatorio.
-            </div>
+          </div>
+          <div class="col-md-2 mb-3">
+            <label class="form-label">Altitud</label>
+            <select class="form-control" formControlName="altitude">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of altitudeOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
           </div>
         </div>
       </div>
@@ -1215,9 +876,6 @@
               <option *ngFor="let option of criticalSpanLengthOptions" [value]="option.value">{{ option.label }}
               </option>
             </select>
-            <div *ngIf="campoInvalido('longitudLuzCritica')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
           <div class="col-md-6 mb-3">
             <label class="form-label">Factor de clasificación</label>
@@ -1226,9 +884,6 @@
               <option *ngFor="let option of classificationFactorOptions" [value]="option.value">{{ option.label }}
               </option>
             </select>
-            <div *ngIf="campoInvalido('factorClasificacion')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
         </div>
       </div>
@@ -1244,18 +899,11 @@
           <div class="col-md-4 mb-3">
             <label for="fuerza-cortante" class="form-label">Fuerza cortante (N)</label>
             <input type="text" [readonly]="isViewMode" id="fuerza-cortante" class="form-control" placeholder="Fuerza cortante"
-                   formControlName="fuerzaCortante" [class.is-invalid]="campoInvalido('fuerzaCortante')">
-            <div *ngIf="campoInvalido('fuerzaCortante')" class="text-danger">
-              Por favor completa este campo Rnago entre 10 y 1000 KN.
-            </div>
+                   formControlName="fuerzaCortante">
           </div>
           <div class="col-md-4 mb-3">
             <label for="momento" class="form-label">Momento (N)</label>
-            <input type="text" [readonly]="isViewMode" id="momento" class="form-control" placeholder="Momento" formControlName="momento"
-                   [class.is-invalid]="campoInvalido('momento')">
-            <div *ngIf="campoInvalido('momento')" class="text-danger">
-              Por favor completa este campo Rnago entre 10 y 1000 KN.
-            </div>
+            <input type="text" [readonly]="isViewMode" id="momento" class="form-control" placeholder="Momento" formControlName="momento">
           </div>
           <div class="col-md-4 mb-3">
             <label class="form-label">Línea de carga por rueda (t)</label>
@@ -1263,14 +911,10 @@
               <option value="">Selecciona una opción</option>
               <option *ngFor="let option of linealOptions" [value]="option.value">{{ option.label }}</option>
             </select>
-            <div *ngIf="campoInvalido('lineaCargaRueda')" class="text-danger">
-              Obligatorio.
-            </div>
           </div>
         </div>
       </div>
     </div>
-
     <div class="card my-3">
       <div class="card-header">
         OBSERVACIONES
@@ -1279,14 +923,8 @@
         <div class="row">
           <div class="col-md-12">
             <label for="observaciones" class="form-label">Observaciones</label>
-            <textarea id="observaciones" [readonly]="isViewMode" class="form-control" placeholder="Observaciones" rows="4" formControlName="observaciones" [class.is-invalid]="campoInvalido('observaciones')"></textarea>
-            <div *ngIf="campoInvalido('observaciones')" class="text-danger">
-              Por favor completa este campo.
-            </div>
+            <textarea id="observaciones" [readonly]="isViewMode" class="form-control" placeholder="Observaciones" rows="4" formControlName="observaciones"></textarea>
           </div>
-
-
-
           <div class="col-md-12 mb-3">
             <label for="imagen-carga" class="form-label">Imagen</label>
             <input  *ngIf="!isViewMode" type="file" id="imagen-carga" class="form-control" (change)="onFileChange($event, 'observationsImage')" #observationsImageInput>
@@ -1298,7 +936,6 @@
         </div>
       </div>
     </div>
-
     <div class="row">
       <div class="col-12">
         <button type="submit" class="btn btn-primary" (click)="onSubmit()" [disabled]="form.invalid"> {{ isEditMode ? 'Modificar Fomulario' : 'Crear Formulario' }}
