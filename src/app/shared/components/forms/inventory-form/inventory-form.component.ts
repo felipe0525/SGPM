@@ -50,7 +50,6 @@ export class InventoryFormComponent implements OnInit {
   documentId: string | null = null;
   isViewMode = false;
 
-
   typeStepOptions = inventoryLists.typeStepOptions;
   inspectionRequirementOptions = inventoryLists.inspectionRequirementOptions;
   transversalStructuringOptions = inventoryLists.transversalStructuringOptions;
@@ -115,7 +114,6 @@ export class InventoryFormComponent implements OnInit {
       identificacionRegional: new FormControl(''),
       identificacionCarretera: new FormControl(''),
       identificacionPuente: new FormControl('', {
-        validators: Validators.required,
         asyncValidators: [this.inventoryService.checkBridgeIdentificationUnique()],
         updateOn: 'blur'
       }),
@@ -214,6 +212,7 @@ export class InventoryFormComponent implements OnInit {
       longitudGrado: new FormControl(''),
       longitudMinuto: new FormControl(''),
       longitudSegundo: new FormControl(''),
+      altitude: new FormControl(''),
       coefAceleracionSismica: new FormControl(''),
       pasoCausa: new FormControl(''),
       existeVariante: new FormControl(''),
@@ -248,7 +247,6 @@ export class InventoryFormComponent implements OnInit {
       supportsImageUrl: new FormControl(''),
       observationsImage: new FormControl(''),
       observationsImageUrl: new FormControl(''),
-
     });
 
     if (this.isEditMode) {
@@ -263,9 +261,7 @@ export class InventoryFormComponent implements OnInit {
   }
 
   async loadInventoryData(bridgeIdentification: string) {
-    console.log('Loading inventory data for bridgeIdentification:', bridgeIdentification);
     const inventoryResult = await this.inventoryService.getInventoryByBridgeIdentification(bridgeIdentification);
-    console.log('Inventory data loaded:', inventoryResult);
     if (inventoryResult) {
       const { id, data: inventory } = inventoryResult;
       this.documentId = id;
@@ -369,6 +365,7 @@ export class InventoryFormComponent implements OnInit {
         longitudGrado: inventory.geographicPosition.longitudeDegree,
         longitudMinuto: inventory.geographicPosition.longitudeMinute,
         longitudSegundo: inventory.geographicPosition.longitudeSecond,
+        altitude: inventory.geographicPosition.altitude,
         coefAceleracionSismica: inventory.geographicPosition.seismicAccelerationCoefficient,
         pasoCausa: inventory.geographicPosition.causewayPassage,
         existeVariante: inventory.geographicPosition.variantExists,
@@ -395,7 +392,6 @@ export class InventoryFormComponent implements OnInit {
         observationsImageUrl: inventory.observations.image,
 
       });
-      console.log('Form after patchValue:', this.form.value);
     }
   }
 
@@ -417,7 +413,6 @@ export class InventoryFormComponent implements OnInit {
     }
   }
 
-
   hasImageField(obj: any): obj is { image?: string } {
     return obj && typeof obj === 'object' && 'image' in obj;
   }
@@ -425,7 +420,12 @@ export class InventoryFormComponent implements OnInit {
   async onSubmit() {
     this.formSubmitted = true;
     console.log('Form submitted:', this.form.value);
+    
     if (this.form.valid) {
+      if (!this.form.get('identificacionPuente')?.value) {
+        const generatedId = await this.generateBridgeIdentification();
+        this.form.get('identificacionPuente')?.setValue(generatedId);
+      }
       const inventory: Inventory = {
         inventoryDate: new Date(),
         generalInformation: {
@@ -433,7 +433,7 @@ export class InventoryFormComponent implements OnInit {
           image: "",
           regionalIdentification: this.form.value.identificacionRegional,
           roadIdentification: this.form.value.identificacionCarretera,
-          bridgeIdentification: this.form.value.identificacionPuente,
+          bridgeIdentification: this.form.get('identificacionPuente')?.value,
           road: this.form.value.carretera,
           pr: this.form.value.pr,
           regional: this.form.value.regional,
@@ -591,5 +591,22 @@ export class InventoryFormComponent implements OnInit {
 
       this.router.navigate(['/home/bridge-management/inventories']);
     }
+  }
+  
+  async generateBridgeIdentification(): Promise<string> {
+    let id = 0;
+    let isUnique = false;
+  
+    while (!isUnique) {
+      const idString = id.toString();
+  
+      const exists = await this.inventoryService.checkBridgeIdentificationExists(idString);
+      if (!exists) {
+        isUnique = true;
+        return idString;
+      }
+      id++;
+    }
+    return '';
   }
 }
