@@ -90,11 +90,24 @@ export class InventoryServiceService {
   checkBridgeIdentificationUnique(): AsyncValidatorFn {
     return async (control: AbstractControl): Promise<ValidationErrors | null> => {
       const value = control.value;
+      
+      if (!value) {
+        return null;
+      }
+  
       const q = query(this.collection, where('generalInformation.bridgeIdentification', '==', value));
       const querySnapshot = await getDocs(q);
-      return querySnapshot.empty ? null : {bridgeIdentificationNotUnique: true};
+  
+      return querySnapshot.empty ? null : { bridgeIdentificationNotUnique: true };
     };
   }
+
+  async checkBridgeIdentificationExists(id: string): Promise<boolean> {
+    const q = query(this.collection, where('generalInformation.bridgeIdentification', '==', id));
+    return getDocs(q).then(querySnapshot => {
+      return !querySnapshot.empty;
+    });
+  }  
 
   async getBridgeBasicInfo(bridgeId: any) {
     try {
