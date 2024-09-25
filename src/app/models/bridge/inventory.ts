@@ -150,6 +150,7 @@ export interface geographicPosition {
   longitudeDegree: string;
   longitudeMinute: string;
   longitudeSecond: string;
+  altitude: string;
   seismicAccelerationCoefficient: string;
   causewayPassage: string;
   variantExists: string;

@@ -340,6 +340,11 @@ export class inventoryLists {
     label: `${(0 + k * 0.1).toFixed(1)}`
   }));
 
+  static altitudeOptions = Array.from({ length: (9000 - -500) / 100 + 1 }, (v, k) => ({
+    value: (-500 + k * 100).toFixed(0),
+    label: `${(-500 + k * 100).toFixed(0)} m`
+  }));  
+
   static seismicAccelerationCoefficientOptions = Array.from({ length: (1.0 - 0.05) * 20 + 1 }, (v, k) => ({
     value: (0.05 + k * 0.05).toFixed(2),
     label: `${(0.05 + k * 0.05).toFixed(2)}`
@@ -370,23 +375,4 @@ export class inventoryLists {
     { value: 0, label: 'Pendiente' },
     { value: 1, label: 'Numerico' },
   ]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
