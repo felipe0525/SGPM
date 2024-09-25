@@ -275,14 +275,14 @@ export class inventoryLists {
     label: `${k + 1}`
   }));
 
-  static longitudinalOptions = Array.from({ length: 901 }, (v, k) => ({
-    value: (10 + k * 0.1).toFixed(1),
-    label: `${(10 + k * 0.1).toFixed(1)} m`
+  static longitudinalOptions = Array.from({ length: (100 - 0) / 0.1 + 1 }, (v, k) => ({
+    value: (0 + k * 0.1).toFixed(2),
+    label: `${(0 + k * 0.1).toFixed(2)} m`
   }));
 
   static boardWidthOptions = Array.from({ length: (20 - 3) * 10 + 1 }, (v, k) => ({
-    value: (3 + k * 0.1).toFixed(1),
-    label: `${ (3 + k * 0.1).toFixed(1)} m`
+    value: (0 + k * 0.1).toFixed(2),
+    label: `${ (3 + k * 0.1).toFixed(2)} m`
   }));
 
   static separatorWidthOptions = Array.from({ length: (1.5 - 0.5) * 10 + 1 }, (v, k) => ({
@@ -296,28 +296,28 @@ export class inventoryLists {
   }));
 
   static roadwayWidthOptions = Array.from({ length: (5.0 - 2.0) * 10 + 1 }, (v, k) => ({
-    value: (2.0 + k * 0.1).toFixed(1),
+    value: (1.0 + k * 0.1).toFixed(1),
     label: `${ (2.0 + k * 0.1).toFixed(1)}`
   }));
 
   static pileHeightOptions = Array.from({ length: (150.0 - 1.0) * 10 + 1 }, (v, k) => ({
-    value: (1.0 + k * 0.1).toFixed(1),
-    label: `${(1.0 + k * 0.1).toFixed(1)}`
+    value: (1.0 + k * 0.1).toFixed(2),
+    label: `${(1.0 + k * 0.1).toFixed(2)}`
   }));
 
   static abutmentHeightOptions = Array.from({ length: (50.0 - 1.0) * 10 + 1 }, (v, k) => ({
-    value: (1.0 + k * 0.1).toFixed(1),
+    value: (1.0 + k * 0.1).toFixed(2),
     label: `${(1.0 + k * 0.1).toFixed(1)}`
   }));
 
   static supportLengthOptions = Array.from({ length: (1.5 - 0.2) * 10 + 1 }, (v, k) => ({
-    value: (0.2 + k * 0.1).toFixed(1),
-    label: `${(0.2 + k * 0.1).toFixed(1)}`
+    value: (0.2 + k * 0.1).toFixed(2),
+    label: `${(0.2 + k * 0.1).toFixed(2)}`
   }));
 
   static skewAngleOptions = Array.from({ length: (90.0 - 10.0) * 10 + 1 }, (v, k) => ({
-    value: (10.0 + k * 0.1).toFixed(1),
-    label: `${(10.0 + k * 0.1).toFixed(1)} Grados`
+    value: (0.0 + k * 0.1).toFixed(2),
+    label: `${(10.0 + k * 0.1).toFixed(2)} Grados`
   }));
 
   static latitudeDegreesOptions = Array.from({ length: (90 - (-90)) + 1 }, (v, k) => ({
@@ -340,10 +340,10 @@ export class inventoryLists {
     label: `${(0 + k * 0.1).toFixed(1)}`
   }));
 
-  static altitudeOptions = Array.from({ length: (9000 - -500) / 100 + 1 }, (v, k) => ({
-    value: (-500 + k * 100).toFixed(0),
-    label: `${(-500 + k * 100).toFixed(0)} m`
-  }));  
+  static altitudeOptions = Array.from({ length: (9000 - -500) / 1 + 1 }, (v, k) => ({
+    value: (-500 + k * 1).toFixed(0),
+    label: `${(-500 + k * 1).toFixed(0)} m`
+  }));
 
   static seismicAccelerationCoefficientOptions = Array.from({ length: (1.0 - 0.05) * 20 + 1 }, (v, k) => ({
     value: (0.05 + k * 0.05).toFixed(2),
